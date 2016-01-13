@@ -55,8 +55,8 @@ function test(f, data, loss)
 end
 
 @knet function SM(x)
-  w = par(init=randn(outputdim,inputdim))
-  b = par(init=randn(outputdim,1))
+  w = par(init=Gaussian(0,0.1), dims=(outputdim,inputdim))
+  b = par(init=Constant(0), dims=(outputdim,1))
   return soft(w * x .+ b)
 end
 
