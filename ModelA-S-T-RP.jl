@@ -49,6 +49,9 @@ function train(f, data, loss)
 end
 
 function trainloop(net, epochs, lrate, decay, X, Y, X_t, Y_t)
+  batchsize=100;
+  lasterr = 1.0;
+
   setp(net; lr=lrate)
   trn = minibatch(X,Y,batchsize)
   tst = minibatch(X_t,Y_t,batchsize)
@@ -109,8 +112,6 @@ function main(args=ARGS)
   decay = o[:decay]
   dropout = o[:dropout]
   epochs = o[:epochs]
-  batchsize=100;
-  lasterr = 1.0;
 
   ### Train Source ###
   Snet = compile(:SM, dropout=dropout, outdim=outdim)
@@ -125,7 +126,7 @@ function main(args=ARGS)
   predict(net, X_t)
 
   # Save net and parameterize
-  JLD.save("ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
+  JLD.save("Models/ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
   # net = JLD.load("ModelA.jld", "model")
 end
 
