@@ -91,11 +91,25 @@ function minibatch(x,w,y, batchsize)
   return data
 end
 
-# indmax(ypred[:,i])
-function predict(f, data)
-  P = Int[]
-  for i = 1:size(data,2)
-    push!(P,indmax(to_host(forw(f,data[:,i]))))
+function test(f, data, loss)
+    sumloss = numloss = 0
+    for (x,ygold) in data
+        ypred = forw(f, x)
+        sumloss += loss(ypred, ygold)
+        numloss += 1
+    end
+    sumloss / numloss
+end
+
+# indmax(ypred[:,i]) for integer output
+function predict(f, world, txt, wrld)
+  P = Any[]
+  for i = 1:size(txt,2)
+    if world
+      push!(P,indmax(to_host(forw(f,txt[:,i], wrld[:,i]; loc=world))))
+    else
+      push!(P,to_host(forw(f, txt[:,i], wrld[:,i]; loc=world)))
+    end
   end
   println(P)
 end
@@ -119,7 +133,7 @@ function main(args=ARGS)
         ("--decay"; arg_type=Float64; default=0.9)
         ("--dropout"; arg_type=Float64; default=0.5)
         ("--seed"; arg_type=Int; default=20160113)
-        ("--epochs"; arg_type=Int; default=3)
+        ("--epochs"; arg_type=Int; default=10)
   end
   isa(args, AbstractString) && (args=split(args))
   o = parse_args(args, s; as_symbols=true); println(o)
@@ -137,12 +151,11 @@ function main(args=ARGS)
   trainloop(net, epochs, lrate, decay, true, X, W, Locs, X_t, W_t, Locs_t)
 
   # Get Predictions
-  predict(Snet, X_t)
-  predict(Tnet, X_t)
-  predict(RPnet, X_t)
+  predict(net, false, X_t, W_t)
+  predict(net, true, X_t, W_t)
 
   # Save net and parameterize
-  JLD.save("Models/ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
+  JLD.save("Models/ModelC-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
   # net = JLD.load("ModelA.jld", "model")
 end
 
