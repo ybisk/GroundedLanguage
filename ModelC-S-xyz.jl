@@ -21,29 +21,30 @@ end
 
 ## Load Data, compute vocabulary and matrix dimensions ##
 traindir = "BlockWorld/logos/Train.SP.data"
-data     = readdlm(traindir);
+data     = readdlm(traindir, Float32);
 V        = maximum(data[:,1:end-64])
 indim    = Int(size(data[:,1:end-64],2)*V)
 outdim   = 20
 RPoutdim = 8
 
 ## Input:  Text, World (dim 60), Source, (x,y,z) ##
-X  = sparsify(data[:,1:indim], V);
-W  = data[:,indim+1:end-4];
+X  = sparsify(data[:,1:end-64], V);
+W  = data[:,end-64+1:end-4]';
 S  = sparsify(data[:,end-3], outdim);
-loc = data[:,end-2:end];
+Locs = data[:,end-2:end];
 
 testdir = "BlockWorld/logos/Dev.SP.data"
-test_data = readdlm(testdir);
-X_t  = sparsify(test_data[:,1:indim], V);
-W_t  = test_data[:,indim+1:end-4];
+test_data = readdlm(testdir, Float32);
+X_t  = sparsify(test_data[:,1:end-64], V);
+W_t  = test_data[:,end-64+1:end-4]';
 S_t  = sparsify(test_data[:,end-3], outdim);
-loc_t = test_data[:,end-2:end];
+Locs_t = test_data[:,end-2:end];
 
 
-function train(f, data, loss)
+function train(f, data, loss; loc=false)
     for (x, w, y) in data
-        forw(f, x, w)
+        @show size(x),size(w),size(y),loc
+        forw(f, x, w; loc=loc)
         back(f, y, loss)
         update!(f)
     end
@@ -58,9 +59,9 @@ function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
   tst = minibatch(X_t, W, Y_t, batchsize)
   for epoch=1:epochs
       if world
-        train(net, trn, softloss)
+        train(net, trn, softloss, loc=true)
       else
-        train(net, trn, quadloss)
+        train(net, trn, quadloss, loc=false)
       end
       trnerr = test(net, trn, zeroone)
       tsterr = test(net, tst, zeroone)
@@ -102,7 +103,7 @@ function predict(f, data)
   println(P)
 end
 
-@knet function SM_Reg(x, world; loc=false, dropout=0.5, outdim=20)
+@knet function SM_Reg(x, world; dropout=0.5, outdim=20)
   h = wbf(x; out=100, f=:relu)
   hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
   if loc
@@ -136,7 +137,7 @@ function main(args=ARGS)
   net = compile(:SM_Reg, dropout=dropout, outdim=outdim)
 
   trainloop(net, epochs, lrate, decay, false, X, W, S, X_t, W_t, S_t)
-  trainloop(net, epochs, lrate, decay, true, X, W, Loc, X_t, W_t, Loc_t)
+  trainloop(net, epochs, lrate, decay, true, X, W, Locs, X_t, W_t, Locs_t)
 
   # Get Predictions
   predict(Snet, X_t)
