@@ -31,23 +31,33 @@ RPoutdim = 8
 X  = sparsify(data[:,1:end-64], V);
 W  = data[:,end-64+1:end-4]';
 S  = sparsify(data[:,end-3], outdim);
-Locs = data[:,end-2:end];
+Locs = data[:,end-2:end]';
 
 testdir = "BlockWorld/logos/Dev.SP.data"
 test_data = readdlm(testdir, Float32);
 X_t  = sparsify(test_data[:,1:end-64], V);
 W_t  = test_data[:,end-64+1:end-4]';
 S_t  = sparsify(test_data[:,end-3], outdim);
-Locs_t = test_data[:,end-2:end];
+Locs_t = test_data[:,end-2:end]';
 
 
-function train(f, data, loss; loc=false)
+function train(f, data, loss; loc=false) # we should use softloss, not quadloss when loc=false
     for (x, w, y) in data
-        @show size(x),size(w),size(y),loc
+        # @show loc,map(summary, (x, w, y))
         forw(f, x, w; loc=loc)
         back(f, y, loss)
         update!(f)
     end
+end
+
+function test(f, data, loss; loc=false)
+    sumloss = numloss = 0
+    for (x, w, y) in data
+        ypred = forw(f, x, w; loc=loc)
+        sumloss += loss(ypred, y)
+        numloss += 1
+    end
+    sumloss / numloss
 end
 
 function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
@@ -55,16 +65,12 @@ function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
   lasterr = 1.0;
 
   setp(net; lr=lrate, loc=world)
-  trn = minibatch(X, W, Y, batchsize)
-  tst = minibatch(X_t, W, Y_t, batchsize)
+  global trn = minibatch(X, W, Y, batchsize)
+  global tst = minibatch(X_t, W, Y_t, batchsize)
   for epoch=1:epochs
-      if world
-        train(net, trn, softloss, loc=true)
-      else
-        train(net, trn, quadloss, loc=false)
-      end
-      trnerr = test(net, trn, zeroone)
-      tsterr = test(net, tst, zeroone)
+      train(net, trn, (world ? quadloss : softloss); loc=world)
+      trnerr = test(net, trn, (world ? quadloss : zeroone); loc=world)
+      tsterr = test(net, tst, (world ? quadloss : zeroone); loc=world)
 
       println((epoch, lrate, trnerr, tsterr))
       if tsterr > lasterr
@@ -76,22 +82,13 @@ function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
 end
 
 function minibatch(x,w,y, batchsize)
+  @show map(summary, (x,w,y)),batchsize
   data = Any[]
   for i=1:batchsize:size(x,2)-batchsize+1
     j=i+batchsize-1
     push!(data, (x[:,i:j], w[:,i:j], y[:,i:j]))
   end
   return data
-end
-
-function test(f, data, loss)
-    sumloss = numloss = 0
-    for (x,ygold) in data
-        ypred = forw(f, x)
-        sumloss += loss(ypred, ygold)
-        numloss += 1
-    end
-    sumloss / numloss
 end
 
 # indmax(ypred[:,i])
@@ -104,15 +101,15 @@ function predict(f, data)
 end
 
 @knet function SM_Reg(x, world; dropout=0.5, outdim=20)
-  h = wbf(x; out=100, f=:relu)
-  hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
-  if loc
-    h2 = wbf2(hdrop, world; out=100, f=:relu)
-    h2drop = drop(h2, prdop=dropout)
-    return wb(h2drop; out=3)
-  else
-    return wbf(hdrop; out=outdim, f=:soft)
-  end
+    h = wbf(x; out=100, f=:relu)
+    hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
+    if loc
+        h2 = wbf2(hdrop, world; out=100, f=:relu)
+        h2drop = drop(h2, prdop=dropout)
+        return wb(h2drop; out=3)
+    else
+        return wbf(hdrop; out=outdim, f=:soft)
+    end
 end
 
 function main(args=ARGS)
@@ -122,7 +119,7 @@ function main(args=ARGS)
         ("--decay"; arg_type=Float64; default=0.9)
         ("--dropout"; arg_type=Float64; default=0.5)
         ("--seed"; arg_type=Int; default=20160113)
-        ("--epochs"; arg_type=Int; default=10)
+        ("--epochs"; arg_type=Int; default=3)
   end
   isa(args, AbstractString) && (args=split(args))
   o = parse_args(args, s; as_symbols=true); println(o)
@@ -134,7 +131,7 @@ function main(args=ARGS)
   epochs = o[:epochs]
 
   ### Train Source ###
-  net = compile(:SM_Reg, dropout=dropout, outdim=outdim)
+  global net = compile(:SM_Reg, dropout=dropout, outdim=outdim)
 
   trainloop(net, epochs, lrate, decay, false, X, W, S, X_t, W_t, S_t)
   trainloop(net, epochs, lrate, decay, true, X, W, Locs, X_t, W_t, Locs_t)
