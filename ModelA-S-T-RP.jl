@@ -48,6 +48,25 @@ function train(f, data, loss)
     end
 end
 
+function trainloop(net, epochs, lrate, decay, X, Y, X_t, Y_t)
+  setp(net; lr=lrate)
+  trn = minibatch(X,Y,batchsize)
+  tst = minibatch(X_t,Y_t,batchsize)
+  for epoch=1:epochs
+      train(net, trn, softloss)
+      trnerr = test(net, trn, zeroone)
+      tsterr = test(net, tst, zeroone)
+
+      println((epoch, lrate, trnerr, tsterr))
+      if tsterr > lasterr
+          lrate = decay*lrate
+          setp(net; lr=lrate)
+      end
+      lasterr = tsterr
+  end
+end
+
+
 function test(f, data, loss)
     sumloss = numloss = 0
     for (x,ygold) in data
@@ -67,7 +86,7 @@ function predict(f, data)
   println(P)
 end
 
-@knet function SM(x; dropout=0.5)
+@knet function SM(x; dropout=0.5, outdim=20)
   h = wbf(x; out=100, f=:tanh)
   hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
   return wbf(hdrop; out=outdim, f=:soft)
@@ -94,23 +113,13 @@ function main(args=ARGS)
   lasterr = 1.0;
 
   ### Train Source ###
-  net = compile(:SM, dropout=dropout)
-  setp(net; lr=lrate)
+  Snet = compile(:SM, dropout=dropout, outdim=outdim)
+  Tnet = compile(:SM, dropout=dropout, outdim=outdim)
+  RPnet = compile(:SM, dropout=dropout, outdim=RPoutdim)
 
-  trn = minibatch(X,S,batchsize)
-  tst = minibatch(X_t,S_t,batchsize)
-  for epoch=1:epochs
-      train(net, trn, softloss)
-      trnerr = test(net, trn, zeroone)
-      tsterr = test(net, tst, zeroone)
-
-      println((epoch, lrate, trnerr, tsterr))
-      if tsterr > lasterr
-          lrate = decay*lrate
-          setp(net; lr=lrate)
-      end
-      lasterr = tsterr
-  end
+  trainloop(Snet, epochs, lrate, decay, X, S, X_t, S_t)
+  trainloop(Tnet, epochs, lrate, decay, X, T, X_t, T_t)
+  trainloop(RPnet, epochs, lrate, decay, X, RP, X_t, RP_t)
 
   # Get Predictions
   predict(net, X_t)
