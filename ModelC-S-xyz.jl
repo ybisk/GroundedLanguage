@@ -43,7 +43,6 @@ Locs_t = test_data[:,end-2:end]';
 
 function train(f, data, loss; loc=false) # we should use softloss, not quadloss when loc=false
     for (x, w, y) in data
-        # @show loc,map(summary, (x, w, y))
         forw(f, x, w; loc=loc)
         back(f, y, loss)
         update!(f)
@@ -82,7 +81,6 @@ function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
 end
 
 function minibatch(x,w,y, batchsize)
-  @show map(summary, (x,w,y)),batchsize
   data = Any[]
   for i=1:batchsize:size(x,2)-batchsize+1
     j=i+batchsize-1
@@ -101,17 +99,23 @@ function test(f, data, loss)
     sumloss / numloss
 end
 
+flat(A) = mapreduce(x->isa(x,Array)? flat(x): x, vcat, [], A)
+
 # indmax(ypred[:,i]) for integer output
 function predict(f, world, txt, wrld)
   P = Any[]
   for i = 1:size(txt,2)
     if world
-      push!(P,indmax(to_host(forw(f,txt[:,i], wrld[:,i]; loc=world))))
+      v = to_host(forw(f, txt[:,i], wrld[:,i]; loc=world))
+      for t =1:size(v,1)
+        push!(P,Float64(v[t]))
+      end
+      #push!(P,to_host(forw(f, txt[:,i], wrld[:,i]; loc=world)))
     else
-      push!(P,to_host(forw(f, txt[:,i], wrld[:,i]; loc=world)))
+      push!(P,indmax(to_host(forw(f,txt[:,i], wrld[:,i]; loc=world))))
     end
   end
-  println(P)
+  println(flat(P))
 end
 
 @knet function SM_Reg(x, world; dropout=0.5, outdim=20)
@@ -147,7 +151,9 @@ function main(args=ARGS)
   ### Train Source ###
   global net = compile(:SM_Reg, dropout=dropout, outdim=outdim)
 
+  print("\nTrain Softmax\n")
   trainloop(net, epochs, lrate, decay, false, X, W, S, X_t, W_t, S_t)
+  print("\nTrain Regression\n")
   trainloop(net, epochs, lrate, decay, true, X, W, Locs, X_t, W_t, Locs_t)
 
   # Get Predictions
