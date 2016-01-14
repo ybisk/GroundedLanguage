@@ -123,7 +123,9 @@ function main(args=ARGS)
   trainloop(RPnet, epochs, lrate, decay, X, RP, X_t, RP_t)
 
   # Get Predictions
-  predict(net, X_t)
+  predict(Snet, X_t)
+  predict(Tnet, X_t)
+  predict(RPnet, X_t)
 
   # Save net and parameterize
   JLD.save("Models/ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
