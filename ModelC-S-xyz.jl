@@ -110,7 +110,6 @@ function predict(f, world, txt, wrld)
       for t =1:size(v,1)
         push!(P,Float64(v[t]))
       end
-      #push!(P,to_host(forw(f, txt[:,i], wrld[:,i]; loc=world)))
     else
       push!(P,indmax(to_host(forw(f,txt[:,i], wrld[:,i]; loc=world))))
     end
