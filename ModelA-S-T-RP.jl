@@ -90,7 +90,7 @@ function predict(f, data)
 end
 
 @knet function SM(x; dropout=0.5, outdim=20)
-  h = wbf(x; out=100, f=:tanh)
+  h = wbf(x; out=100, f=:relu)
   hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
   return wbf(hdrop; out=outdim, f=:soft)
 end
@@ -103,6 +103,7 @@ function main(args=ARGS)
         ("--dropout"; arg_type=Float64; default=0.5)
         ("--seed"; arg_type=Int; default=20160113)
         ("--epochs"; arg_type=Int; default=10)
+        ("--task"; arg_type=Int; default=1)
   end
   isa(args, AbstractString) && (args=split(args))
   o = parse_args(args, s; as_symbols=true); println(o)
@@ -114,21 +115,24 @@ function main(args=ARGS)
   epochs = o[:epochs]
 
   ### Train Source ###
-  Snet = compile(:SM, dropout=dropout, outdim=outdim)
-  Tnet = compile(:SM, dropout=dropout, outdim=outdim)
-  RPnet = compile(:SM, dropout=dropout, outdim=RPoutdim)
-
-  trainloop(Snet, epochs, lrate, decay, X, S, X_t, S_t)
-  trainloop(Tnet, epochs, lrate, decay, X, T, X_t, T_t)
-  trainloop(RPnet, epochs, lrate, decay, X, RP, X_t, RP_t)
-
-  # Get Predictions
-  predict(Snet, X_t)
-  predict(Tnet, X_t)
-  predict(RPnet, X_t)
+  if o[:task] == 1
+    Snet = compile(:SM, dropout=dropout, outdim=outdim)
+    trainloop(Snet, epochs, lrate, decay, X, S, X_t, S_t)
+    #predict(Snet, X_t)
+  end
+  if o[:task] == 2
+    Tnet = compile(:SM, dropout=dropout, outdim=outdim)
+    trainloop(Tnet, epochs, lrate, decay, X, T, X_t, T_t)
+    #predict(Tnet, X_t)
+  end
+  if o[:task] == 3
+    RPnet = compile(:SM, dropout=dropout, outdim=RPoutdim)
+    trainloop(RPnet, epochs, lrate, decay, X, RP, X_t, RP_t)
+    #predict(RPnet, X_t)
+  end
 
   # Save net and parameterize
-  JLD.save("Models/ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
+  #JLD.save("Models/ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(Snet));
   # net = JLD.load("ModelA.jld", "model")
 end
 
