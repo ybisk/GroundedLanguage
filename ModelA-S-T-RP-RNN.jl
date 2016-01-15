@@ -27,10 +27,10 @@ function train(f, data, loss; xvocab=326, yvocab=20, gclip=0)
     for (s,p) in data
         for i in 1:length(s)-1
             w = s[i]
-            x[w] = 1; sforw(f, x; predict = false); x[w] = 0
+            x[w] = 1; sforw(f, x; predict = false, dropout=true); x[w] = 0
         end
         w = s[end]
-        x[w] = 1; ypred = sforw(f, x; predict = true); x[w] = 0
+        x[w] = 1; ypred = sforw(f, x; predict = true, dropout=true); x[w] = 0
         indmax(ypred)!=p && (err += 1)
         y[p] = 1; sback(f, y, loss); y[p] = 0
         while !stack_isempty(f); sback(f); end
