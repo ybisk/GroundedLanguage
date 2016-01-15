@@ -43,7 +43,6 @@ Locs_t = test_data[:,end-2:end]';
 
 function train(f, data, loss; loc=false) # we should use softloss, not quadloss when loc=false
     for (x, w, y) in data
-        # @show loc,map(summary, (x, w, y))
         forw(f, x, w; loc=loc)
         back(f, y, loss)
         update!(f)
@@ -82,7 +81,6 @@ function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
 end
 
 function minibatch(x,w,y, batchsize)
-  @show map(summary, (x,w,y)),batchsize
   data = Any[]
   for i=1:batchsize:size(x,2)-batchsize+1
     j=i+batchsize-1
@@ -91,13 +89,33 @@ function minibatch(x,w,y, batchsize)
   return data
 end
 
-# indmax(ypred[:,i])
-function predict(f, data)
-  P = Int[]
-  for i = 1:size(data,2)
-    push!(P,indmax(to_host(forw(f,data[:,i]))))
+function test(f, data, loss)
+    sumloss = numloss = 0
+    for (x,ygold) in data
+        ypred = forw(f, x)
+        sumloss += loss(ypred, ygold)
+        numloss += 1
+    end
+    sumloss / numloss
+end
+
+flat(A) = mapreduce(x->isa(x,Array)? flat(x): x, vcat, [], A)
+
+# indmax(ypred[:,i]) for integer output
+function predict(f, world, txt, wrld)
+  P = Any[]
+  for i = 1:size(txt,2)
+    if world
+      v = to_host(forw(f, txt[:,i], wrld[:,i]; loc=world))
+      for t =1:size(v,1)
+        push!(P,Float64(v[t]))
+      end
+      #push!(P,to_host(forw(f, txt[:,i], wrld[:,i]; loc=world)))
+    else
+      push!(P,indmax(to_host(forw(f,txt[:,i], wrld[:,i]; loc=world))))
+    end
   end
-  println(P)
+  println(flat(P))
 end
 
 @knet function SM_Reg(x, world; dropout=0.5, outdim=20)
@@ -119,7 +137,7 @@ function main(args=ARGS)
         ("--decay"; arg_type=Float64; default=0.9)
         ("--dropout"; arg_type=Float64; default=0.5)
         ("--seed"; arg_type=Int; default=20160113)
-        ("--epochs"; arg_type=Int; default=3)
+        ("--epochs"; arg_type=Int; default=10)
   end
   isa(args, AbstractString) && (args=split(args))
   o = parse_args(args, s; as_symbols=true); println(o)
@@ -133,16 +151,17 @@ function main(args=ARGS)
   ### Train Source ###
   global net = compile(:SM_Reg, dropout=dropout, outdim=outdim)
 
+  print("\nTrain Softmax\n")
   trainloop(net, epochs, lrate, decay, false, X, W, S, X_t, W_t, S_t)
+  print("\nTrain Regression\n")
   trainloop(net, epochs, lrate, decay, true, X, W, Locs, X_t, W_t, Locs_t)
 
   # Get Predictions
-  predict(Snet, X_t)
-  predict(Tnet, X_t)
-  predict(RPnet, X_t)
+  predict(net, false, X_t, W_t)
+  predict(net, true, X_t, W_t)
 
   # Save net and parameterize
-  JLD.save("Models/ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
+  JLD.save("Models/ModelC-$lrate-$decay-$dropout-$epochs.jld", "model", clean(net));
   # net = JLD.load("ModelA.jld", "model")
 end
 
