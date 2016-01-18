@@ -53,7 +53,7 @@ function main(args)
     lasterr = besterr = 1.0
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
         @date trnerr = train(net, data[1], softloss; gclip=o[:gclip])
-        @date deverr =  test(net, data[2], zeroone)
+        @date deverr = test(net, data[2], zeroone)
         println((epoch, o[:lr], trnerr, deverr))
         if deverr < besterr
             besterr=deverr
@@ -66,6 +66,8 @@ function main(args)
         lasterr = deverr
     end
     o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
+    @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
+    println(devpred)
 end
 
 @knet function rnnmodel(word; hidden=100, embedding=hidden, output=20, pdrop=0.5)
@@ -113,6 +115,25 @@ function test(f, data, loss)
         reset!(f)
     end
     sumloss / numloss
+end
+
+function predict(f, data; xrange=1:79, padding=1, xvocab=326, ftype=Float32, xsparse=false)
+    reset!(f)
+    sentences = extract(data, xrange; padding=1)	# sentences[i][j] = j'th word of i'th sentence
+    ypred = Any[]
+    eos = xvocab + 1
+    x = (xsparse ? sponehot : zeros)(ftype, eos, 1)
+    for s in sentences
+        for i = 1:length(s)
+            setrow!(x, s[i], 1)
+            forw(f, x, predict=false)
+        end
+        setrow!(x, eos, 1)
+        y = forw(f, x, predict=true)
+        push!(ypred, indmax(to_host(y)))
+        reset!(f)
+    end
+    println(ypred)
 end
 
 function minibatch(data, xrange, yrange, batchsize; o...)
