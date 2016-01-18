@@ -118,17 +118,17 @@ function main(args=ARGS)
   if o[:task] == 1
     Snet = compile(:SM, dropout=dropout, outdim=outdim)
     trainloop(Snet, epochs, lrate, decay, X, S, X_t, S_t)
-    #predict(Snet, X_t)
+    predict(Snet, X_t)
   end
   if o[:task] == 2
     Tnet = compile(:SM, dropout=dropout, outdim=outdim)
     trainloop(Tnet, epochs, lrate, decay, X, T, X_t, T_t)
-    #predict(Tnet, X_t)
+    predict(Tnet, X_t)
   end
   if o[:task] == 3
     RPnet = compile(:SM, dropout=dropout, outdim=RPoutdim)
     trainloop(RPnet, epochs, lrate, decay, X, RP, X_t, RP_t)
-    #predict(RPnet, X_t)
+    predict(RPnet, X_t)
   end
 
   # Save net and parameterize
