@@ -1,8 +1,9 @@
-using Knet
 using ArgParse
 using JLD
 using CUDArt
+device(0)
 using Knet: stack_isempty
+using Knet
 
 function main(args)
     s = ArgParseSettings()
