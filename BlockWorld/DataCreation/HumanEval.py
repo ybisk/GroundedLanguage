@@ -1,0 +1,66 @@
+import os
+import sys
+import json
+import gzip
+
+digits = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
+logos = [ \
+    'adidas', 'bmw', 'burger king', 'coca cola', 'esso', \
+    'heineken', 'hp', 'mcdonalds', 'mercedes benz', 'nvidia', \
+    'pepsi', 'shell', 'sri', 'starbucks', 'stella artois', \
+    'target', 'texaco', 'toyota', 'twitter', 'ups']
+
+def diff(start, stop):
+  for i in range(len(stop)):
+    if start[i] != stop[i]:
+      return stop[i]
+
+## Read in the world configurations ##
+worlds = {}
+for root,folders,files in os.walk(sys.argv[1],'r'):
+  for name in files:
+    justname = name.split(".json")[0].lower()
+    worlds[justname] = json.load(open(os.path.join(root, name)))
+
+for name in worlds:
+  print name, worlds[name]["block_meta"]["decoration"]
+
+count = 0
+human = gzip.open("human.json.gz", 'w')
+gold = gzip.open("gold.json.gz", 'w')
+## Read in the annotations JSONs ##
+for line in gzip.open(sys.argv[2],'r'):
+  j = json.loads(line)
+  world = worlds[j["file"]]
+  print j["file"], world["block_meta"]["decoration"]
+  approved = []
+  tasks = {}
+  index = 0
+  for job in j["HIT"]["submitted"]:
+    if "valid" not in job or job["valid"] == "yes":
+      approved.append(job["name"])
+  for idxlist in j["task"]["idxlist"]:
+    tasks[index] = idxlist
+    index += 1
+  for user in j["HIT"]["notes"]:
+    if user in approved:
+      for stage in j["HIT"]["notes"][user]:
+        pair = tasks[int(stage)]
+        for phrase in j["HIT"]["notes"][user][stage]:
+          count += 1
+          end = world["block_states"][pair[1]]["block_state"]
+
+          ## Input to website ##
+          state = world["block_states"][pair[0]]["block_state"]
+          meta = world["block_meta"]
+          utterance = phrase.split()
+          human.write(json.dumps({"utterance":utterance, "block_meta":meta, "block_state":state, "name": "Exp_%s_%d" % (meta["decoration"], count)}) + "\n")
+
+          ## Gold ##
+          D = diff(state, end)
+          moved = D["id"]
+          location = D["position"]
+          gold.write(json.dumps({"id": moved, "loc": location, "name": "Exp_%s_%d" % (meta["decoration"], count)}) + "\n")
+
+gold.close()
+human.close()
