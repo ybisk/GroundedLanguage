@@ -1,4 +1,4 @@
-import os,sys,json,gzip,codecs
+import math,sys,json,gzip,codecs
 import editdistance
 from nltk.tokenize import TreebankWordTokenizer
 
@@ -27,6 +27,7 @@ for line in codecs.open(directory + "/Vocab.txt",'r','utf-8'):
   if int(line[1]) >= 5:
     Vocab[line[0]] = len(Vocab) + 1
 
+
 def integer(utr):
   v = []
   for i in range(longest):
@@ -35,6 +36,10 @@ def integer(utr):
     else:
       v.append(Vocab[utr[i]])
   return [str(i) for i in v]
+
+
+def distance((x, y, z), (a, b, c)):
+  return math.sqrt((x - a) ** 2 + (y - b) ** 2 + (z - c) ** 2) / 0.1524
 
 ## Compute Longest Sentence ##
 for line in gzip.open("%s/%s.input.orig.json.gz" % (directory,"Train"),'r'):
@@ -98,7 +103,13 @@ for section in ["Train","Dev","Test"]:
       blocks.remove(act)
     ## Possible reference blocks
     if len(blocks) > 0:
-      targetblock = blocks.pop()
+      d = 100000
+      for block in blocks:
+        loc = World[c][3 * (block - 1)], World[c][3 * (block - 1) + 1], World[c][3 * (block - 1) + 2]
+        dist = distance(loc, goal_location)
+        if dist < d:
+          d = dist
+          targetblock = block
     else:
       targetblock = act
     target.append(targetblock)
