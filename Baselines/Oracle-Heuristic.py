@@ -1,32 +1,29 @@
-import sys,json,gzip,math
+import sys,gzip,json,math
 
 def dist(x, y):
   return math.sqrt((x[0] - y[0])**2 + (x[1] - y[1])**2 + (x[2] - y[2])**2) / 0.1524
 
 Worlds = []
-for line in gzip.open("BlockWorld/logos/Dev.input.orig.json.gz",'r'):
+for line in gzip.open("BlockWorld/combined/Dev.input.orig.json.gz",'r'):
   Worlds.append(json.loads(line)["world"])
 
 Sources = []
 Goals = []
-for line in gzip.open("BlockWorld/logos/Dev.output.orig.json.gz",'r'):
+for line in gzip.open("BlockWorld/combined/Dev.output.orig.json.gz",'r'):
   j = json.loads(line)
   Sources.append(j["id"])
   Goals.append(j["loc"])
 
+
+Dev = open("BlockWorld/combined/Dev.STRP.data",'r')
 pS = []
 pT = []
-pRP= []
-for line in open(sys.argv[1],'r'):
-  if line[0] == "[":
-    line = line.strip()
-    line = [int(v) for v in line[1:len(line)-1].split(",")]
-    if len(pS) == 0:
-      pS = line
-    elif len(pT) == 0:
-      pT = line
-    elif len(pRP) == 0:
-      pRP = line
+pRP = []
+for line in Dev:
+  line = line.split()
+  pS.append(int(line[len(line)-3]))
+  pT.append(int(line[len(line)-2]))
+  pRP.append(int(line[len(line)-1]))
 
 c = 0
 for i in range(len(pS)):
@@ -65,9 +62,9 @@ for i in range(len(pT)):
   elif RP == 8:
     loc[2] += off
   else:
-    print "Error, Invalid\n",words,brands[act],brands[targetblock],loc,goal_location
+    print "Error, Invalid\n"
     sys.exit()
-  
+
   err.append(dist(loc, Goals[i]))
 
 err.sort()
