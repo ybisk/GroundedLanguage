@@ -34,11 +34,16 @@ shape = {"block_meta": {"decoration": "blank", "blocks": [
 def dist(ax, ay, az, x, y, z):
   return math.sqrt((ax - x) ** 2 + (ay - y) ** 2 + (az - z) ** 2)
 
+def intersection(bl, locs):
+  for bid, bloc in locs:
+    if bloc[0] - 0.1524 < bl[0] < bloc[0] + 0.1524 and bloc[2] - 0.1524 < bl[2] < bloc[2] + 0.1524:
+      return True
+  return False
 
 def randomlocation(locations, block=None):
-  x = random.random() * 2 - 1
+  x = random.random() * 1.6 - 0.8
   y = 0.0762
-  z = random.random() * 2 - 1
+  z = random.random() * 1.6 - 0.8
   for bid, (bx, by, bz) in locations:
     if dist(bx, by, bz, x, y, z) < 0.2:
       return randomlocation(locations)
@@ -54,6 +59,43 @@ def towerlocation(locations, block=None):
       buildon = [bx, by, bz]
   return [buildon[0], buildon[1] + 0.1524, buildon[2]]
 
+def walllocation(locations, block=None):
+  rid, buildon = random.sample(locations, 1)[0]
+  while rid == block or buildon[1] > 0.1:
+    rid, buildon = random.sample(locations, 1)[0]
+  x = True if random.random() > 0.5 else False
+  l = True if random.random() > 0.5 else False
+  for bid, (bx, by, bz) in locations:
+    if x:
+      if l:
+        if bx > buildon[0] and bz == buildon[2] and by == buildon[1]:
+          buildon = [bx, by, bz]
+      else:
+        if bx < buildon[0] and bz == buildon[2] and by == buildon[1]:
+          buildon = [bx, by, bz]
+    else:
+      if l:
+        if bx == buildon[0] and bz > buildon[2] and by == buildon[1]:
+          buildon = [bx, by, bz]
+      else:
+        if bx == buildon[0] and bz < buildon[2] and by == buildon[1]:
+          buildon = [bx, by, bz]
+
+  if x:
+    if l:
+      v =  [buildon[0] + 0.1524, buildon[1], buildon[2]]
+    else:
+      v = [buildon[0] - 0.1524, buildon[1], buildon[2]]
+  else:
+    if l:
+      v =  [buildon[0], buildon[1], buildon[2] + 0.1524]
+    else:
+      v =  [buildon[0], buildon[1], buildon[2] - 0.1524]
+
+  # Edge of table or intersection?   Try again
+  if abs(v[0]) > 0.8 or abs(v[2]) > 0.8 or intersection(v, locations):
+    return walllocation(locations, block)
+  return v
 
 def convert(locs):
   locs.sort()
@@ -98,16 +140,20 @@ examples = 10
 random.seed(20160115)
 for i in range(examples):
   configs = open("final_%d.json" % i, 'w')
+  print i
   locs = []
   # Ten block configurations (?)
   # initial "block_state"
   blocks = range(1, 11)
+  ops = [1,2,3]
   while len(blocks) > 0:
     block = random.sample(blocks, 1)[0]
     blocks.remove(block)
-    createTower = True if random.random() < 0.5 else False
-    if createTower and len(locs) > 0:
+    op = random.sample(ops,1)[0]
+    if op == 1 and len(locs) > 0:
       locs.append((block, towerlocation(locs)))
+    elif op == 2 and len(locs) > 0:
+      locs.append((block, walllocation(locs)))
     else:
       locs.append((block, randomlocation(locs)))
   # Unravel
