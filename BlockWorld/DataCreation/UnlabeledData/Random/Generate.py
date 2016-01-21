@@ -43,6 +43,7 @@ def intersection(bl, locs):
 def randomlocation(locations, block=None):
   x = random.random() * 1.6 - 0.8
   y = 0.0762
+  #y = 0.1
   z = random.random() * 1.6 - 0.8
   for bid, (bx, by, bz) in locations:
     if dist(bx, by, bz, x, y, z) < 0.2:
@@ -83,14 +84,14 @@ def walllocation(locations, block=None):
 
   if x:
     if l:
-      v =  [buildon[0] + 0.1524, buildon[1], buildon[2]]
+      v =  [buildon[0] + 0.1666, buildon[1], buildon[2]]
     else:
-      v = [buildon[0] - 0.1524, buildon[1], buildon[2]]
+      v = [buildon[0] - 0.1666, buildon[1], buildon[2]]
   else:
     if l:
-      v =  [buildon[0], buildon[1], buildon[2] + 0.1524]
+      v =  [buildon[0], buildon[1], buildon[2] + 0.1666]
     else:
-      v =  [buildon[0], buildon[1], buildon[2] - 0.1524]
+      v =  [buildon[0], buildon[1], buildon[2] - 0.1666]
 
   # Edge of table or intersection?   Try again
   if abs(v[0]) > 0.8 or abs(v[2]) > 0.8 or intersection(v, locations):
@@ -136,7 +137,7 @@ def movements(locs):
   return actions
 
 
-examples = 10
+examples = 40
 random.seed(20160115)
 for i in range(examples):
   configs = open("final_%d.json" % i, 'w')
