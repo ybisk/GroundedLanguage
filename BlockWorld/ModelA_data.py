@@ -54,12 +54,15 @@ for section in ["Train","Dev","Test"]:
   Hot = []
   Text = []
   World = []
+  Type = []
   for line in gzip.open("%s/%s.input.orig.json.gz" % (directory,section),'r'):
     j = json.loads(line)
     text = TreebankWordTokenizer().tokenize(j["text"].lower())
     Hot.append(integer(text))
     Text.append(text)
     World.append(j["world"])
+    if "decoration" in j:
+      Type.append(j["decoration"])
 
   source = []
   target = []
@@ -94,7 +97,8 @@ for section in ["Train","Dev","Test"]:
 
     act = j["id"]
 
-    usinglogos = True if len(logoblocks) >= len(digitblocks) else False
+    usinglogos = True if ((len(Type) > 0 and Type[c] == "logo") or directory == "logos") else False
+    print usinglogos, Type[c] if len(Type) > 0 else ""
     if usinglogos:
       blocks = logoblocks
     else:

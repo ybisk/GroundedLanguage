@@ -4,18 +4,18 @@ def dist(x, y):
   return math.sqrt((x[0] - y[0])**2 + (x[1] - y[1])**2 + (x[2] - y[2])**2) / 0.1524
 
 Worlds = []
-for line in gzip.open("BlockWorld/combined/Dev.input.orig.json.gz",'r'):
+for line in gzip.open("BlockWorld/%s/Dev.input.orig.json.gz" % sys.argv[1],'r'):
   Worlds.append(json.loads(line)["world"])
 
 Sources = []
 Goals = []
-for line in gzip.open("BlockWorld/combined/Dev.output.orig.json.gz",'r'):
+for line in gzip.open("BlockWorld/%s/Dev.output.orig.json.gz" % sys.argv[1],'r'):
   j = json.loads(line)
   Sources.append(j["id"])
   Goals.append(j["loc"])
 
 
-Dev = open("BlockWorld/combined/Dev.STRP.data",'r')
+Dev = open("BlockWorld/%s/Dev.STRP.data" % sys.argv[1],'r')
 pS = []
 pT = []
 pRP = []
@@ -64,7 +64,6 @@ for i in range(len(pT)):
   else:
     print "Error, Invalid\n"
     sys.exit()
-
   err.append(dist(loc, Goals[i]))
 
 err.sort()
