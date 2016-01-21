@@ -29,7 +29,7 @@ function main(args)
         ("--yvocab"; arg_type=Int; nargs='+'; default=[20,20,8]; help="vocab sizes for target columns (all columns assumed independent)")
         ("--xsparse"; action = :store_true; help="use sparse inputs, dense arrays used by default")
         ("--ftype"; default = "Float32"; help="floating point type to use: Float32 or Float64")
-	("--patience"; arg_type=Int; default=5; help="number of epochs to train")
+	("--patience"; arg_type=Int; default=5; help="patience")
 	("--nlayers"; arg_type=Int; default=2; help="number of layers")
     end
     isa(args, AbstractString) && (args=split(args))
