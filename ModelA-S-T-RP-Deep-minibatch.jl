@@ -29,8 +29,9 @@ function main(args)
         ("--yvocab"; arg_type=Int; nargs='+'; default=[20,20,8]; help="vocab sizes for target columns (all columns assumed independent)")
         ("--xsparse"; action = :store_true; help="use sparse inputs, dense arrays used by default")
         ("--ftype"; default = "Float32"; help="floating point type to use: Float32 or Float64")
-	("--patience"; arg_type=Int; default=5; help="patience")
-	("--nlayers"; arg_type=Int; default=2; help="number of layers")
+	    ("--patience"; arg_type=Int; default=0; help="patience")
+	    ("--nlayers"; arg_type=Int; default=2; help="number of layers")
+        ("--logfile"; help="csv file for log")
     end
     isa(args, AbstractString) && (args=split(args))
     o = parse_args(args, s; as_symbols=true); println(o)
@@ -52,33 +53,36 @@ function main(args)
     # Load or create the model:
     global net = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
                   compile(:rnnmodel; hidden=o[:hidden], output=yvocab, pdrop=o[:dropout], nlayers=o[:nlayers]))
+    setp(net, adam=true)
     setp(net, lr=o[:lr])
     lasterr = besterr = 1.0
     anger = 0
-    df = DataFrame(epoch = Int[], lr = Float64[], trn_err = Float64[], dev_err = Float64[])
+    df = DataFrame(epoch = Int[], lr = Float64[], trn_err = Float64[], dev_err = Float64[], best_err = Float64[])
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
         @date trnerr = train(net, data[1], softloss; gclip=o[:gclip])
         @date deverr = test(net, data[2], zeroone)
 	
-        push!(df, (epoch, o[:lr], trnerr, deverr))
-	println(df[epoch, :])
         if deverr < besterr
             besterr=deverr
             o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
             anger = 0
-	else
-	    anger += 1
-        end
-        if anger == o[:patience]
-        	o[:lr] *= o[:decay]
+	    else
+	        anger += 1
+            end
+            if o[:patience] != 0 && anger == o[:patience]
+        	    o[:lr] *= o[:decay]
             	setp(net, lr=o[:lr])
-		anger = 0
+		    anger = 0
         end
+        push!(df, (epoch, o[:lr], trnerr, deverr, besterr))
+	    println(df[epoch, :])
+
         lasterr = deverr
     end
     o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
     @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
     println(devpred)
+    o[:logfile]!=nothing && writetable(o[:logfile], df)
 end
 
 @knet function droplstm(x; hidden=100, pdrop=0.5)
