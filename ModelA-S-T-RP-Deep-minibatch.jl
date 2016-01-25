@@ -19,6 +19,8 @@ function main(args)
         ("--lr"; arg_type=Float64; default=1.0; help="learning rate")
         ("--gclip"; arg_type=Float64; default=5.0; help="gradient clipping threshold")
         ("--dropout"; arg_type=Float64; default=0.5; help="dropout probability")
+        ("--fdropout"; arg_type=Float64; default=0.5; help="dropout probability for the first one")
+        ("--ldropout"; arg_type=Float64; default=0.5; help="dropout probability for the last one")
         ("--decay"; arg_type=Float64; default=0.9; help="learning rate decay if deverr increases")
         ("--nogpu"; action = :store_true; help="do not use gpu, which is used by default if available")
         ("--seed"; arg_type=Int; default=42; help="random number seed")
@@ -32,6 +34,7 @@ function main(args)
 	    ("--patience"; arg_type=Int; default=0; help="patience")
 	    ("--nlayers"; arg_type=Int; default=2; help="number of layers")
         ("--logfile"; help="csv file for log")
+        ("--predict"; action = :store_true; help="load net and give predictions")
     end
     isa(args, AbstractString) && (args=split(args))
     o = parse_args(args, s; as_symbols=true); println(o)
@@ -52,11 +55,16 @@ function main(args)
 
     # Load or create the model:
     global net = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
-                  compile(:rnnmodel; hidden=o[:hidden], output=yvocab, pdrop=o[:dropout], nlayers=o[:nlayers]))
+                  compile(:rnnmodel; hidden=o[:hidden], output=yvocab, pdrop=o[:dropout], fpdrop=o[:fdropout], lpdrop=o[:ldropout], nlayers=o[:nlayers]))
+    if o[:predict] && o[:loadfile] != nothing
+        @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
+        return
+    end
     setp(net, adam=true)
     setp(net, lr=o[:lr])
     lasterr = besterr = 1.0
     anger = 0
+    stopcriterion = false
     df = DataFrame(epoch = Int[], lr = Float64[], trn_err = Float64[], dev_err = Float64[], best_err = Float64[])
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
         @date trnerr = train(net, data[1], softloss; gclip=o[:gclip])
@@ -70,13 +78,16 @@ function main(args)
 	        anger += 1
             end
             if o[:patience] != 0 && anger == o[:patience]
+                stopcriterion = true
         	    o[:lr] *= o[:decay]
             	setp(net, lr=o[:lr])
 		    anger = 0
         end
         push!(df, (epoch, o[:lr], trnerr, deverr, besterr))
 	    println(df[epoch, :])
-
+        if stopcriterion
+            break
+        end
         lasterr = deverr
     end
     o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
@@ -90,13 +101,13 @@ end
 	return lstm(d, out=hidden)
 end
 
-@knet function rnnmodel(word; hidden=100, embedding=hidden, output=20, pdrop=0.5, nlayers=2)
+@knet function rnnmodel(word; hidden=100, embedding=hidden, output=20, pdrop=0.5, fpdrop=0.5, lpdrop=0.5, nlayers=2)
 	wvec = wdot(word; out=embedding)                 # TODO: try different embedding dimension than hidden
-	hd = drop(wvec, pdrop=0.5)
+	hd = drop(wvec, pdrop=fpdrop)
 	lh = lstm(hd, out=hidden)
 	h = repeat(lh; frepeat=:droplstm, nrepeat=nlayers-1, hidden=hidden, pdrop=pdrop)
 	if predict                                       # TODO: try dropout between wdot and lstm
-		dvec = drop(h; pdrop=0.5)
+		dvec = drop(h; pdrop=lpdrop)
         	return wbf(dvec; out=output, f=:soft)
     	end
 end
