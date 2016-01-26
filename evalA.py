@@ -3,13 +3,36 @@ import sys,json,gzip,math
 def dist(x, y):
   return math.sqrt((x[0] - y[0])**2 + (x[1] - y[1])**2 + (x[2] - y[2])**2) / 0.1524
 
+folder = "logos" if len(sys.argv) == 2 else sys.argv[2]
+verbose = False
+
+# Set of brands for labeling blocks
+brands = [
+    'adidas', 'bmw', 'burger king', 'coca cola', 'esso',
+    'heineken', 'hp', 'mcdonalds', 'mercedes benz', 'nvidia',
+    'pepsi', 'shell', 'sri', 'starbucks', 'stella artois',
+    'target', 'texaco', 'toyota', 'twitter', 'ups']
+
+# Set of digits for labeling blocks
+digits = [
+    'one', 'two', 'three', 'four', 'five', 'six', 'seven',
+    'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen',
+    'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen'
+    'nineteen', 'twenty'
+]
+
+dirs = ['NE','E','SE','S','SW','W','NW','N']
+
 Worlds = []
-for line in gzip.open("BlockWorld/logos/Dev.input.orig.json.gz",'r'):
-  Worlds.append(json.loads(line)["world"])
+Sents = []
+for line in gzip.open("BlockWorld/%s/Dev.input.orig.json.gz" % folder,'r'):
+  j = json.loads(line)
+  Worlds.append(j["world"])
+  Sents.append(j["text"])
 
 Sources = []
 Goals = []
-for line in gzip.open("BlockWorld/logos/Dev.output.orig.json.gz",'r'):
+for line in gzip.open("BlockWorld/%s/Dev.output.orig.json.gz" % folder,'r'):
   j = json.loads(line)
   Sources.append(j["id"])
   Goals.append(j["loc"])
@@ -73,3 +96,24 @@ for i in range(len(pT)):
 err.sort()
 print "Mean", sum(err)/len(err)
 print "Median", err[len(err)/2]
+
+
+if verbose:
+  S = []
+  T = []
+  RP = []
+  for line in open("BlockWorld/%s/Dev.STRP.data" % folder,'r'):
+    line = line.strip().split()
+    S.append(int(line[len(line)-3]))
+    T.append(int(line[len(line)-2]))
+    RP.append(int(line[len(line)-1]))
+  o = open("errors.txt",'w')
+  for i in range(len(pT)):
+    o.write("%-1d %-1d %-1d %-15s %-15s %-2s  %-s\n" %
+      (1 if pS[i] == S[i] else 0,
+       1 if pT[i] == T[i] else 0,
+       1 if pRP[i] == RP[i] else 0,
+      brands[pS[i]-1] if folder == "logos" else digits[pS[i]-1],
+      brands[pT[i]-1] if folder == "logos" else digits[pT[i]-1],
+      dirs[pRP[i]-1], Sents[i]))
+  o.close()
