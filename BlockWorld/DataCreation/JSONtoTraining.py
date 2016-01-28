@@ -134,8 +134,8 @@ newTuples = []
 #  newTuples = displace(inittuples)
 
 # Training Files
-#source = gzip.open("out/source.json.gz", 'w')
-#target = gzip.open("out/target.json.gz", 'w')
+#source = gzip.open("source.json.gz", 'w')
+#target = gzip.open("target.json.gz", 'w')
 #num = 0
 #for before, after, note in newTuples:
 #  source.write(json.dumps({"ex": num, "world": world(before), "text": note}) + "\n")
@@ -147,8 +147,8 @@ newTuples = []
 #target.close()
 
 # Training Files
-source = gzip.open("out/source.orig.json.gz", 'w')
-target = gzip.open("out/target.orig.json.gz", 'w')
+source = gzip.open("source.orig.json.gz", 'w')
+target = gzip.open("target.orig.json.gz", 'w')
 num = 0
 for before, after, note in inittuples:
   source.write(json.dumps({"ex": num, "world": world(before), "text": note}) + "\n")

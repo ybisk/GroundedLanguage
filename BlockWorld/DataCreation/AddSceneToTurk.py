@@ -42,7 +42,7 @@ for line in gzip.open(sys.argv[2],'r'):
         for phrase in j["HIT"]["notes"][user][stage]:
           start = world["block_states"][pair[0]]
           end = world["block_states"][pair[1]]
-          decor = logos if world["block_meta"]["decoration"] == "logo" else digits
+          decor = "blank" #logos if world["block_meta"]["decoration"] == "logo" else digits
           out.write(json.dumps({"current": start["block_state"], "next": end["block_state"],
                                 "utterance": phrase, "decoration": decor}) + "\n")
 out.close()
