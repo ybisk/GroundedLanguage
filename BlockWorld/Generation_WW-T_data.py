@@ -42,6 +42,6 @@ for section in ["Train","Dev","Test"]:
   Tout = open("%s/%s.WW-T.target" % (directory, section),'w')
   for i in range(len(source)):
     Sout.write("%s %s %s\n" % (Type[i], ' '.join("%-4.2f" % v for v in World[i]), ' '.join("%-4.2f" % v for v in NewWorld[i])))
-    Tout.write("%s\n" % Text[i])
+    Tout.write("%s\n" % " ".join(Text[i]))
   Sout.close()
   Tout.close()
