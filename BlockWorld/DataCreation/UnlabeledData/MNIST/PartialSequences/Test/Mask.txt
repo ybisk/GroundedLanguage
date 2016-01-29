@@ -1,0 +1,20 @@
+8_Num0.json  0 6 10 17 20
+9_Num0.json  0 4 9 14 19
+18_Num1.json 0 4 8
+19_Num1.json 0 5 9
+28_Num2.json 0 7 10 14 18 20
+29_Num2.json 0 5 9 12 15
+38_Num3.json 0 4 7 10 15 17
+39_Num3.json 0 6 13 17 20
+48_Num4.json 0 6 14 20
+49_Num4.json 0 4 7 10 13 20
+58_Num5.json 0 5 9 14 20
+59_Num5.json 0 6 14 18 20
+68_Num6.json 0 6 10 14 20
+69_Num6.json 0 4 7 12 19
+78_Num7.json 0 5 11 15
+79_Num7.json 0 4 9 15
+88_Num8.json 0 7 13 20
+89_Num8.json 0 5 13 20
+98_Num9.json 0 6 10 14
+99_Num9.json 0 4 9 13 20
