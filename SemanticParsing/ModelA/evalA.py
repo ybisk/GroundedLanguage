@@ -25,14 +25,14 @@ dirs = ['NE','E','SE','S','SW','W','NW','N']
 
 Worlds = []
 Sents = []
-for line in gzip.open("BlockWorld/%s/Dev.input.orig.json.gz" % folder,'r'):
+for line in gzip.open("../../BlockWorld/%s/Dev.input.orig.json.gz" % folder,'r'):
   j = json.loads(line)
   Worlds.append(j["world"])
   Sents.append(j["text"])
 
 Sources = []
 Goals = []
-for line in gzip.open("BlockWorld/%s/Dev.output.orig.json.gz" % folder,'r'):
+for line in gzip.open("../../BlockWorld/%s/Dev.output.orig.json.gz" % folder,'r'):
   j = json.loads(line)
   Sources.append(j["id"])
   Goals.append(j["loc"])
@@ -88,7 +88,7 @@ for i in range(len(pT)):
   elif RP == 8:
     loc[2] += off
   else:
-    print "Error, Invalid\n",words,brands[act],brands[targetblock],loc,goal_location
+    print "Error, Invalid\n"
     sys.exit()
   
   err.append(dist(loc, Goals[i]))
