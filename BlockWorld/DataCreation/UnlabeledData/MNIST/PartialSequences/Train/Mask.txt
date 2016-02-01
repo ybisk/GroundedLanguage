@@ -21,7 +21,7 @@
 26_Num2.json 0 5 11 20
 30_Num3.json 0 4 8 15 18 20
 31_Num3.json 0 6 10 15 20
-32_Num3.json 0 7 12 14 20
+32_Num3.json 0 4 8 15 20
 33_Num3.json 0 4 9 13 17
 34_Num3.json 0 5 10 17 20
 35_Num3.json 0 2 8 13 19
