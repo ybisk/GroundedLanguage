@@ -23,16 +23,39 @@ end
     return generic_layer(x; f1=:conv, f2=:relu, wdims=(cwindow,cwindow,cinput,coutput), bdims=(1,1,coutput,1))
 end
 
+#===============
+@knet function conv_pool_layer(x; cwindow=0, cinput=0, coutput=0, pwindow=0)
+    y = generic_layer(x; f1=:conv, f2=:relu, wdims=(cwindow,cwindow,cinput,coutput), bdims=(1,1,coutput,1))
+    return pool(y; window=pwindow)
+end
+===============#
+
+@knet function conv_pool_layer(x; cwindow=0, cinput=0, coutput=0, pwindow=2, padding=0)
+    w = par(init=Xavier(), dims=(cwindow,cwindow,cinput,coutput))
+    c = conv(w,x)
+    b = par(init=Constant(0), dims=(1,1,coutput,1))
+    a = add(b,c)
+    r = relu(a)
+    return pool(r; window=pwindow)
+end
+
 @knet function softmax_layer(x; input=0, output=0)
     return generic_layer(x; f1=:dot, f2=:soft, wdims=(output,input), bdims=(output,1))
 end
 
-@knet function cnn(x; cwin1=5, cout1=20, cwin2=5, cout2=50, hidden=100, nclass=20)
-    a = conv_layer(x; cwindow=cwin1, coutput=cout1)
-    b = conv_layer(a; cwindow=cwin2, coutput=cout2)
+@knet function cnn(x; cwin1=5, cout1=20, cwin2=5, cout2=20, pwin1=2, pwin2=2, hidden=100)
+    a = conv_pool_layer(x; cwindow=cwin1, coutput=cout1, pwindow=pwin1)
+    b = conv_pool_layer(a; cwindow=cwin2, coutput=cout2, pwindow=pwin2)
     c = relu_layer(b; output=hidden)
     return c
 end
+
+#==========================
+@knet function cnn(x; cwin1=2, cout1=20, pwin1=2, padding=0, hidden=100)
+    a = conv_pool_layer(x; cwindow=cwin1, coutput=cout1, pwindow=pwin1)
+    return relu_layer(a; output=hidden)
+end
+=========================#
 
 @knet function droplstm(x; hidden=100, pdrop=0.5)
 	d = drop(x, pdrop=pdrop)
@@ -47,6 +70,7 @@ end
     return add(r1, r2)
 end
 
+#===============================
 @knet function rnnmodel(word, state; hidden=100, embedding=hidden, output=20, pdrop=0.5, fpdrop=0.5, lpdrop=0.5, nlayers=2)
 	#wvec = wdot(word; out=embedding)                 # TODO: try different embedding dimension than hidden
     wsvec = wdot2(word, state; out=embedding)
@@ -58,6 +82,22 @@ end
         return wbf(dvec; out=output, f=:soft)
     end
 end
+===============================#
+
+
+@knet function rnnmodel(word, state; hidden=100, embedding=hidden, output=20, pdrop=0.5, fpdrop=0.5, lpdrop=0.5, nlayers=2)
+	#wvec = wdot(word; out=embedding)                 # TODO: try different embedding dimension than hidden
+    wsvec = wdot2(word, state; out=embedding)
+	#hd = drop(wsvec, pdrop=fpdrop)
+	lh = lstm(wsvec, out=hidden)
+	h = repeat(lh; frepeat=:droplstm, nrepeat=nlayers-1, hidden=hidden, pdrop=pdrop)
+	if predict                                       # TODO: try dropout between wdot and lstm
+		dvec = drop(h; pdrop=lpdrop)
+        return wbf(dvec; out=output, f=:soft)
+    end
+end
+
+
 
 ### Minibatched data format:
 # data is an array of (x,y,mask) triples
@@ -267,12 +307,15 @@ function main(args)
     s = ArgParseSettings()
     s.exc_handler=ArgParse.debug_handler
     @add_arg_table s begin
-        ("--worlddatafiles"; nargs='+'; default=["BlockWorld/logos/Train.SP.data", "BlockWorld/logos/Dev.SP.data"])
-        ("--datafiles"; nargs='+'; default=["BlockWorld/logos/Train.STRP.data", "BlockWorld/logos/Dev.STRP.data"])
+        ("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/logos/Train.SP.data", "../../BlockWorld/logos/Dev.SP.data"])
+        ("--datafiles"; nargs='+'; default=["../../BlockWorld/logos/Train.STRP.data", "../../BlockWorld/logos/Dev.STRP.data"])
         ("--loadfile"; help="initialize model from file")
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
         ("--hidden"; arg_type=Int; default=100; help="hidden layer size")
+        ("--chidden"; arg_type=Int; default=100; help="hidden layer size")
+        ("--cwin"; arg_type=Int; default=2; help="filter size")
+        ("--cout"; arg_type=Int; default=20; help="number of filters")
         ("--epochs"; arg_type=Int; default=10; help="number of epochs to train")
         ("--batchsize"; arg_type=Int; default=10; help="minibatch size")
         ("--lr"; arg_type=Float64; default=1.0; help="learning rate")
@@ -320,7 +363,7 @@ function main(args)
         compile(:rnnmodel; hidden=o[:hidden], output=yvocab, pdrop=o[:dropout], fpdrop=o[:fdropout], lpdrop=o[:ldropout], nlayers=o[:nlayers]))
     
     global worldf = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
-                  compile(:cnn; hidden=o[:hidden], nclass=yvocab))
+                  compile(:cnn; hidden=100, cwin1=o[:cwin], cout1=o[:cout], cwin2=o[:cwin], cout2=o[:cout]))
     
     if o[:predict] && o[:loadfile] != nothing
         @date devpred = predict(net, combined[2]; xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
@@ -347,7 +390,8 @@ function main(args)
         if o[:patience] != 0 && anger == o[:patience]
             stopcriterion = true
             o[:lr] *= o[:decay]
-            setp(net, lr=o[:lr])
+            setp(sentf, lr=o[:lr])
+            setp(worldf, lr=o[:lr])
 		    anger = 0
         end
         push!(df, (epoch, o[:lr], trnerr, deverr, besterr))
