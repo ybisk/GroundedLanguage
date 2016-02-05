@@ -1,0 +1,10 @@
+7_Num0.json   0 6 10 15 20
+17_Num1.json  0 8 17
+27_Num2.json  0 8 10 16 20
+37_Num3.json  0 6 10 16 20
+47_Num4.json  0 4 9 13 16
+57_Num5.json  0 5 9 14 18 20
+67_Num6.json  0 6 12 18 20
+77_Num7.json  0 6 9 15 18
+87_Num8.json  0 6 9 17 20
+97_Num9.json  0 4 8 13 20

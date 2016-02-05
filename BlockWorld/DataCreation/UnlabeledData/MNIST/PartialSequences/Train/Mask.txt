@@ -1,0 +1,70 @@
+0_Num0.json  0 5 11 14 20
+1_Num0.json  0 4 8 14 20
+2_Num0.json  0 4 8 12 16 20
+3_Num0.json  0 5 9 13 17 20
+4_Num0.json  0 4 9 15 20
+5_Num0.json  0 4 10 15 20
+6_Num0.json  0 4 7 11 15 19
+10_Num1.json 0 5 10 14
+11_Num1.json 0 4 8 12
+12_Num1.json 0 4 8 13 17
+13_Num1.json 0 5 8 11 15 17
+14_Num1.json 0 6 11 15
+15_Num1.json 0 6 10 14 17
+16_Num1.json 0 5 10
+20_Num2.json 0 6 9 13 17 20
+21_Num2.json 0 6 12 15 19
+22_Num2.json 0 4 8 11 15 20
+23_Num2.json 0 6 10 14 20
+24_Num2.json 0 5 9 13 17 20
+25_Num2.json 0 7 13 18 20
+26_Num2.json 0 5 11 20
+30_Num3.json 0 4 8 15 18 20
+31_Num3.json 0 6 10 15 20
+32_Num3.json 0 4 8 15 20
+33_Num3.json 0 4 9 13 17
+34_Num3.json 0 5 10 17 20
+35_Num3.json 0 2 8 13 19
+36_Num3.json 0 5 9 12 18
+40_Num4.json 0 3 9 16 19
+41_Num4.json 0 3 8 12 17
+42_Num4.json 0 4 8 10 20
+43_Num4.json 0 2 7 11 16 20
+44_Num4.json 0 7 15 20
+45_Num4.json 0 5 10 15 20
+46_Num4.json 0 6 10 15 19
+50_Num5.json 0 6 14 19
+51_Num5.json 0 2 7 12 16 20
+52_Num5.json 0 5 11 16 20
+53_Num5.json 0 5 9 11 17
+54_Num5.json 0 5 10 15 20
+55_Num5.json 0 7 13 18
+56_Num5.json 0 4 10 14 18 20
+60_Num6.json 0 4 8 13 18 20
+61_Num6.json 0 4 10 15 18
+62_Num6.json 0 6 9 13 18 20
+63_Num6.json 0 5 8 10 14 17 20
+64_Num6.json 0 5 11 14 20
+65_Num6.json 0 3 7 11 15 20
+66_Num6.json 0 5 11 14 18 20
+70_Num7.json 0 5 8 12 16 20
+71_Num7.json 0 4 8 12 18 20
+72_Num7.json 0 6 11 18
+73_Num7.json 0 4 10 14 19
+74_Num7.json 0 7 11 15
+75_Num7.json 0 4 8 12 16 20
+76_Num7.json 0 4 8 10 16 19
+80_Num8.json 0 5 10 15 20
+81_Num8.json 0 5 8 11 14 20
+82_Num8.json 0 4 6 10 14 19
+83_Num8.json 0 5 12 17 20
+84_Num8.json 0 3 8 13 20
+85_Num8.json 0 4 7 11 16 20
+86_Num8.json 0 5 10 16 20
+90_Num9.json 0 3 8 13 18
+91_Num9.json 0 6 11 15 20
+92_Num9.json 0 4 7 12 16 20
+93_Num9.json 0 4 9 16
+94_Num9.json 0 4 8 12 16 20
+95_Num9.json 0 4 7 9 14 19
+96_Num9.json 0 5 9 15
