@@ -24,10 +24,10 @@ def is_number(s):
 def objective(x):
     lr,drop,fdrop,ldrop,nlayers,hidden,gclip = x
     global count
-    logfile = "../logs/hypopt/t" + args['target'] + "_" + str(count) + ".csv"
-    bestfile = "../logs/hypopt/t" + args['target'] + "_" + str(count) + ".jld"
+    logfile = "../logs/hypopt/digits/t" + args['target'] + "_" + str(count) + ".csv"
+    bestfile = "../logs/hypopt/digits/t" + args['target'] + "_" + str(count) + ".jld"
     count += 1
-    cmd = "julia ModelA-S-T-RP-Deep-minibatch.jl --lr %(lr)g --gclip %(gclip)g --dropout %(drop)g --fdropout %(fdrop)g --ldropout %(ldrop)g --nlayers %(nlayers)g --batchsize 16 --patience 10 --epochs 100 --hidden %(hidden)g" % locals()
+    cmd = "julia ModelA-S-T-RP-Deep-minibatch.jl --datafiles BlockWorld/digits/Train.STRP.data BlockWorld/digits/Dev.STRP.data --lr %(lr)g --gclip %(gclip)g --dropout %(drop)g --fdropout %(fdrop)g --ldropout %(ldrop)g --nlayers %(nlayers)g --batchsize 16 --nx 83 --xvocab 443 --patience 10 --epochs 100 --hidden %(hidden)g" % locals()
     cmd += " --target " + args['target']
     cmd += " --logfile " + logfile
     cmd += " --bestfile " + bestfile
@@ -62,9 +62,9 @@ space = [
 best = fmin(objective,
     space=space,
     algo=tpe.suggest,
-    max_evals=250)
+    max_evals=200)
 
-hiddens = [32, 61, 128, 256]
+hiddens = [32, 64, 128, 256]
 best['nlayers'] = best['nlayers'] + 2
 best['hidden'] = hiddens[best['hidden']]
 print best
