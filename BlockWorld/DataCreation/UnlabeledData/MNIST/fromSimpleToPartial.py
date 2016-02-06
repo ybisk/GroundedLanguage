@@ -13,4 +13,5 @@ for section in ["Train","Dev","Test"]:
     for i in range(len(Mask[name])):
       A.append(j["block_states"][Mask[name][i]])
     j["block_states"] = A
+    j["type"] = "partial"
     out.write(json.dumps(j))

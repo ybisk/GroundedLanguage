@@ -14,8 +14,9 @@ logos = [ \
 worlds = {}
 for root,folders,files in os.walk(sys.argv[1],'r'):
   for name in files:
-    justname = name.split(".json")[0].lower()
-    worlds[justname] = json.load(open(os.path.join(root, name)))
+    if "json" in name:
+      justname = name.split(".json")[0].lower()
+      worlds[justname] = json.load(open(os.path.join(root, name)))
 
 for name in worlds:
   print name, worlds[name]["block_meta"]["decoration"]
