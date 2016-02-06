@@ -19,6 +19,7 @@ end
     hd = drop(wvec, pdrop=0.5)
     lh = lstm(hd, out=hidden)
     h = repeat(lh; frepeat=:droplstm, nrepeat=nlayers-1, hidden=hidden, pdrop=pdrop)
+    return h
 end
 
 @knet function outlayer(x, y; output=20, pdrop=0.5)
