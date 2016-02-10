@@ -50,12 +50,12 @@ end
     return c
 end
 
-#==========================
+#====================
 @knet function cnn(x; cwin1=2, cout1=20, pwin1=2, padding=0, hidden=100)
     a = conv_pool_layer(x; cwindow=cwin1, coutput=cout1, pwindow=pwin1)
     return relu_layer(a; output=hidden)
 end
-=========================#
+===================#
 
 @knet function droplstm(x; hidden=100, pdrop=0.5)
 	d = drop(x, pdrop=pdrop)
@@ -70,21 +70,6 @@ end
     return add(r1, r2)
 end
 
-#===============================
-@knet function rnnmodel(word, state; hidden=100, embedding=hidden, output=20, pdrop=0.5, fpdrop=0.5, lpdrop=0.5, nlayers=2)
-	#wvec = wdot(word; out=embedding)                 # TODO: try different embedding dimension than hidden
-    wsvec = wdot2(word, state; out=embedding)
-	hd = drop(wsvec, pdrop=fpdrop)
-	lh = lstm(hd, out=hidden)
-	h = repeat(lh; frepeat=:droplstm, nrepeat=nlayers-1, hidden=hidden, pdrop=pdrop)
-	if predict                                       # TODO: try dropout between wdot and lstm
-		dvec = drop(h; pdrop=lpdrop)
-        return wbf(dvec; out=output, f=:soft)
-    end
-end
-===============================#
-
-
 @knet function rnnmodel(word, state; hidden=100, embedding=hidden, output=20, pdrop=0.5, fpdrop=0.5, lpdrop=0.5, nlayers=2)
 	#wvec = wdot(word; out=embedding)                 # TODO: try different embedding dimension than hidden
     wsvec = wdot2(word, state; out=embedding)
@@ -97,8 +82,6 @@ end
     end
 end
 
-
-
 ### Minibatched data format:
 # data is an array of (x,y,mask) triples
 # x[xvocab+1,batchsize] contains one-hot word columns for the n'th word of batchsize sentences
@@ -108,7 +91,7 @@ end
 # y is nothing until the very last token of a sentence batch
 # y[yvocab,batchsize] contains one-hot target columns with the last token (eos) of a sentence batch
 
-function train(sentf, worldf, data, worlddata, loss; gclip=0)
+function train(sentf, worldf, data, worlddata, locs, loss, loc=false; gclip=0)
     sumloss = numloss = 0
     reset!(sentf)
     reset!(worldf)
@@ -123,9 +106,20 @@ function train(sentf, worldf, data, worlddata, loss; gclip=0)
             state = forw(worldf, world)
         end
         
+        #ypred = sforw(sentf, x, state, predict=(y!=nothing), dropout=true, loc=loc)
         ypred = sforw(sentf, x, state, predict=(y!=nothing), dropout=true)
         y==nothing && continue
-        sumloss += zeroone(ypred, y)*size(y,2)
+        y = loc ? locs[i-1] : y
+        
+        if i <= 6
+            println("y: $(map(x-> indmax(y[:,x]), 1:size(y,2)))")
+            ypredh = to_host(ypred)
+            println("ypredh: $(map(x-> indmax(ypredh[:,x]), 1:size(ypredh,2)))")
+        end
+
+        #errloss = loc ? quadloss : zeroone
+        errloss = zeroone
+        sumloss += errloss(ypred, y)*size(y,2)
         numloss += size(y,2)
         (_, worldgrad) = sback(sentf, y, loss; mask=mask, getdx=true)
         while !stack_isempty(sentf); (_, wgrad) = sback(sentf; getdx=true); axpy!(1, wgrad, worldgrad); end
@@ -141,7 +135,7 @@ function train(sentf, worldf, data, worlddata, loss; gclip=0)
     sumloss / numloss
 end
 
-function test(sentf, worldf, data, worlddata, loss)
+function test(sentf, worldf, data, worlddata, locs, loss, loc=false)
     sumloss = numloss = 0
     reset!(sentf)
     reset!(worldf)
@@ -155,8 +149,10 @@ function test(sentf, worldf, data, worlddata, loss)
             getstate = false
             state = forw(worldf, world) 
         end
+        #ypred = forw(sentf, x, state, predict=(y!=nothing), loc=loc)
         ypred = forw(sentf, x, state, predict=(y!=nothing))
         y==nothing && continue
+        y = loc ? locs[i-1] : y
         sumloss += loss(ypred, y)*size(y,2)
         numloss += size(y,2)
         getstate = true
@@ -166,7 +162,7 @@ function test(sentf, worldf, data, worlddata, loss)
     sumloss / numloss
 end
 
-function predict(sentf, worldf, data, worlddata; xrange=1:79, padding=1, xvocab=326, ftype=Float32, xsparse=false)
+function predict(sentf, worldf, data, worlddata; loc=false, xrange=1:79, padding=1, xvocab=326, ftype=Float32, xsparse=false)
     reset!(sentf)
     reset!(worldf)
     sentences = extract(data, xrange; padding=1)	# sentences[i][j] = j'th word of i'th sentence
@@ -182,11 +178,15 @@ function predict(sentf, worldf, data, worlddata; xrange=1:79, padding=1, xvocab=
 
         for i = 1:length(s)
             setrow!(x, s[i], 1)
-            forw(sentf, x, state, predict=false)
+            forw(sentf, x, state, predict=false, loc=loc)
         end
         setrow!(x, eos, 1)
-        y = forw(sentf, x, state, predict=true)
-        push!(ypred, indmax(to_host(y)))
+        y = forw(sentf, x, state, predict=true, loc=loc)
+        if loc
+            push!(ypred, to_host(y))
+        else
+            push!(ypred, indmax(to_host(y)))
+        end
         reset!(sentf)
         reset!(worldf)
     end
@@ -303,12 +303,33 @@ function minibatchworlds(worlds; batchsize=100)
     return batches
 end
 
+function get_locs(locdata, ftype=Float32)
+    data = zeros(ftype, 18*18, size(locdata, 2))
+
+    for i=1:size(data,2)
+        x = round(Int, locdata[1, i] / 0.1524) + 10
+        z = round(Int, locdata[3, i] / 0.1524) + 10
+        indx = (z-1)*18 + x
+        data[indx,i] = 1
+    end
+    return data
+end
+
+function minibatchlocs(locs, batchsize=100)
+    batches = Any[]
+    for i=1:batchsize:size(locs)[end]
+        j = min(i+batchsize-1,size(locs)[end])
+        push!(batches, locs[:,i:j])
+    end
+    return batches
+end
+
 function main(args)
     s = ArgParseSettings()
     s.exc_handler=ArgParse.debug_handler
     @add_arg_table s begin
-        ("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/logos/Train.SP.data", "../../BlockWorld/logos/Dev.SP.data"])
-        ("--datafiles"; nargs='+'; default=["../../BlockWorld/logos/Train.STRP.data", "../../BlockWorld/logos/Dev.STRP.data"])
+        ("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/MNIST/SimpleActions/logos/Train.SP.data", "../../BlockWorld/MNIST/SimpleActions/logos/Dev.SP.data"])
+        ("--datafiles"; nargs='+'; default=["../../BlockWorld/MNIST/SimpleActions/logos/Train.STRP.data", "../../BlockWorld/MNIST/SimpleActions/logos/Dev.STRP.data"])
         ("--loadfile"; help="initialize model from file")
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
@@ -325,6 +346,7 @@ function main(args)
         ("--ldropout"; arg_type=Float64; default=0.5; help="dropout probability for the last one")
         ("--decay"; arg_type=Float64; default=0.9; help="learning rate decay if deverr increases")
         ("--nogpu"; action = :store_true; help="do not use gpu, which is used by default if available")
+        ("--loc"; action = :store_true; help="predict location")
         ("--seed"; arg_type=Int; default=42; help="random number seed")
         ("--nx"; arg_type=Int; default=79; help="number of input columns in data")
         ("--ny"; arg_type=Int; default=3; help="number of target columns in data")
@@ -341,14 +363,16 @@ function main(args)
     
     isa(args, AbstractString) && (args=split(args))
     o = parse_args(args, s; as_symbols=true); println(o)
-    o[:ftype] = eval(parse(o[:ftype]))
     o[:seed] > 0 && setseed(o[:seed])
+    o[:ftype] = eval(parse(o[:ftype]))
+    
     global rawdata = map(f->readdlm(f,Int), o[:datafiles])
     
     # Minibatch data: data[1]:train, data[2]:dev
     xrange = 1:o[:nx]
     yrange = (o[:nx] + o[:target]):(o[:nx] + o[:target])
     yvocab = o[:yvocab][o[:target]]
+    
     global data = map(rawdata) do d
         minibatch(d, xrange, yrange, o[:batchsize]; xvocab=o[:xvocab], yvocab=yvocab, ftype=o[:ftype], xsparse=o[:xsparse])
     end
@@ -358,9 +382,18 @@ function main(args)
         get_worlds(d, batchsize=o[:batchsize])
     end
 
+    rawlocs = Any[]
+    push!(rawlocs, get_locs(rawworlddata[1][:,(end-2):end]'))
+    push!(rawlocs, get_locs(rawworlddata[2][:,(end-2):end]'))
+
+    global locs = map(rawlocs) do dat
+        minibatchlocs(dat, o[:batchsize])
+    end
+    
+    output = o[:loc] ? 18*18 : yvocab
     # Load or create the model:
     global sentf = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
-        compile(:rnnmodel; hidden=o[:hidden], output=yvocab, pdrop=o[:dropout], fpdrop=o[:fdropout], lpdrop=o[:ldropout], nlayers=o[:nlayers]))
+        compile(:rnnmodel; hidden=o[:hidden], output=output, pdrop=o[:dropout], fpdrop=o[:fdropout], lpdrop=o[:ldropout], nlayers=o[:nlayers]))
     
     global worldf = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
                   compile(:cnn; hidden=100, cwin1=o[:cwin], cout1=o[:cout], cwin2=o[:cwin], cout2=o[:cout]))
@@ -376,9 +409,18 @@ function main(args)
     anger = 0
     stopcriterion = false
     df = DataFrame(epoch = Int[], lr = Float64[], trn_err = Float64[], dev_err = Float64[], best_err = Float64[])
+
+    #=========================
+    loss1 = o[:loc] ? quadloss : softloss
+    loss2 = o[:loc] ? quadloss : zeroone
+    ===================#
+
+    loss1 = softloss
+    loss2 = zeroone
+
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
-        @date trnerr = train(sentf, worldf, data[1], worlddata[1], softloss; gclip=o[:gclip])
-        @date deverr = test(sentf, worldf, data[2], worlddata[2], zeroone)
+        @date trnerr = train(sentf, worldf, data[1], worlddata[1], locs[1], loss1, o[:loc]; gclip=o[:gclip])
+        @date deverr = test(sentf, worldf, data[2], worlddata[2], locs[2], loss2, o[:loc])
 	
         if deverr < besterr
             besterr=deverr
@@ -403,7 +445,7 @@ function main(args)
     end
 
     #o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
-    @date devpred = predict(sentf, worldf, rawdata[2], get_worlds(rawworlddata[2]; batchsize=1); xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
+    #@date devpred = predict(sentf, worldf, rawdata[2], get_worlds(rawworlddata[2]; batchsize=1); loc=o[:loc], xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
     #println(devpred)
     #o[:logfile]!=nothing && writetable(o[:logfile], df)
 end
