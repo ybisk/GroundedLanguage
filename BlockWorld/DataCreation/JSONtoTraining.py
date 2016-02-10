@@ -122,7 +122,7 @@ for line in anno_worlds:
   before = shrinkWorld(j["current"])
   after  = shrinkWorld(j["next"])
   utterance = clean_note(j["utterance"])
-  inittuples.append((before, after, utterance))
+  inittuples.append((before, after, utterance, j["stage"]))
 
 
 print "Read Data"
@@ -150,8 +150,8 @@ newTuples = []
 source = gzip.open("source.orig.json.gz", 'w')
 target = gzip.open("target.orig.json.gz", 'w')
 num = 0
-for before, after, note in inittuples:
-  source.write(json.dumps({"ex": num, "world": world(before), "text": note}) + "\n")
+for before, after, note, stage in inittuples:
+  source.write(json.dumps({"ex": num, "world": world(before), "text": note, "stage": stage}) + "\n")
   sem = semantics(before, after)
   sem["ex"] = num
   target.write(json.dumps(sem) + "\n")

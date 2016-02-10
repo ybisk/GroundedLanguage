@@ -45,5 +45,5 @@ for line in gzip.open(sys.argv[2],'r'):
           end = world["block_states"][pair[1]]
           decor = "blank" #logos if world["block_meta"]["decoration"] == "logo" else digits
           out.write(json.dumps({"current": start["block_state"], "next": end["block_state"],
-                                "utterance": phrase, "decoration": decor}) + "\n")
+                                "utterance": phrase, "decoration": decor, "stage": stage}) + "\n")
 out.close()

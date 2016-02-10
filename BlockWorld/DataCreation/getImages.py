@@ -12,3 +12,4 @@ for line in gzip.open(sys.argv[1],'r'):
     fh = open("%s/%d.png" % (dir,idx), "wb")
     fh.write(r.text.split(",",1)[1].decode('base64'))
     fh.close()
+
