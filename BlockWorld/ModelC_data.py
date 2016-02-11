@@ -4,21 +4,6 @@ from nltk.tokenize import TreebankWordTokenizer
 
 directory = sys.argv[1]
 
-# Set of brands for labeling blocks
-brands = [
-    'adidas', 'bmw', 'burger king', 'coca cola', 'esso',
-    'heineken', 'hp', 'mcdonalds', 'mercedes benz', 'nvidia',
-    'pepsi', 'shell', 'sri', 'starbucks', 'stella artois',
-    'target', 'texaco', 'toyota', 'twitter', 'ups']
-
-# Set of digits for labeling blocks
-digits = [
-    'one', 'two', 'three', 'four', 'five', 'six', 'seven',
-    'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen',
-    'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen'
-    'nineteen', 'twenty'
-]
-
 def extend(world):
   while len(world) < 60:
     world.append(-1)
