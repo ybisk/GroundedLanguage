@@ -38,10 +38,10 @@ def distance((x, y, z), (a, b, c)):
   return math.sqrt((x - a) ** 2 + (y - b) ** 2 + (z - c) ** 2) / 0.1524
 
 def Grid(loc):
-  x = int(loc[0]/0.1528)
-  y = int(loc[1]/0.1528)
-  z = int(loc[2]/0.1528)
-  return x + 13*y + 169+z
+  x = int(loc[0]/0.1524)
+  #y = int(loc[1]/0.1524)
+  z = int(loc[2]/0.1524)
+  return (z-1)*18 + x
 
 # Set of brands for labeling blocks
 brands = [
