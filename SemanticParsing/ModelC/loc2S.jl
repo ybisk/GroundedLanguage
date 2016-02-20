@@ -40,19 +40,13 @@ function get_worldf(predtype, o)
 			return wb(x; out=output)
 		end
 	end
-	@knet function cnn(x; cwin1=2, cout1=20, output=20)
-		c1 = conv_layer(x; cwindow=cwin1, coutput=cout1)
-		return output_layer(c1; output=output)
-	end
 
-	@knet function cnn2(x; cwin1=2, cout1=20, hidden=100, output=20)
-		c1 = conv_layer(x; cwindow=cwin1, coutput=cout1)
-		h = relu_layer(c1, output=hidden)
+	@knet function fnn(x; hidden=100, output=20)
+		h = relu_layer(x, output=hidden)
 		return output_layer(h; output=output)
 	end
 
-	@knet function cnn3(x; cwin1=2, cout1=20, hidden=100, pdrop=0.5, output=20)
-		c1 = conv_layer(x; cwindow=cwin1, coutput=cout1)
+	@knet function fnn2(x; hidden=100, pdrop=0.5, output=20)
 		h = relu_layer(c1, output=hidden)
 		hd = drop(h; pdrop=pdrop)
 		h2 = relu_layer(hd, output=hidden)
@@ -62,12 +56,10 @@ function get_worldf(predtype, o)
 	outdim = predtype == "id" ? 20 : 18*18
 	outdim = predtype == "loc" ? 3 : outdim
 	worldf = nothing
-	if o[:chidden] == 0
-		worldf = compile(:cnn; cwin1=o[:cwin], cout1=o[:cout], output=outdim)
-	elseif o[:chidden] != 0 && o[:dropout] == 0
-		worldf = compile(:cnn2; cwin1=o[:cwin], cout1=o[:cout], hidden=o[:chidden], output=outdim)
+	if o[:dropout] == 0
+		worldf = compile(:fnn; hidden=o[:chidden], output=outdim)
 	else
-		worldf = compile(:cnn3; cwin1=o[:cwin], cout1=o[:cout], hidden=o[:chidden], pdrop=o[:dropout], output=outdim)
+		worldf = compile(:fnn2; cwin1=o[:cwin], cout1=o[:cout], pdrop=o[:dropout], output=outdim)
 	end
 	return worldf
 end
@@ -131,7 +123,7 @@ end
 #predtype = id | grid | loc
 function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 	#data = map(x -> (rawdata[x,1:end-64], rawdata[x,end-63:end]),1:size(rawdata,1));
-	worlds = zeros(ftype, 18, 18, 22, 2, size(rawdata, 1))
+	worlds = zeros(ftype, 120, size(rawdata, 1))
 
 	ydim = 0
 	if predtype == "id"
@@ -145,17 +137,8 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 	
 	for indx=1:size(rawdata, 1)
 		data = rawdata[indx, :]
-		before = zeros(ftype, 18, 18, 22, 1)
-		before[2:17,2:17, 22, 1] = 1#set empty
 
-		#borders
-		before[[1,18],:,21, 1] = 1
-		before[:,[1,18],21, 1] = 1
-
-		after = copy(before)
-
-		blocs = map(x -> (data[1,x], data[1, x+1], data[1, x+2]), 1:3:60)
-		alocs = map(x -> (data[1, x], data[1, x+1], data[1, x+2]), 61:3:120)
+		worlds[:, indx] = data[1, 1:120]'
 		
 		if predtype == "id"
 			source = round(Int, data[1, 222])
@@ -171,21 +154,6 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 			y[source, indx] = 1
 		end
 		
-		for (locs, world) in [(blocs, before), (alocs, after)]
-			for i=1:length(locs)
-				loc = locs[i]
-				if !(loc[1] == -1 && loc[2] == -1 && loc[3] == -1)
-					x = round(Int, loc[1] / 0.1524) + 10
-					z = round(Int, loc[3] / 0.1524) + 10
-					#println((i, x, z))
-					world[z, x, i, 1] = 1
-					world[z, x, 22, 1] = 0
-				end
-			end
-		end
-		#println(world)
-		worlds[:,:,:,1,indx] = before
-		worlds[:,:,:,2,indx] = after
 	end
 	return minibatch(worlds, y, batchsize)
 end
