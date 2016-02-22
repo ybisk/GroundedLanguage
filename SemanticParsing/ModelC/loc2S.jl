@@ -20,12 +20,6 @@ end
 	return generic_layer(x; f1=:dot, f2=:relu, wdims=(output,input), bdims=(output,1))
 end
 
-@knet function conv_layer(x; cwindow=0, cinput=0, coutput=0)
-	w = par(init=Xavier(), dims=(cwindow,cwindow,22, 2,coutput))
-	c = conv(w,x)
-	return c
-end
-
 @knet function softmax_layer(x; input=0, output=0)
 	return generic_layer(x; f1=:dot, f2=:soft, wdims=(output,input), bdims=(output,1))
 end
@@ -42,36 +36,31 @@ function get_worldf(predtype, o)
 	end
 
 	@knet function fnn(x; hidden=100, output=20)
-		h = relu_layer(x, output=hidden)
+		h = relu_layer(x; output=hidden)
 		return output_layer(h; output=output)
 	end
 
-	@knet function fnn2(x; hidden=100, pdrop=0.5, output=20)
-		h = relu_layer(c1, output=hidden)
-		hd = drop(h; pdrop=pdrop)
-		h2 = relu_layer(hd, output=hidden)
-		return output_layer(h2; output=output)
+	@knet function droprelu(x; hidden=100, pdrop=0.5)
+		d = drop(x, pdrop=pdrop)
+		return relu_layer(d; output=hidden)
+	end
+
+	@knet function fnn2(x; hidden=100, pdrop=0.5, output=20, nlayers=2)
+		h = wbf(x; out=hidden, f=:relu)
+		hl = repeat(h; frepeat=:droprelu, nrepeat=nlayers-1, hidden=hidden, pdrop=pdrop)
+		return output_layer(hl; output=output)
 	end
 	
 	outdim = predtype == "id" ? 20 : 18*18
 	outdim = predtype == "loc" ? 3 : outdim
 	worldf = nothing
 	if o[:dropout] == 0
-		worldf = compile(:fnn; hidden=o[:chidden], output=outdim)
+		worldf = compile(:fnn; hidden=o[:hidden], output=outdim)
 	else
-		worldf = compile(:fnn2; cwin1=o[:cwin], cout1=o[:cout], pdrop=o[:dropout], output=outdim)
+		worldf = compile(:fnn2; hidden=o[:hidden], pdrop=o[:dropout], output=outdim, nlayers=o[:nlayers])
 	end
 	return worldf
 end
-
-#=====================
-@knet function cnn3(x; cwin1=2, cout1=20, hidden=100, output=20, pdrop=0.5)
-	c1 = conv_layer(x; cwindow=cwin1, coutput=cout1)
-	h = relu_layer(c1, output=hidden)
-	hd = drop(h; pdrop=pdrop)
-	return softmax_layer(hd; output=output)
-end
-======================#
 
 function train(worldf, worlddata, loss; gclip=0, dropout=false)
 	sumloss = numloss = 0

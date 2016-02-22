@@ -396,7 +396,7 @@ function main(args)
         compile(:rnnmodel; hidden=o[:hidden], output=output, pdrop=o[:dropout], fpdrop=o[:fdropout], lpdrop=o[:ldropout], nlayers=o[:nlayers]))
     
     global worldf = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
-                  compile(:cnn; hidden=100, cwin1=o[:cwin], cout1=o[:cout], cwin2=o[:cwin], cout2=o[:cout]))
+                  compile(:cnn; hidden=o[:chidden], cwin1=o[:cwin], cout1=o[:cout], cwin2=o[:cwin], cout2=o[:cout]))
     
     if o[:predict] && o[:loadfile] != nothing
         @date devpred = predict(net, combined[2]; xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
