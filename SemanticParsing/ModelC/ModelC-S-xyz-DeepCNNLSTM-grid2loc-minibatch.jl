@@ -43,9 +43,18 @@ end
     return generic_layer(x; f1=:dot, f2=:soft, wdims=(output,input), bdims=(output,1))
 end
 
+#====================
 @knet function cnn(x; cwin1=5, cout1=20, cwin2=5, cout2=20, pwin1=2, pwin2=2, hidden=100)
     a = conv_pool_layer(x; cwindow=cwin1, coutput=cout1, pwindow=pwin1)
     b = conv_pool_layer(a; cwindow=cwin2, coutput=cout2, pwindow=pwin2)
+    c = relu_layer(b; output=hidden)
+    return c
+end
+======================#
+
+@knet function cnn(x; cwin1=5, cout1=20, cwin2=5, cout2=20, pwin1=2, pwin2=2, hidden=100)
+    a = conv_layer(x; cwindow=cwin1, coutput=cout1)
+    b = conv_layer(a; cwindow=cwin2, coutput=cout2)
     c = relu_layer(b; output=hidden)
     return c
 end
@@ -329,8 +338,8 @@ function main(args)
     s = ArgParseSettings()
     s.exc_handler=ArgParse.debug_handler
     @add_arg_table s begin
-        ("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/MNIST/SimpleActions/logos/Train.SP.data", "../../BlockWorld/MNIST/SimpleActions/logos/Dev.SP.data"])
-        ("--datafiles"; nargs='+'; default=["../../BlockWorld/MNIST/SimpleActions/logos/Train.STRP.data", "../../BlockWorld/MNIST/SimpleActions/logos/Dev.STRP.data"])
+        ("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/MNIST/SimpleActions/combined/Train.SP.data", "../../BlockWorld/MNIST/SimpleActions/combined/Dev.SP.data"])
+        ("--datafiles"; nargs='+'; default=["../../BlockWorld/MNIST/SimpleActions/combined/Train.STRP.data", "../../BlockWorld/MNIST/SimpleActions/combined/Dev.STRP.data"])
         ("--loadfile"; help="initialize model from file")
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
@@ -396,7 +405,7 @@ function main(args)
         compile(:rnnmodel; hidden=o[:hidden], output=yvocab, pdrop=o[:dropout], fpdrop=o[:fdropout], lpdrop=o[:ldropout], nlayers=o[:nlayers]))
     
     global worldf = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
-                  compile(:cnn; hidden=100, cwin1=o[:cwin], cout1=o[:cout], cwin2=o[:cwin], cout2=o[:cout]))
+                  compile(:cnn; hidden=o[:chidden], cwin1=o[:cwin], cout1=o[:cout], cwin2=o[:cwin], cout2=o[:cout]))
     
     if o[:predict] && o[:loadfile] != nothing
         @date devpred = predict(net, combined[2]; xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
