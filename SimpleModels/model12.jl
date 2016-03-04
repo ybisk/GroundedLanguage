@@ -3,7 +3,8 @@
 # simulated by a convolution with (1,N,1,B).  The one-hot word batches
 # will be (N,B).  After they get multiplied by the permutation matrix
 # (N,N), the resulting (N,B) needs to be reshaped to (1,N,1,B) for the
-# convolution.  We may need a reshape op for Knet?
+# convolution.  We may need a reshape op for Knet?  Actually this
+# won't work, back to the drawing board...
 
 using Knet
 
