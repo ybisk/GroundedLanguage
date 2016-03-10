@@ -1,3 +1,8 @@
+2016-03-10  Deniz Yuret  <dyuret@ku.edu.tr>
+
+	* model15.jl: Finding the block (id) moved given before and after
+	worlds (coor).
+
 2016-03-09  Deniz Yuret  <dyuret@ku.edu.tr>
 
 	* model14.jl: Find a nearby block (id) and relative direction (id)
