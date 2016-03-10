@@ -48,3 +48,4 @@ function train01(; model=:model01, nblocks=20, dims=(16,16), init=Constant(0), l
     end
 end
 
+train01()

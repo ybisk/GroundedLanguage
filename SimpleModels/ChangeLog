@@ -1,3 +1,13 @@
+2016-03-09  Deniz Yuret  <dyuret@ku.edu.tr>
+
+	* model14.jl: Find a nearby block (id) and relative direction (id)
+	given a world (coor) and a target position (coor).  Can be done
+	using single hidden layer MLP.
+
+	* model13.jl: Find a nearby block (id) given a position (coor) in
+	a world (coor).  A regular single hidden layer network able to
+	learn this.
+
 2016-03-02  Deniz Yuret  <dyuret@ku.edu.tr>
 
 	* models:
