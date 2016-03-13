@@ -1,3 +1,19 @@
+2016-03-13  Deniz Yuret  <dyuret@ku.edu.tr>
+
+	* notation:
+	B = before
+	A = after
+	T = targetpos
+	M = moving (source) block id
+	N = neighbor (reference) block id
+	R = relpos (direction) id
+
+	model13: A+T => N works in ~64K iters
+	model14: A+T => N+R works
+	model15: A+B => M works in ~8K iters
+	model16: A+B => N does not work
+	model17: A+B => T works in ~1M iters
+
 2016-03-10  Deniz Yuret  <dyuret@ku.edu.tr>
 
 	* model15.jl: Finding the block (id) moved given before and after

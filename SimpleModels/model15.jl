@@ -2,11 +2,11 @@
 
 # h=10n .56@8192
 # h=20n .95@8192
-# h=40n .98@8192
+# h=40n .98@8192 ??
 
 using Knet
 
-@knet function model15(w1, w2; nblocks=20, winit=Gaussian(0,0.05),
+@knet function model15(w1, w2; nblocks=20, winit=Gaussian(0,0.1),
                        hidden=20*nblocks)
     h = wbf2(w1, w2; out=hidden, f=:relu, winit=winit)
     return wbf(h; out=nblocks, f=:soft, winit=winit)
