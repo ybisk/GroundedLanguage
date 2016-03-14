@@ -32,7 +32,7 @@ end
 
 function pretrain(f; N=2^19, dims=(16, 1, 16), nblocks=20, ndims=length(dims), nbatch=128)
 	sloss = zloss = 0
-	nextn = 1
+	nextn = 50000
 	ncells = prod(dims)
 	global worlds = zeros(Float32, 2, nblocks, ndims)
 	global ygold = zeros(Float32, 3, 1)
@@ -48,8 +48,8 @@ function pretrain(f; N=2^19, dims=(16, 1, 16), nblocks=20, ndims=length(dims), n
 		global ypred = forw(f, reshape(worlds, 2, 20, 3, 1), transpose(reshape(worlds[1,:,:], 20, 3)))
 
 		sl = quadloss(ypred,ygold); sloss = (n==1 ? sl : 0.99 * sloss + 0.01 * sl)
-		n==nextn && (println((n,sloss)); nextn*=2)
-		back(f, ygold, softloss)
+		n==nextn && (println((n,sloss)); nextn += 50000)
+		back(f, ygold, quadloss)
 		update!(f, gclip=5.0)
 	end
 end
@@ -145,6 +145,9 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 	return instances
 end
 
+#julia loc_cnn2S_single.jl --lr 0.001 --epoch 20 --predtype loc --pretrain
+#pretrain: 0.00163596 quadloss / 0.456 block size
+#nopretrain
 function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
@@ -206,7 +209,8 @@ function main(args)
 	setp(worldf, adam=true, lr=o[:lr])
 	if o[:pretrain]
 		pretrain(worldf)
-		setp(worldf, adam=false, lr=0.00001)
+		#setp(worldf, adam=true, lr=0.00001)
+		setp(worldf, adam=true, lr=0.00001)
 	end
 
 	lasterr = besterr = 1e6

@@ -7,26 +7,9 @@ using Knet
 using DataFrames
 using Base.LinAlg: axpy!, scale!
 
-
-@knet function generic_layer(x; f1=:dot, f2=:relu, wdims=(), bdims=(), winit=Xavier(), binit=Constant(0))
-	w = par(init=winit, dims=wdims)
-	y = f1(w,x)
-	b = par(init=binit, dims=bdims)
-	z = add(b,y)
-	return f2(z)
-end
-
-@knet function relu_layer(x; input=0, output=0)
-	return generic_layer(x; f1=:dot, f2=:relu, wdims=(output,input), bdims=(output,1))
-end
-
-@knet function softmax_layer(x; input=0, output=0)
-	return generic_layer(x; f1=:dot, f2=:soft, wdims=(output,input), bdims=(output,1))
-end
-
 function get_worldf(predtype, o)
 	if predtype == "id" || predtype == "grid"
-		@knet function output_layer(x; output=20)
+		@knet function output_layer(x; output=180)
 			return wbf(x; out=output, f=:soft)
 		end
 	else
@@ -35,23 +18,23 @@ function get_worldf(predtype, o)
 		end
 	end
 
-	@knet function fnn(w, x; hidden=400, output=20, winit=Gaussian(0,0.05))
+	@knet function fnn(w, x; hidden=400, output=180, winit=Gaussian(0,0.05))
 		h = wbf2(w, x; out=hidden, f=:relu, winit=winit)
 		return wbf(h; out=output, f=:soft, winit=winit)
 	end
 
 	@knet function droprelu(x; hidden=100, pdrop=0.5)
 		d = drop(x, pdrop=pdrop)
-		return relu_layer(d; output=hidden)
+		return wbf(d; out=hidden, f=:relu)
 	end
 
-	@knet function fnn2(w, x; hidden=400, pdrop=0.5, output=20, nlayers=2)
+	@knet function fnn2(w, x; hidden=400, pdrop=0.5, output=180, nlayers=2)
 		h = wbf2(w, x; out=hidden, f=:relu, winit=Gaussian(0,0.05))
 		hl = repeat(h; frepeat=:droprelu, nrepeat=nlayers-1, hidden=hidden, pdrop=pdrop)
-		return output_layer(hl; output=output)
+		return wbf(hl; out=output, f=:soft)
 	end
 	
-	outdim = predtype == "id" ? 20 : 18*18
+	outdim = predtype == "id" ? 180 : 18*18
 	outdim = predtype == "loc" ? 3 : outdim
 	worldf = nothing
 	if o[:dropout] == 0
@@ -62,40 +45,64 @@ function get_worldf(predtype, o)
 	return worldf
 end
 
-function pretraining(f; N=2^14, dims=(16, 1, 16), nblocks=20, lr=0.001, adam=true, nbatch=128, winit=Gaussian(0,0.05)) # 0.76@8192
+function pretraining(f; N=2^16, dims=(16, 1, 16), nblocks=20, ndims= length(dims), ndirs=9, lr=0.001, adam=true, nbatch=128, winit=Gaussian(0,0.05))
 	sloss = zloss = 0
 	nextn = 1
 	ncells = prod(dims)
-	global world = zeros(Float32, length(dims), nblocks)
-	global target = zeros(Float32, length(dims), 1)
-	global ygold = zeros(Float32, nblocks,1)
-	global world2 = zeros(Float32, length(dims)*nblocks, nbatch)
-	global target2 = zeros(Float32, length(dims), nbatch)
-	global ygold2 = zeros(Float32, nblocks,nbatch)
+	global world = zeros(Float32, ndims, nblocks)
+	global target = zeros(Float32, ndims, 1)
+	global ygold = zeros(Float32, ndirs, nblocks)
+	global world2 = zeros(Float32, length(world), nbatch)
+	global target2 = zeros(Float32, length(target), nbatch)
+	global ygold2 = zeros(Float32, length(ygold), nbatch)
+
+	mapping = Dict()
+	mapping[1] = 7
+	mapping[2] = 8
+	mapping[3] = 1
+	mapping[4] = 6
+	mapping[5] = 9
+	mapping[6] = 2
+	mapping[7] = 5
+	mapping[8] = 4
+	mapping[9] = 3
 
 	for n=1:N
 		for m=1:nbatch
 			locations = randperm(ncells)
+			rnumblocks = rand(17:20)
 			for b=1:nblocks
-				world[:,b] = 2*([ind2sub(dims, locations[b])...] / 16 - 0.5) # fill blocks with random locations
+				if b <= rnumblocks
+					world[:,b] = 2*([ind2sub(dims, locations[b])...] / 16 - 0.5) # fill blocks with random locations
+				else
+					world[:,b] = -1
+				end
 			end
-			target[:,1] = 2*([ind2sub(dims, locations[nblocks+1])...] / 16 - 0.5) # pick target at an empty location
+			target[:,1] = 2*([ind2sub(dims, randperm(ncells)[1])...] / 16 - 0.5) # pick target at an empty location
 			d1 = world .- target
 			d2 = sum(d1 .* d1, 1)
-			d3 = rand(find(d2 .== minimum(d2))) # pick one of the closest blocks randomly
-			ygold[:] = 0; ygold[d3] = 1
-			world2[:,m] = vec(world) # fill the minibatch matrices
-			target2[:,m] = target
-			ygold2[:,m] = ygold
-		end
+			rblock = rand(find(d2 .== minimum(d2))) # pick one of the closest blocks randomly as reference
+			d  = sign(target - world[:,rblock])    # a direction like [-1,0]
+			d += 2
+			d9 = sub2ind((3,3), round(Int, d[1]), round(Int, d[3]))
+			d9 = mapping[d9]
 
+			#d8 = d8 == 5 ? 9 : d8 > 5 ? d8 - 1 : d8
+			#println("d8: $d8")
+			#d8 = (d[1]==0 ? 0 : d[1]==1 ? 1 : 2) + 3*(d[3]==0 ? 0 : d[3]==1 ? 1 : 2) # map dir to [1:8]
+			#@assert (d8 >= 1 && d8 <= 8)
+			ygold[:] = 0; ygold[d9,rblock] = 1
+			# fill the minibatch matrices
+			world2[:,m] = vec(world) 
+			target2[:,m] = vec(target)
+			ygold2[:,m] = vec(ygold)
+		end
 		global ypred = forw(f, world2, target2)
-		
 		sl = softloss(ypred,ygold2); sloss = (n==1 ? sl : 0.99 * sloss + 0.01 * sl)
 		zl = zeroone(ypred,ygold2);  zloss = (n==1 ? zl : 0.99 * zloss + 0.01 * zl)
 		n==nextn && (println((n,sloss,1-zloss)); nextn*=2)
 		back(f, ygold2, softloss)
-		update!(f)
+		update!(f, gclip=5.0)
 		reset!(f)
 	end
 end
@@ -138,6 +145,9 @@ function test(worldf, worlddata, loss, loc=false)
 		x,y = wybatches[i]
 		_,pos = wposbatches[i]
 		ypred = forw(worldf, x, pos)
+		#println("ypred: $(map(a -> indmax(to_host(ypred)[:,a]), 1:size(y,2)))")
+		#println("ygold: $(map(a -> indmax(y[:,a]), 1:size(y,2)))")
+		#println("")
 		sumloss += loss(ypred, y)*size(y,2)
 		numloss += size(y,2)
 		reset!(worldf)
@@ -163,7 +173,7 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, targ
 
 	ydim = 0
 	if predtype == "id"
-		ydim = 20
+		ydim = target == 3 ? 20 * 9: 20
 	elseif predtype == "loc"
 		ydim = 3
 	else
@@ -174,15 +184,44 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, targ
 
 	println("Number of instances: $(size(rawdata, 1))")
 	
+	rinstance = rand(1:size(rawdata, 1))
 	for indx=1:size(rawdata, 1)
+		#===========
+		Data Format
+		World_t  World_t+1 Text S T RP Loc Grid
+		  60       60      101  1 1 1   3   1     == 228
+
+		  nx 101
+		  xvocab 622
+		===========#
 		data = rawdata[indx, :]
+		
+		s = round(Int, data[1, 222])
 
 		worlds[:, indx] = data[1, 1:60]'
 		targpos[:, indx] = data[1, 225:227]'
-		
+		_y = zeros(Float32, 9, 20)
+
 		if predtype == "id"
-			source = round(Int, data[1, 222+target-1])
-			y[source, indx] = 1
+			source = 0
+			if target == 3
+
+				t = round(Int, data[1, 223])
+				rp = round(Int, data[1, 224])
+				#======debug============
+				if indx == rinstance
+					println("Data:\n$(data[1, 1:60])\n")
+					println("Target:\n$(data[1, 225:227])\n")
+					println("t: $t")
+					println("rp: $rp")
+				end
+				=========================#
+				#source = (rp - 1) * 20 + t
+				_y[rp, t] = 1
+			else
+				source = round(Int, data[1, 222+target-1])
+			end
+			y[:, indx] = vec(_y)
 		elseif predtype == "loc"
 			source = round(Int, data[1, 222])
 			y[:, indx] = data[1, (source*3 - 2):(source*3)]
@@ -198,11 +237,10 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, targ
 	return (minibatch(worlds, y, batchsize), minibatch(worlds, targpos, batchsize))
 end
 
-#julia loc2T.jl --lr 0.001 --epoch 100 --target 2 --hidden 400 --pretrain
-#dev best: 0.192881
-#nopretrain: 0.749399
-#nopretrain drop 0.2: 0.726792
-#nopretrain drop 0.3: 0.72583
+#julia loc2TP.jl --lr 0.001 --epoch 200 --target 3 --hidden 800 --pretrain
+#dev: 31 acc, no learning rate update after pretraining
+#adam false, lr=0.00001 does not work
+
 function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
@@ -253,12 +291,6 @@ function main(args)
 	yrange = (o[:nx] + o[:target]):(o[:nx] + o[:target])
 	yvocab = o[:yvocab][o[:target]]
 
-	#===========
-	global data = map(rawdata) do d
-		minibatch(d, xrange, yrange, o[:batchsize]; xvocab=o[:xvocab], yvocab=yvocab, ftype=o[:ftype], xsparse=o[:xsparse])
-	end
-	==========#
-
 	rawworlddata = map(f->readdlm(f,Float32), o[:worlddatafiles])
 
 	global worlddata = map(rawworlddata) do d
@@ -268,26 +300,30 @@ function main(args)
 	
 	worldf = get_worldf(o[:predtype], o)
 
-	drop = o[:dropout] != 0
 	setp(worldf, adam=true)
 	setp(worldf, lr=o[:lr])
+	loss1 = o[:predtype] == "loc" ? quadloss : softloss
+	loss2 = o[:predtype] == "loc" ? quadloss : zeroone
+
 	if o[:pretrain]
 		pretraining(worldf)
-		if !drop
-			setp(worldf, adam=false)
-			setp(worldf, lr=0.00001)
-		end
+
+		trnerr = test(worldf, worlddata[1], loss2)
+		deverr = test(worldf, worlddata[2], loss2)
+
+		println("After Pretraining:\nTrn Err: $trnerr, Dev Err: $deverr\n")
+		#setp(worldf, adam=false)
+		#setp(worldf, lr=0.0005)
 	end
-	
+
 	lasterr = besterr = 1e6
 	best_epoch = 0
 	anger = 0
 	stopcriterion = false
 	df = DataFrame(epoch = Int[], lr = Float64[], trn_err = Float64[], dev_err = Float64[], best_err = Float64[], best_epoch = Int[])
-	loss1 = o[:predtype] == "loc" ? quadloss : softloss
-	loss2 = o[:predtype] == "loc" ? quadloss : zeroone
-
+	
 	for epoch=1:o[:epochs]      # TODO: experiment with pretraining
+		drop = o[:dropout] != 0
 		
 		@date trnerr = train(worldf, worlddata[1], loss1; gclip=o[:gclip], dropout=drop)
 		@date deverr = test(worldf, worlddata[2], loss2)

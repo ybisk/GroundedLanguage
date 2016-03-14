@@ -110,7 +110,7 @@ function predict(worldf, worlddata; ftype=Float32, xsparse=false)
 end
 
 #predtype = id | grid | loc
-function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
+function get_worlds(rawdata; batchsize=100, predtype = "id", target=2, ftype=Float32)
 	#data = map(x -> (rawdata[x,1:end-64], rawdata[x,end-63:end]),1:size(rawdata,1));
 	worlds = zeros(ftype, 120, size(rawdata, 1))
 
@@ -130,7 +130,7 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 		worlds[:, indx] = data[1, 1:120]'
 		
 		if predtype == "id"
-			source = round(Int, data[1, 222])
+			source = round(Int, data[1, 222+target-1])
 			y[source, indx] = 1
 		elseif predtype == "loc"
 			source = round(Int, data[1, 222])
@@ -205,7 +205,8 @@ function main(args)
 	rawworlddata = map(f->readdlm(f,Float32), o[:worlddatafiles])
 
 	global worlddata = map(rawworlddata) do d
-		get_worlds(d, batchsize=o[:batchsize], predtype=o[:predtype])
+		r = randperm(size(d,1))
+		get_worlds(d[r,:], batchsize=o[:batchsize], predtype=o[:predtype], target=o[:target])
 	end
 	
 	worldf = get_worldf(o[:predtype], o)

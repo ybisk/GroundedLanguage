@@ -45,7 +45,7 @@ function get_worldf(predtype, o)
 	else
 		@knet function output_layer(w, x; output=3)
 			h = mul(w, x)
-			h2 = wbf(h; out=300, f=:tanh)
+			h2 = wbf(h; out=100, f=:tanh)
 			hd = drop(h2; pdrop=0.2)
 			h3 = wbf(hd; out=100, f=:tanh)
 			hd2 = drop(h3; pdrop=0.2)
@@ -224,6 +224,9 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 	return minibatch(worlds, y, batchsize)
 end
 
+#julia loc_cnn2S_2.jl --lr 0.001 --epoch 100 --dropout 0.2 --predtype loc --target 1
+#dev quadloss: 0.0094
+
 function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
@@ -234,8 +237,8 @@ function main(args)
 		("--bestfile"; help="save best model to file")
 		("--hidden"; arg_type=Int; default=100; help="hidden layer size")
 		("--chidden"; arg_type=Int; default=0; help="hidden layer size")
-		("--cwin"; arg_type=Int; default=2; help="filter size")
-		("--cout"; arg_type=Int; default=20; help="number of filters")
+		("--cwin"; arg_type=Int; default=1; help="filter size")
+		("--cout"; arg_type=Int; default=1; help="number of filters")
 		("--epochs"; arg_type=Int; default=10; help="number of epochs to train")
 		("--batchsize"; arg_type=Int; default=10; help="minibatch size")
 		("--lr"; arg_type=Float64; default=1.0; help="learning rate")
@@ -258,7 +261,7 @@ function main(args)
 		("--nlayers"; arg_type=Int; default=2; help="number of layers")
 		("--logfile"; help="csv file for log")
 		("--predict"; action = :store_true; help="load net and give predictions")
-		("--predtype"; default = "id"; help="prediction type: id, loc, grid")
+		("--predtype"; default = "loc"; help="prediction type: id, loc, grid")
 	end
 
 	isa(args, AbstractString) && (args=split(args))

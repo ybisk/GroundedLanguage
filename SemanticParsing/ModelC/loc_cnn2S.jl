@@ -123,7 +123,7 @@ function predict(worldf, worlddata; ftype=Float32, xsparse=false)
 end
 
 #predtype = id | grid | loc
-function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
+function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, target=1)
 	#data = map(x -> (rawdata[x,1:end-64], rawdata[x,end-63:end]),1:size(rawdata,1));
 	worlds = zeros(ftype, 2, 20, 3, size(rawdata, 1))
 
@@ -147,8 +147,9 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 			end
 		end
 		
+
 		if predtype == "id"
-			source = round(Int, data[1, 222])
+			source = round(Int, data[1, 222+target-1])
 			y[source, indx] = 1
 		elseif predtype == "loc"
 			source = round(Int, data[1, 222])
@@ -165,6 +166,10 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 	return minibatch(worlds, y, batchsize)
 end
 
+#julia loc_cnn2S.jl --lr 0.001 --epoch 50 --cwin 1 --cout 1 --chidden 100
+#dev: 0.004329
+#julia loc_cnn2S.jl --lr 0.001 --epoch 50 --cwin 1 --cout 1 --chidden 200
+#dev: 0.865801
 function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
@@ -223,7 +228,7 @@ function main(args)
 	rawworlddata = map(f->readdlm(f,Float32), o[:worlddatafiles])
 
 	global worlddata = map(rawworlddata) do d
-		get_worlds(d, batchsize=o[:batchsize], predtype=o[:predtype])
+		get_worlds(d, batchsize=o[:batchsize], predtype=o[:predtype], target=o[:target])
 	end
 	
 	worldf = get_worldf(o[:predtype], o)
