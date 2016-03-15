@@ -45,7 +45,7 @@ function get_worldf(predtype, o)
 	return worldf
 end
 
-function pretraining(f; N=2^16, dims=(16, 1, 16), nblocks=20, ndims= length(dims), ndirs=9, lr=0.001, adam=true, nbatch=128, winit=Gaussian(0,0.05))
+function pretraining(f; N=2^15, dims=(16, 1, 16), nblocks=20, ndims= length(dims), ndirs=9, lr=0.001, adam=true, nbatch=128, winit=Gaussian(0,0.05))
 	sloss = zloss = 0
 	nextn = 1
 	ncells = prod(dims)
@@ -57,28 +57,33 @@ function pretraining(f; N=2^16, dims=(16, 1, 16), nblocks=20, ndims= length(dims
 	global ygold2 = zeros(Float32, length(ygold), nbatch)
 
 	mapping = Dict()
-	mapping[1] = 7
-	mapping[2] = 8
-	mapping[3] = 1
+	mapping[1] = 5
+	mapping[2] = 4
+	mapping[3] = 3
 	mapping[4] = 6
 	mapping[5] = 9
 	mapping[6] = 2
-	mapping[7] = 5
-	mapping[8] = 4
-	mapping[9] = 3
+	mapping[7] = 7
+	mapping[8] = 8
+	mapping[9] = 1
 
+	tstcorrect = 0
+	tstmissclassified = 0
 	for n=1:N
+	#for n=1:(N+10)
 		for m=1:nbatch
 			locations = randperm(ncells)
-			rnumblocks = rand(17:20)
+			rnumblocks = rand(10:20)#need missing blocks
 			for b=1:nblocks
 				if b <= rnumblocks
 					world[:,b] = 2*([ind2sub(dims, locations[b])...] / 16 - 0.5) # fill blocks with random locations
+					world[2,b] = 0.1
 				else
 					world[:,b] = -1
 				end
 			end
 			target[:,1] = 2*([ind2sub(dims, randperm(ncells)[1])...] / 16 - 0.5) # pick target at an empty location
+			target[2,1] = 0.1
 			d1 = world .- target
 			d2 = sum(d1 .* d1, 1)
 			rblock = rand(find(d2 .== minimum(d2))) # pick one of the closest blocks randomly as reference
@@ -101,10 +106,40 @@ function pretraining(f; N=2^16, dims=(16, 1, 16), nblocks=20, ndims= length(dims
 		sl = softloss(ypred,ygold2); sloss = (n==1 ? sl : 0.99 * sloss + 0.01 * sl)
 		zl = zeroone(ypred,ygold2);  zloss = (n==1 ? zl : 0.99 * zloss + 0.01 * zl)
 		n==nextn && (println((n,sloss,1-zloss)); nextn*=2)
-		back(f, ygold2, softloss)
-		update!(f, gclip=5.0)
-		reset!(f)
+		
+		id_ypred = map(a -> indmax(to_host(ypred)[:,a]), 1:size(ygold2,2))
+		id_ygold = map(a -> indmax(ygold2[:,a]), 1:size(ygold2,2))
+		
+		if n > 2^15
+			for j=1:length(id_ypred)
+				if id_ypred[j] != id_ygold[j]
+					gold_sub = ind2sub((9, 20), id_ygold[j])
+					println("\n*************")
+					println("Gold: $(gold_sub)")
+
+					pred_sub = ind2sub((9, 20), id_ypred[j])
+					println("Pred: $(pred_sub)")
+
+					world = reshape(world2[:,j], 3, 20)
+					println("World:\n$(world)")
+					println("Relative Block's Loc:\n$(world[:, gold_sub[2]])\n")
+
+					println("Target Loc:\n$(target2[:,j])\n")
+
+					tstmissclassified += 1.0
+				else
+					tstcorrect += 1.0
+				end
+			end
+		else
+			back(f, ygold2, softloss)
+			update!(f, gclip=5.0)
+			reset!(f)
+
+		end
 	end
+
+	println("Acc on held out data: $(tstcorrect / (tstcorrect + tstmissclassified))\n")
 end
 
 function train(worldf, worlddata, loss; gclip=0, dropout=false)
@@ -145,9 +180,26 @@ function test(worldf, worlddata, loss, loc=false)
 		x,y = wybatches[i]
 		_,pos = wposbatches[i]
 		ypred = forw(worldf, x, pos)
-		#println("ypred: $(map(a -> indmax(to_host(ypred)[:,a]), 1:size(y,2)))")
-		#println("ygold: $(map(a -> indmax(y[:,a]), 1:size(y,2)))")
-		#println("")
+		id_ypred = map(a -> indmax(to_host(ypred)[:,a]), 1:size(y,2))
+		id_ygold = map(a -> indmax(y[:,a]), 1:size(y,2))
+		#===
+		for j=1:length(id_ypred)
+			if id_ypred[j] != id_ygold[j]
+				gold_sub = ind2sub((9, 20), id_ygold[j])
+				println("\n*************")
+				println("Gold: $(gold_sub)")
+
+				pred_sub = ind2sub((9, 20), id_ypred[j])
+				println("Pred: $(pred_sub)")
+				
+				world = reshape(x[:,j], 3, 20)
+				println("World:\n$(world)")
+				println("Relative Block's Loc:\n$(world[:, gold_sub[2]])\n")
+
+				println("Target Loc:\n$(pos[:,j])\n")
+			end
+		end
+		===#
 		sumloss += loss(ypred, y)*size(y,2)
 		numloss += size(y,2)
 		reset!(worldf)
@@ -237,10 +289,9 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, targ
 	return (minibatch(worlds, y, batchsize), minibatch(worlds, targpos, batchsize))
 end
 
-#julia loc2TP.jl --lr 0.001 --epoch 200 --target 3 --hidden 800 --pretrain
-#dev: 31 acc, no learning rate update after pretraining
-#adam false, lr=0.00001 does not work
-
+#julia loc2TP.jl --lr 0.001 --epoch 20 --target 3 --hidden 800 --pretrain
+#with missing blocks: 74.4 (acc)
+#without missing blocks: 72 (acc)
 function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
@@ -312,8 +363,8 @@ function main(args)
 		deverr = test(worldf, worlddata[2], loss2)
 
 		println("After Pretraining:\nTrn Err: $trnerr, Dev Err: $deverr\n")
-		#setp(worldf, adam=false)
-		#setp(worldf, lr=0.0005)
+		setp(worldf, adam=false)
+		setp(worldf, lr=0.0001)
 	end
 
 	lasterr = besterr = 1e6
