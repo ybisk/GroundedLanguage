@@ -9,6 +9,7 @@ using DataFrames
 #==============================================================
 CURRENT MODEL DEFINITIONS
 
+A+B -> S
 @knet function model_abS(x; cwin1=1, cout1=1, hidden=100, output=20)
 	w = par(init=Gaussian(0, 0.1), dims=(2, cwin1, 3, cout1))
 	c = conv(w,x)
@@ -16,6 +17,7 @@ CURRENT MODEL DEFINITIONS
 	return wbf(h; out=output, f=:soft)
 end
 
+A+B ->
 @knet function model_abT(x, xb; cwin1=1, cout1=1)
 	w = par(init=Xavier(), dims=(2, cwin1, 3, cout1))
 	c = conv(w, x)
@@ -25,6 +27,7 @@ end
 	return h
 end
 
+A+T -> N+R
 @knet function model_atNRP(w, x; hidden=800, output=180, winit=Gaussian(0,0.05))
 	h = wbf2(w, x; out=hidden, f=:relu, winit=winit)
 	return wbf(h; out=output, f=:soft, winit=winit)
@@ -99,7 +102,7 @@ function predictT(worldf, worlddata)
 	return ypreds
 end
 
-function predictNRP(worldf, worlddata, loss, loc=false)
+function predictNRP(worldf, worlddata)
 	reset!(worldf)
 	ypreds = Any[]
 	wybatches = worlddata[1]
@@ -232,8 +235,17 @@ function main(args)
 
 	preds = predictT(net2, worlddata)
 	worlddata = get_worldsNRP(rawdata, preds, batchsize=1, oldstyle=false)
+	
 	testerr = testNRP(net3, worlddata, zeroone)
 	println("Accuracy of predicting the N+RP: $(1-testerr)")
+
+	preds = predictNRP(net3, worlddata)
+	for i=1:length(preds)
+		rp, t = ind2sub((9, 20), preds[i])
+		rawdata[i, 122] = round(Int, t)
+		rawdata[i, 123] = round(Int, rp)
+	end
+
 
 	o[:writefile] && writedlm("$(o[:file]).predicted", rawdata, ' ')
 	
