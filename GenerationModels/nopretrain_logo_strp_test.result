@@ -1,0 +1,6 @@
+Dict{Symbol,Any}(:modelABT=>"NoPretrainAB-T.jld",:writefile=>true,:probs=>false,:file=>"../BlockWorld/Scene_Data/nopretrain/GoldLogoAll/STRP.test",:modelABS=>"ModelAB-S-Nopretrain.jdl",:modelMulti=>"NoPretrainMulti.jld",:multi=>false,:modelATNR=>"NoPretrainAB-NR.jld")
+
+****RESULTS****
+Accuracy of predicting the source block id: 0.9727403156384505
+Error of predicting the target loc (in terms of average block sizes): 6.791862880626022
+Accuracy of predicting the N+RP: 0.02223816355810615
