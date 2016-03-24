@@ -142,7 +142,11 @@ for file in j:
     for user in job["hit"]["submitted"]:
       if user["valid"] != "no":
         valid.append(user["name"])
-    transition = "[0, %d]" % (len(states) - 1)
+    transitions = []
+    for f,t in job["task"]["idxlist"]:
+      start = convert(job["state"]["block_states"][f], states)
+      end   = convert(job["state"]["block_states"][t], states)
+      transitions.append([start,end])
     for user in job["hit"]["notes"]:
       if user in valid:
         for i in range(len(job["hit"]["notes"][user])):
