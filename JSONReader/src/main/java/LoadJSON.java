@@ -6,7 +6,6 @@ import edu.stanford.nlp.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import java.util.regex.Pattern;
@@ -16,7 +15,7 @@ public class LoadJSON {
   private static final Pattern whitespace_pattern = Pattern.compile("\\s+");
   private static final Pattern dash_pattern = Pattern.compile("_");
   private static MaxentTagger tagger = new MaxentTagger(MaxentTagger.DEFAULT_JAR_PATH);
-  private static final HashMap<Integer,String> Vocab = new HashMap<>();
+  private static final HashMap<String,Integer> Vocab = new HashMap<>();
 
   public static ArrayList<Task> readJSON(String filename) throws IOException {
     BufferedReader BR = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(new File(filename))), "UTF-8"));
@@ -150,29 +149,24 @@ public class LoadJSON {
 
   public static void computeVocabulary(ArrayList<Task> tasks) {
     // Compute the counts
-    String[] tokenized, split;
     HashMap<String, Integer> counts = new HashMap<>();
     for (Task task : tasks) {
       for (Note note : task.notes) {
         if (note.type.equals("A0")) {
           for (String utterance : note.notes) {
-            tokenized  = whitespace_pattern.split(tagger.tagString(utterance.replace(",", " , ")));
-            for (String w_t : tokenized) {
-              split = dash_pattern.split(w_t);
-              if (!counts.containsKey(split[0]))
-                counts.put(split[0], 0);
-              counts.put(split[0], counts.get(split[0]) + 1);
+            for (String word : tokenize(utterance)) {
+              if (!counts.containsKey(word))
+                counts.put(word, 0);
+              counts.put(word, counts.get(word) + 1);
             }
           }
         }
       }
     }
 
-    Vocab.put(1,"<unk>");
-    for (String word : counts.keySet()) {
-      if (counts.get(word) > 1)
-        Vocab.put(Vocab.size() + 1, word);
-    }
+    Vocab.put("<unk>",1);
+    counts.keySet().stream().filter(w -> counts.get(w) > 1).forEachOrdered(w -> Vocab.put(w, Vocab.size() + 1));
+    System.out.println(String.format("Created Vocabulary: %d of %d", Vocab.size(), counts.size()));
   }
 
   public static int getSource(double[][] world_t, double[][] world_tp1) {
@@ -201,10 +195,9 @@ public class LoadJSON {
     String[] cleanup = {"the", "to", "on", "right", "line", "then", "even", "for", "them", "sit"};
 
     HashSet<String> words = new HashSet<>();
-    for (String w_t : tokenized)
-      words.add(dash_pattern.split(w_t)[0]);
-
+    words.addAll(Arrays.asList(tokenized));
     words.removeAll(Arrays.asList(cleanup));
+
     HashSet<Integer> blocks = new HashSet<>();
     if (decoration.equals("logo")) {
       ArrayList<String> brandparts = new ArrayList<>();
@@ -241,9 +234,9 @@ public class LoadJSON {
       HashSet<Integer> nblocks = new HashSet<>();
       for (int numeral = 1; numeral < 21; ++numeral) {
         if (words.contains(String.valueOf(numeral)) || words.contains(String.format("%dth", numeral)))
-          nblocks.add(numeral);
+          nblocks.add(numeral - 1);
       }
-      blocks =dblocks.size() > nblocks.size() ?  dblocks : nblocks;
+      blocks = dblocks.size() > nblocks.size() ?  dblocks : nblocks;
     } else {
       return blocks;
     }
@@ -260,10 +253,12 @@ public class LoadJSON {
       double dist;
       int target = -1;
       for (int block : blocks) {
-        dist = distance(world[block], world[source]);
-        if (dist < maxD) {
-          maxD = dist;
-          target = block;
+        if (block < world.length) {
+          dist = distance(world[block], world[source]);
+          if (dist < maxD) {
+            maxD = dist;
+            target = block;
+          }
         }
       }
       return target;
@@ -272,13 +267,13 @@ public class LoadJSON {
     }
   }
 
-  public static int getRP(int source, int target, double[][] world) {
+  public static int getRP(double[] source, double[] target) {
     // Amended Ozan RP scheme of Source relative to Target
     //  1 2 3
     //  4 5 6
     //  7 8 9
-    int dx = (int)Math.signum(world[source][0] - world[target][0]);
-    int dz = (int)Math.signum(world[source][2] - world[target][2]);
+    int dx = (int)Math.signum(source[0] - target[0]);
+    int dz = (int)Math.signum(source[2] - target[2]);
     switch (dx) {
       case -1:
         switch (dz) {
@@ -312,7 +307,7 @@ public class LoadJSON {
   }
 
   public static String getWorld(double[][] world) {
-    double[] locs = new double[20];
+    double[] locs = new double[60];
     Arrays.fill(locs, -1);
     for (int i = 0; i < world.length; ++i) {
       locs[3*i] = world[i][0];
@@ -325,15 +320,20 @@ public class LoadJSON {
     return toRet;
   }
 
+  public static String[] tokenize(String utterance) {
+    String[] tagged = whitespace_pattern.split(tagger.tagString(utterance.replace(",", " , ")));
+    for (int i = 0; i < tagged.length; ++i)
+      tagged[i] = dash_pattern.split(tagged[i])[0].toLowerCase();
+    return tagged;
+  }
+
   public static String unkUtterance(String[] tokenized) {
     String toRet = "";
-    String[] split;
-    for (String w_t : tokenized) {
-      split = dash_pattern.split(w_t);
-      if (!Vocab.containsKey(split[0]))
+    for (String word : tokenized) {
+      if (!Vocab.containsKey(word))
         toRet += "1  ";
       else
-        toRet += String.format("%-2d ", Vocab.get(split[0]));
+        toRet += String.format("%-2d ", Vocab.get(word));
     }
     return toRet;
   }
@@ -343,6 +343,32 @@ public class LoadJSON {
       for (Note note : task.notes) {
         if (note.type.equals("A0")) {
           for (String utterance : note.notes) {
+            // Compute predictions
+            int source = -1, target = -1;
+            for (Information info : predict) {
+              switch (info) {
+                case Source:
+                  source = getSource(task.states[note.start], task.states[note.finish]);
+                  BW.write(String.format(" %d ", source));
+                  break;
+                case Target:
+                  target = getTarget(source, tokenize(utterance), task.states[note.finish], task.decoration);
+                  BW.write(String.format(" %d ", target));
+                  break;
+                case RelativePosition:
+                  if (target != -1)
+                    BW.write(String.format(" %d ", getRP(task.states[note.finish][source], task.states[note.finish][target])));
+                  else
+                    BW.write(String.format(" %d ", getRP(task.states[note.finish][source], task.states[note.start][source])));
+                  break;
+                case XYZ:
+                  BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
+                      task.states[note.finish][source][1], task.states[note.finish][source][2]));
+                default:
+                  System.err.println("We don't predict " + info);
+                  return;
+              }
+            }
             // Compute conditioning variables
             for (Information info : condition) {
               switch (info) {
@@ -353,34 +379,10 @@ public class LoadJSON {
                   BW.write(getWorld(task.states[note.finish]));
                   break;
                 case Utterance:
-                  BW.write(unkUtterance(whitespace_pattern.split(tagger.tagString(utterance.replace(",", " , ")))));
+                  BW.write(unkUtterance(tokenize(utterance)));
                   break;
                 default:
                   System.err.println("We don't condition on " + info);
-                  return;
-              }
-            }
-            // Compute predictions
-            int source = -1, target = -1;
-            for (Information info : predict) {
-              switch (info) {
-                case Source:
-                  source = getSource(task.states[note.start], task.states[note.finish]);
-                  BW.write(String.format(" %d", source));
-                  break;
-                case Target:
-                  target = getTarget(source, whitespace_pattern.split(tagger.tagString(utterance.replace(",", " , "))),
-                                             task.states[note.finish], task.decoration);
-                  BW.write(String.format(" %d", target));
-                  break;
-                case RelativePosition:
-                  BW.write(String.format(" %d", getRP(source, target, task.states[note.finish])));
-                  break;
-                case XYZ:
-                  BW.write(String.format(" %-5.2f %-5.2f %-5.2f", task.states[note.finish][source][0],
-                           task.states[note.finish][source][1], task.states[note.finish][source][2]));
-                default:
-                  System.err.println("We don't predict " + info);
                   return;
               }
             }
@@ -393,8 +395,11 @@ public class LoadJSON {
 
   public static strictfp void main(String[] args) throws Exception {
     ArrayList<Task> Train = readJSON(args[0]);
+    System.out.print("Read Training ");
     ArrayList<Task> Test = readJSON(args[1]);
+    System.out.print(" Testing");
     ArrayList<Task> Dev = readJSON(args[2]);
+    System.out.println(" Development");
     //statistics(Train);
 
     computeVocabulary(Train);
@@ -404,8 +409,11 @@ public class LoadJSON {
     Information[] predict = new Information[] {Information.Source, Information.Target, Information.RelativePosition};
 
     createMatrix(Train, condition, predict, MatrixFile.Writer("Train.mat"));
+    System.out.println("Created Train.mat");
     createMatrix(Test, condition, predict, MatrixFile.Writer("Test.mat"));
+    System.out.println("Created Test.mat");
     createMatrix(Dev, condition, predict, MatrixFile.Writer("Dev.mat"));
+    System.out.println("Created Dev.mat");
   }
 
   public enum Information {
