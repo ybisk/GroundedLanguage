@@ -77,7 +77,7 @@
  two           seventeen        -0.33 0.10  -0.83  38_num3_00.png     Move the 2 to the space right of the 17. Now, slide the 2 down one cube-space.
  two           seventeen        -0.33 0.10  -0.83  38_num3_00.png     Slide the to the position directly right of the 17. Continue by sliding the 2, one cube-space down.
  two           seventeen        -0.33 0.10  -0.83  38_num3_00.png     Take block 2 and place it below and to the right of block 17
- two           two              -0.33 0.10  -0.83  38_num3_00.png     place block 2 right underneath block 17s corner
+ two           NULL             -0.33 0.10  -0.83  38_num3_00.png     place block 2 right underneath block 17s corner
  two           seventeen        -0.33 0.10  -0.83  38_num3_00.png     take the corner of block 2 right  below block 17
  four          two              -0.17 0.10  -0.83  38_num3_01.png     Take block 4 and place it directly to the right of block 2 so that block 4's left side is nearly touching block 2's right side.
  four          two              -0.17 0.10  -0.83  38_num3_01.png     Place block 4 next to block 2, NOT on the block 8 side.
@@ -89,12 +89,12 @@
  four          two              -0.17 0.10  -0.83  38_num3_01.png     place block 4 right next to block 2
  four          two              -0.17 0.10  -0.83  38_num3_01.png     take block 4 and place it right next to block 2
  seven         four             0.00  0.10  -0.83  38_num3_02.png     Take block 7 and place it directly to the right of block 4 so that block 7 is nearly touching and in line with block 2 and block 4.
- seven         seven            0.00  0.10  -0.83  38_num3_02.png     Place block 7 so that the order of the line of blocks is 2.4.7.
+ seven         NULL             0.00  0.10  -0.83  38_num3_02.png     Place block 7 so that the order of the line of blocks is 2.4.7.
  seven         two              0.00  0.10  -0.83  38_num3_02.png     Place block 7 one block away on the right of block 2
  seven         four             0.00  0.10  -0.83  38_num3_02.png     Move the 7 to the right of the 4.
  seven         four             0.00  0.10  -0.83  38_num3_02.png     Place the 7 on the right side of the 4.
  seven         four             0.00  0.10  -0.83  38_num3_02.png     Slide the 7 to the position directly right of the 4.
- seven         seven            0.00  0.10  -0.83  38_num3_02.png     Take block 7 and place it right next to four
+ seven         NULL             0.00  0.10  -0.83  38_num3_02.png     Take block 7 and place it right next to four
  seven         four             0.00  0.10  -0.83  38_num3_02.png     place block 7 right next to block 4
  seven         four             0.00  0.10  -0.83  38_num3_02.png     place block 7 right next to block 4 and 2
  twelve        seven            0.17  0.10  -0.83  38_num3_03.png     Take block 12 and put it directly to the right, nearly touching, and in line with block 7.
@@ -129,8 +129,8 @@
  seventeen     sixteen          0.50  0.10  -0.50  38_num3_06.png     place block 17 to the right of block 16 move it up one block space
  seventeen     sixteen          0.50  0.10  -0.50  38_num3_06.png     Move the 17 to the right of the 16. Now, slide the 17 up one cube-space.
  seventeen     sixteen          0.50  0.10  -0.50  38_num3_06.png     Place the 17 to the right side of the 16. Now, move the 17 up one cube-space.
- seventeen     seventeen        0.50  0.10  -0.50  38_num3_06.png     Slide the 17 to the position directly right of the 17. Continue, by sliding the 17 up one cube-space.
- seventeen     seventeen        0.50  0.10  -0.50  38_num3_06.png     place block 17s corner right above block 16s corner
+ seventeen     NULL             0.50  0.10  -0.50  38_num3_06.png     Slide the 17 to the position directly right of the 17. Continue, by sliding the 17 up one cube-space.
+ seventeen     NULL             0.50  0.10  -0.50  38_num3_06.png     place block 17s corner right above block 16s corner
  seventeen     sixteen          0.50  0.10  -0.50  38_num3_06.png     place block 17s corner right above and to the right of 16
  seventeen     sixteen          0.50  0.10  -0.50  38_num3_06.png     take block 17 and place it above 16 but right at the corners
  fifteen       seventeen        0.33  0.10  -0.33  38_num3_07.png     Take block 15 and put the right bottom corner of the block so that it is nearly touching the top left corner of block 17.
@@ -139,7 +139,7 @@
  fifteen       sixteen          0.33  0.10  -0.33  38_num3_07.png     Move the 15 atop the 16. Now, slide the 15 up one cube-space.
  fifteen       seventeen        0.33  0.10  -0.33  38_num3_07.png     Place the 15 above the 17. Now, move the 15 one cube-space to the left.
  fifteen       seventeen        0.33  0.10  -0.33  38_num3_07.png     Slide the 15 to the position directly above the 17. Continue by sliding the 15 to the left one cube-space.
- fifteen       fifteen          0.33  0.10  -0.33  38_num3_07.png     place block 15s corner to the left and above of block 17s corner
+ fifteen       NULL             0.33  0.10  -0.33  38_num3_07.png     place block 15s corner to the left and above of block 17s corner
  fifteen       seventeen        0.33  0.10  -0.33  38_num3_07.png     place block 15 to the left and above block 17
  fifteen       seventeen        0.33  0.10  -0.33  38_num3_07.png     take block 15 and place it right above and to the left corner of block 17
  ten           fifteen          0.17  0.10  -0.17  38_num3_08.png     Take block 10 and put the bottom right corner next to the top left corner of block 15.
@@ -148,7 +148,7 @@
  ten           eleven           0.17  0.10  -0.17  38_num3_08.png     Move the 10 atop the 11. Now, slide the 10 two cube-spaces up.
  ten           fifteen          0.17  0.10  -0.17  38_num3_08.png     Place the 10 above the 15. Now, move the 10 one cube-space to the left.
  ten           fifteen          0.17  0.10  -0.17  38_num3_08.png     Slide the 10 to the position directly above the 15. Continue by sliding the 10 one cube-space to the left
- ten           ten              0.17  0.10  -0.17  38_num3_08.png     place block 10 to the left and above block 15s corner
+ ten           NULL             0.17  0.10  -0.17  38_num3_08.png     place block 10 to the left and above block 15s corner
  ten           fifteen          0.17  0.10  -0.17  38_num3_08.png     place block 10 right above and to the left of block 15
  ten           fifteen          0.17  0.10  -0.17  38_num3_08.png     take block 10 and place it above and to the left of block 15
  nine          ten              0.00  0.10  -0.50  69_num6_10.png     Take block 9 and put it above block 10.
@@ -373,7 +373,7 @@
  heineken      burger king      -0.17 0.10  -0.17  48_num4_05.png     Move the Heineken block so that it its left hand side is touching the right hand side of the burger king block
  heineken      burger king      -0.17 0.10  -0.17  48_num4_05.png     Place the heineken box so that it touches the burger king box on the right side
  heineken      burger king      -0.17 0.10  -0.17  48_num4_05.png     the Heineken box should be below the esso box and next to the burger king box
- heineken      heineken         -0.17 0.10  -0.17  48_num4_05.png     Continue that horizontal with Heineken.
+ heineken      NULL             -0.17 0.10  -0.17  48_num4_05.png     Continue that horizontal with Heineken.
  heineken      burger king      -0.17 0.10  -0.17  48_num4_05.png     Put Heineken right next to Burger King.
  heineken      burger king      -0.17 0.10  -0.17  48_num4_05.png     Completely touch Heineken's left side to Burger King's right.
  stella artois  heineken         0.33  0.10  -0.33  48_num4_06.png     Move the Stella Artois block one row below the Heineken block, and two columns to the right of the McDonalds block.
@@ -412,9 +412,9 @@
  ups           toyota           0.83  0.10  0.50   48_num4_09.png     Move Ups so that it lines up vertically with Toyota and its bottom edge is above McDonald's top.
  ups           toyota           0.83  0.10  0.50   48_num4_09.png     Put UPS above Toyota skipping the space of one block.
  ups           toyota           0.83  0.10  0.50   48_num4_09.png     Make a column where UPS is the top of Shell and Toyota; it should be just above McDonald's.
- toyota        toyota           0.67  0.10  0.33   48_num4_10.png     Move Toyota one space up and one space to the left.
- toyota        toyota           0.67  0.10  0.33   48_num4_10.png     Put Toyota one space to the left and then one space upward.
- toyota        toyota           0.67  0.10  0.33   48_num4_10.png     Toyota has to go one space up and then space to the left.
+ toyota        NULL             0.67  0.10  0.33   48_num4_10.png     Move Toyota one space up and one space to the left.
+ toyota        NULL             0.67  0.10  0.33   48_num4_10.png     Put Toyota one space to the left and then one space upward.
+ toyota        NULL             0.67  0.10  0.33   48_num4_10.png     Toyota has to go one space up and then space to the left.
  toyota        ups              0.67  0.10  0.33   48_num4_10.png     Move the Toyota block diagonally below and to the left of the UPS block.
  toyota        ups              0.67  0.10  0.33   48_num4_10.png     Place the Toyota block directly southwest of the UPS block.
  toyota        mcdonalds        0.67  0.10  0.33   48_num4_10.png     Put the Toyota block in the same row as the McDonalds block, to the right and with three intervening empty block spaces.
@@ -554,8 +554,8 @@
  heineken      mcdonalds        -0.33 0.10  -0.67  8_num0_15.png     Place the Heineken block directly northwest of the McDonalds block.
  heineken      target           -0.33 0.10  -0.67  8_num0_15.png     Put the Heineken block on the same row as the Target block, to the left and with four intervening block spaces.
  heineken      mcdonalds        -0.33 0.10  -0.67  8_num0_15.png     Slide Heineken down until it touches the upper right of McDonald's
- heineken      heineken         -0.33 0.10  -0.67  8_num0_15.png     Move Heineken to the upper left of MickyD's
- heineken      heineken         -0.33 0.10  -0.67  8_num0_15.png     make an upward curve off of McD's with heineken
+ heineken      NULL             -0.33 0.10  -0.67  8_num0_15.png     Move Heineken to the upper left of MickyD's
+ heineken      NULL             -0.33 0.10  -0.67  8_num0_15.png     make an upward curve off of McD's with heineken
  coca cola     heineken         -0.50 0.10  -0.50  8_num0_16.png     place the coca cola box so that it's lower right corner touches the upper left corner of the heineken box
  coca cola     heineken         -0.50 0.10  -0.50  8_num0_16.png     place the coca cola box to form a diagonal line with the heineken and mcdonalds box it should be the upper most in the line
  coca cola     ups              -0.50 0.10  -0.50  8_num0_16.png     place the coca cola box in line with the ups box horizontally with six empty spaces between the two boxes
@@ -580,9 +580,9 @@
  bmw           coca cola        -0.50 0.10  -0.17  8_num0_18.png     Move the BMW block above the Coca Cola block.
  bmw           coca cola        -0.50 0.10  -0.17  8_num0_18.png     Place the BMW block in the first open space above the Coca Cola block.
  bmw           toyota           -0.50 0.10  -0.17  8_num0_18.png     Put the BMW block on the same row as the Toyota block, to the left and with six intervening block spaces.
- bmw           bmw              -0.50 0.10  -0.17  8_num0_18.png     BMW at the top of BK
+ bmw           NULL             -0.50 0.10  -0.17  8_num0_18.png     BMW at the top of BK
  bmw           coca cola        -0.50 0.10  -0.17  8_num0_18.png     Same with BMW to BKas BK to Coke
- bmw           bmw              -0.50 0.10  -0.17  8_num0_18.png     continue BK line with BMW
+ bmw           NULL             -0.50 0.10  -0.17  8_num0_18.png     continue BK line with BMW
  adidas        bmw              -0.50 0.10  0.00   8_num0_19.png     place the adidas box directly above the bmw box to form one big circle
  adidas        coca cola        -0.50 0.10  0.00   8_num0_19.png     place the adidas box in a vertical line with the coca cola box making it the upper most box in a line of four boxes
  adidas        bmw              -0.50 0.10  0.00   8_num0_19.png     place the adidas box so the bmw box is between it and the burger king box
@@ -590,8 +590,8 @@
  adidas        coca cola        -0.50 0.10  0.00   8_num0_19.png     Place the Adidas block in the first open space above the Coca Cola block.
  adidas        texaco           -0.50 0.10  0.00   8_num0_19.png     Put the Adidas block on the same row as the Texaco block, to the left and with six intervening block spaces.
  adidas        bmw              -0.50 0.10  0.00   8_num0_19.png     Adidas at the top of BMW should form a complete circle
- adidas        adidas           -0.50 0.10  0.00   8_num0_19.png     Finish the circle with Adidas
- adidas        adidas           -0.50 0.10  0.00   8_num0_19.png     Complete line with adidas and make a circle
+ adidas        NULL             -0.50 0.10  0.00   8_num0_19.png     Finish the circle with Adidas
+ adidas        NULL             -0.50 0.10  0.00   8_num0_19.png     Complete line with adidas and make a circle
  esso          coca cola        -0.33 0.10  0.17   8_num0_00.png     Move the Esso block above the Coca Cola block, vertically halfway between the Coca Cola block and the Shell block.
  esso          coca cola        -0.33 0.10  0.17   8_num0_00.png     Place the Esso block in the same column as the Coca Cola block, one and a half block spaces above the Coca Cola block.
  esso          coca cola        -0.33 0.10  0.17   8_num0_00.png     Put the Esso block vertically halfway between the Shell and Coca Cola blocks, and in the same column as the Heineken block.
@@ -608,7 +608,7 @@
  hp            esso             -0.17 0.10  0.33   8_num0_01.png     Hp has to slide one space to the right of Esso and one space upward.
  hp            esso             -0.17 0.10  0.33   8_num0_01.png     Hp has to move one space to the right of Esso and one space upward.
  hp            esso             -0.17 0.10  0.33   8_num0_01.png     Move hp so the bottome left corner is touching the top right corner or esso.
- hp            hp               -0.17 0.10  0.33   8_num0_01.png     move hp so the bottom left is touching the top right of hp
+ hp            NULL             -0.17 0.10  0.33   8_num0_01.png     move hp so the bottom left is touching the top right of hp
  hp            esso             -0.17 0.10  0.33   8_num0_01.png     move hp so it is on top of esso with the bottom left corner touching the top right corner
  mercedes benz  hp               0.00  0.10  0.50   8_num0_02.png     Move the Mercedes block diagonally above and to the right of the HP block.
  mercedes benz  hp               0.00  0.10  0.50   8_num0_02.png     Place the Mercedes block directly northeast of the HP block.
@@ -646,7 +646,7 @@
  stella artois  sri              0.50  0.10  0.17   8_num0_05.png     move stella so the left top corner is touching the borrom right coner of sri.
  stella artois  sri              0.50  0.10  0.17   8_num0_05.png     Move Stella so the top left forner is right uner the bottowm right of sri.
  stella artois  sri              0.50  0.10  0.17   8_num0_05.png     Move Stella so the top left is right under the bottom left of sri
- texaco        texaco           0.67  0.10  0.00   8_num0_06.png     Move the Texaco block diagonally below and to the right of the Texaco block.
+ texaco        NULL             0.67  0.10  0.00   8_num0_06.png     Move the Texaco block diagonally below and to the right of the Texaco block.
  texaco        stella artois    0.67  0.10  0.00   8_num0_06.png     Place the Texaco block directly southeast of the Stella Artois block.
  texaco        esso             0.67  0.10  0.00   8_num0_06.png     Put the Texaco block one row below the Esso block, to the right and with five intervening block spaces horizontally.
  texaco        stella artois    0.67  0.10  0.00   8_num0_06.png     Texaco has to move one space to the right of Stella Artois and one space downward.
@@ -764,9 +764,9 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  coca cola     burger king      0.00  0.10  -0.83  19_num1_08.png     Move Coca Cola so that it is directly underneath Burger King, they should be touching.
  coca cola     burger king      0.00  0.10  -0.83  19_num1_08.png     Put Coca Cola under Burger King so that they are lined up perfect and touching.
  coca cola     burger king      0.00  0.10  -0.83  19_num1_08.png     Line Coca Cola up underneath Burger King so that the top touches the bottom of Burger King.
- eight         eight            0.00  0.10  -1.00  78_num7_00.png     Take block 8 and move it to the very bottom, center.
- eight         eight            0.00  0.10  -1.00  78_num7_00.png     Block 8 should touch the lower center of the tan space
- eight         eight            0.00  0.10  -1.00  78_num7_00.png     Block 8 is in the middle of the bottom row
+ eight         NULL             0.00  0.10  -1.00  78_num7_00.png     Take block 8 and move it to the very bottom, center.
+ eight         NULL             0.00  0.10  -1.00  78_num7_00.png     Block 8 should touch the lower center of the tan space
+ eight         NULL             0.00  0.10  -1.00  78_num7_00.png     Block 8 is in the middle of the bottom row
  eight         nine             0.00  0.10  -1.00  78_num7_00.png     move block 8 to the bottom and then to the left so it is left of block 9
  eight         nine             0.00  0.10  -1.00  78_num7_00.png     move block 8 to left and then down so it is at the bottom and slightly to the left of block 9.
  eight         nine             0.00  0.10  -1.00  78_num7_00.png     move block 8 diagonally left and down until it is below 9 and to the left of 9 by a 1/4 block width.
@@ -774,7 +774,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  eight         nine             0.00  0.10  -1.00  78_num7_00.png     Place block 8 directly below block 9, then move it one block length to the left.
  eight         two              0.00  0.10  -1.00  78_num7_00.png     Place block 8 three block lengths below block 2, then move it three block lengths to the right.
  seven         eight            0.00  0.10  -0.83  78_num7_01.png     Move block 7 directly above block 8.
- seven         seven            0.00  0.10  -0.83  78_num7_01.png     Block 7 should be in the center on the next to last row.
+ seven         NULL             0.00  0.10  -0.83  78_num7_01.png     Block 7 should be in the center on the next to last row.
  seven         eight            0.00  0.10  -0.83  78_num7_01.png     Block 7 is one space up from block 8
  seven         eight            0.00  0.10  -0.83  78_num7_01.png     move block 7 to the left and then down so it right above block 8
  seven         eight            0.00  0.10  -0.83  78_num7_01.png     move block 7 down and left until it is right above block 8.
@@ -783,7 +783,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  seven         eight            0.00  0.10  -0.83  78_num7_01.png     Place block 7 half a block length away from block 9, then move it a quarter block length downward so it is directly above and almost touching block 8.
  seven         two              0.00  0.10  -0.83  78_num7_01.png     Place block 7 one block length below block 2, then move it three block lengths to the right.
  six           seven            0.00  0.10  -0.67  78_num7_02.png     Move block 6 to directly above block 7.
- six           six              0.00  0.10  -0.67  78_num7_02.png     Block 6 should be centered on the third from bottom row.
+ six           NULL             0.00  0.10  -0.67  78_num7_02.png     Block 6 should be centered on the third from bottom row.
  six           seven            0.00  0.10  -0.67  78_num7_02.png     Block 6 is one space up from block 7
  six           seven            0.00  0.10  -0.67  78_num7_02.png     move block 6 to the left and then down so it right above block 7.
  six           seven            0.00  0.10  -0.67  78_num7_02.png     move block 6 down and left until it is above block 7.
@@ -792,7 +792,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  six           seven            0.00  0.10  -0.67  78_num7_02.png     Place block 6 three block lengths to the right of block 2, then move it a quarter block length downward so it is directly above and almost touching block 7.
  six           seven            0.00  0.10  -0.67  78_num7_02.png     Place block 6 two block lengths above block 8, so it ends up directly above block 7.
  five          six              0.00  0.10  -0.50  78_num7_03.png     Place block 5 directly above block 6.
- five          five             0.00  0.10  -0.50  78_num7_03.png     Block 5 should be centered on the fourth from bottom row.
+ five          NULL             0.00  0.10  -0.50  78_num7_03.png     Block 5 should be centered on the fourth from bottom row.
  five          six              0.00  0.10  -0.50  78_num7_03.png     Block 5 is one space up from block 6
  five          six              0.00  0.10  -0.50  78_num7_03.png     move block 5 to the left and then down so is it above block 6
  five          six              0.00  0.10  -0.50  78_num7_03.png     move block 5 down and left until it is above block 6
@@ -914,9 +914,9 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  target        texaco           0.33  0.10  0.00   99_num9_01.png     Move the Target block above the Texaco block.
  target        texaco           0.33  0.10  0.00   99_num9_01.png     Place the Target block north of the Texaco block.
  target        texaco           0.33  0.10  0.00   99_num9_01.png     Put the Target block in the first open space above the Texaco block.
- target        target           0.33  0.10  0.00   99_num9_01.png     move the target logo above the logo with the star in it
- target        target           0.33  0.10  0.00   99_num9_01.png     relocate the target logo to above the star
- target        target           0.33  0.10  0.00   99_num9_01.png     the logo with the target logo should be moved above the logo with the star in it
+ target        NULL             0.33  0.10  0.00   99_num9_01.png     move the target logo above the logo with the star in it
+ target        NULL             0.33  0.10  0.00   99_num9_01.png     relocate the target logo to above the star
+ target        NULL             0.33  0.10  0.00   99_num9_01.png     the logo with the target logo should be moved above the logo with the star in it
  stella artois  target           0.33  0.10  0.17   99_num9_02.png     Move Stella Artois so it is above Target
  stella artois  target           0.33  0.10  0.17   99_num9_02.png     Position Stella Artois so its bottom edge touches Target's top edge
  stella artois  target           0.33  0.10  0.17   99_num9_02.png     Stella Artois should be north of Target
@@ -1053,7 +1053,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  mcdonalds     hp               0.00  0.10  -1.00  99_num9_16.png     McDonalds moves all the way down to the bottom of the screen, then right until HP and Heineken are on top of it.
  mcdonalds     esso             0.00  0.10  -1.00  99_num9_16.png     McDonalds moves right until it is on top of Esso, then down to the bottom of the screen.
  four          eighteen         -0.17 0.10  -0.33  89_num8_00.png     move box 4 so that it aligns vertically along it's left side with box 20 and so it's top runs in a horizontal line through the center of box 18
- four          four             -0.17 0.10  -0.33  89_num8_00.png     move box 4 3 1/2 box widths to its right
+ four          NULL             -0.17 0.10  -0.33  89_num8_00.png     move box 4 3 1/2 box widths to its right
  four          six              -0.17 0.10  -0.33  89_num8_00.png     place box 4 immediately below box 6 so that its left side aligns with box 6's center then slide it down 1 1/2 box lengths
  four          six              -0.17 0.10  -0.33  89_num8_00.png     Move the 4 block to the right until it is below the 6 block.
  four          six              -0.17 0.10  -0.33  89_num8_00.png     Push the 4 block all the way to the right, and then push it back until it is directly under the 6 block.
@@ -1189,7 +1189,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  thirteen      twelve           0.17  0.10  -0.50  89_num8_14.png     Place block 13 underneath block 12.
  fourteen      thirteen         0.17  0.10  -0.67  89_num8_15.png     Move block 14 to touch the green face of block 13.
  fourteen      thirteen         0.17  0.10  -0.67  89_num8_15.png     Move block 14 directly below block 13.
- fourteen      fourteen         0.17  0.10  -0.67  89_num8_15.png     Move block 14 beneath the block such that the sum of the two blocks is 27.
+ fourteen      NULL             0.17  0.10  -0.67  89_num8_15.png     Move block 14 beneath the block such that the sum of the two blocks is 27.
  fourteen      thirteen         0.17  0.10  -0.67  89_num8_15.png     Place block 14 below block 13 so the top of block 14 is just below the the bottom of block 13.
  fourteen      thirteen         0.17  0.10  -0.67  89_num8_15.png     Place block 14 directly under block 13 two spaces to the left of block 9.
  fourteen      thirteen         0.17  0.10  -0.67  89_num8_15.png     Move block 14 two spaces to the left of block 9, just under block 13.
@@ -1488,7 +1488,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  starbucks     nvidia           0.33  0.10  0.67   68_num6_18.png     Place the Starbucks block directly northeast of the Nvidia block.
  starbucks     coca cola        0.33  0.10  0.67   68_num6_18.png     Put the Starbucks block in the first open block space diagonally above and to the right of the Coca Cola block.
  starbucks     nvidia           0.33  0.10  0.67   68_num6_18.png     Bring the Starbuck's block to above the NVIDIA block. Meet together the bottom left corner of the Starbuck's block with the top right corner of the NVDIA block.
- starbucks     starbucks        0.33  0.10  0.67   68_num6_18.png     Create steps up with the Starbucks block added to the other blocks. Touch the bottom left corner of the Starbucks block to the top right corner of the NVDIDA block.
+ starbucks     NULL             0.33  0.10  0.67   68_num6_18.png     Create steps up with the Starbucks block added to the other blocks. Touch the bottom left corner of the Starbucks block to the top right corner of the NVDIDA block.
  starbucks     nvidia           0.33  0.10  0.67   68_num6_18.png     Touch the bottom left corner of the Starbucks block to the upper right corner of the NVIDIA block
  starbucks     nvidia           0.33  0.10  0.67   68_num6_18.png     Take the Starbucks block and move it so it is diagonally above and to the right of the Dvidia block.  The top right corner of the Dvidia block should be touching the lower left corner of the Starbucks block.
  starbucks     stella artois    0.33  0.10  0.67   68_num6_18.png     Take the Starbucks block and move it above the Stella Artois block leaving 4 blank spaces between the Stella Artois block and the Starbucks block.
@@ -1750,7 +1750,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  burger king   sri              -0.33 0.10  0.33   28_num2_17.png     Put the Burger King block in the first open space to the left of the SRI block.
  burger king   coca cola        -0.33 0.10  0.33   28_num2_17.png     Place the Burger KIng logo to the left of cocacola logo just touching it.
  burger king   coca cola        -0.33 0.10  0.33   28_num2_17.png     Take the Burger King logo and put it on the west side of cocacola logo that they are aligned and touch each other.
- burger king   burger king      -0.33 0.10  0.33   28_num2_17.png     Put the Burger KIng to the left of cocaola alilgned.
+ burger king   NULL             -0.33 0.10  0.33   28_num2_17.png     Put the Burger KIng to the left of cocaola alilgned.
  burger king   coca cola        -0.33 0.10  0.33   28_num2_17.png     Put Burger King on Coca Cola's left.
  burger king   coca cola        -0.33 0.10  0.33   28_num2_17.png     Move Burger King so Coca Cola is on its right.
  burger king   coca cola        -0.33 0.10  0.33   28_num2_17.png     Make Burger King horizontal with Coca Cola.
@@ -1781,8 +1781,8 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  nine          ten              0.33  0.10  0.17   98_num9_00.png     The block, bottom right, with a 9 on the yellow face will move directly up until the bottom yellow edge (the edge where yellow meets green) is level with the top edge of the '10' block on the right.
  nine          ten              0.33  0.10  0.17   98_num9_00.png     Move the '9' block up so the bottom side makes a line with the '10' block, but don't move it left or right only up.
  nine          ten              0.33  0.10  0.17   98_num9_00.png     Jump 9 up over 7 and 6, just above the level of 10
- eight         eight            0.33  0.10  0.33   98_num9_01.png     move block 8 down two block spaces
- eight         eight            0.33  0.10  0.33   98_num9_01.png     slide block 8 down till it connects to block nine
+ eight         NULL             0.33  0.10  0.33   98_num9_01.png     move block 8 down two block spaces
+ eight         NULL             0.33  0.10  0.33   98_num9_01.png     slide block 8 down till it connects to block nine
  eight         nine             0.33  0.10  0.33   98_num9_01.png     place block 8 in the space above block 9
  eight         nine             0.33  0.10  0.33   98_num9_01.png     Place block 8 above block 9.
  eight         nine             0.33  0.10  0.33   98_num9_01.png     Above block 9, place block 8.
@@ -1846,7 +1846,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  five          three            0.00  0.10  0.00   98_num9_07.png     Put block 5 to the right of block 3.
  seven         three            0.17  0.10  0.00   98_num9_08.png     Move block 7 upward 3 block widths.  There should be two block-widths between it's old positions and the new one.
  seven         three            0.17  0.10  0.00   98_num9_08.png     Move block 7 from its current location to 2 block-widths right from block 3.
- seven         seven            0.17  0.10  0.00   98_num9_08.png     Move block 7 up three block-widths.
+ seven         NULL             0.17  0.10  0.00   98_num9_08.png     Move block 7 up three block-widths.
  seven         five             0.17  0.10  0.00   98_num9_08.png     Slide block 7 up to block 5.  They should be even to one another.  They should not quite touch but be spaced like block 3 and 5.
  seven         five             0.17  0.10  0.00   98_num9_08.png     Pick up block 7 and move it below block 6, next to block 5.  The should almost but not quite touch.
  seven         five             0.17  0.10  0.00   98_num9_08.png     Move block 7 below block 9, then left the distance of 1 block to almost but not quite touch block 5.
@@ -1899,14 +1899,14 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  fourteen      thirteen         0.33  0.10  -0.67  98_num9_13.png     Underneath block 13, place block 14.
  fourteen      thirteen         0.33  0.10  -0.67  98_num9_13.png     Put block 14 under block 13.
  eight         five             0.00  0.10  -0.83  49_num4_00.png     Move 8 so it is to the right of 5. 8 should be one block length above the midpoint of the bottom of the table.
- eight         eight            0.00  0.10  -0.83  49_num4_00.png     Position 8 so its bottom edge faces the bottom of the table. It should be one block length above the midpoint.
- eight         eight            0.00  0.10  -0.83  49_num4_00.png     8 should be north of the midpoint of the bottom of the table by one length of a block.
+ eight         NULL             0.00  0.10  -0.83  49_num4_00.png     Position 8 so its bottom edge faces the bottom of the table. It should be one block length above the midpoint.
+ eight         NULL             0.00  0.10  -0.83  49_num4_00.png     8 should be north of the midpoint of the bottom of the table by one length of a block.
  eight         five             0.00  0.10  -0.83  49_num4_00.png     Place block 8 to the right of block 5 leaving a third a block of space between them.
  eight         five             0.00  0.10  -0.83  49_num4_00.png     Place block 8 between blocks 18 and 15, then slide it down until it is just about in line with block 5.
  eight         five             0.00  0.10  -0.83  49_num4_00.png     To the right of block 5, place block 8 and then slide block 8 over to the right leaving about a third of a block of space.
  eight         five             0.00  0.10  -0.83  49_num4_00.png     Move block 8 down and over to the right, so that it is next to block 5 but not touching it. Block 8 should be on the right of block 5.
  eight         five             0.00  0.10  -0.83  49_num4_00.png     Move block 8 so that it is next to block 5 but with a half a block's space between the two blocks.
- eight         eight            0.00  0.10  -0.83  49_num4_00.png     Move block 8 so that it is in the middle of the board on the bottom but with a small gap between the bottom and block 8.
+ eight         NULL             0.00  0.10  -0.83  49_num4_00.png     Move block 8 so that it is in the middle of the board on the bottom but with a small gap between the bottom and block 8.
  sixteen       eight            0.17  0.10  -0.83  49_num4_01.png     Move 16 so it is to the right of 8
  sixteen       eight            0.17  0.10  -0.83  49_num4_01.png     Position 16 so its left edge touches 8's right edge
  sixteen       eight            0.17  0.10  -0.83  49_num4_01.png     16 should be east of 8
@@ -1968,7 +1968,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  eleven        fourteen         0.17  0.10  0.00   49_num4_07.png     Place block 11 above block 14, then slide it up until it is about two blocks away.
  eleven        eighteen         0.17  0.10  0.00   49_num4_07.png     Place block 11 in the space between blocks 14 and 18, then move it up until it is halfway between the vertical line made of blocks 18,19 and 20 and block 10. Note it should still be in line with the vertical line made of blocks 14, 15 and 16.
  eleven        fourteen         0.17  0.10  0.00   49_num4_07.png     Move block 11 up and to the left so that it is the same vertical axis as blocks 14,15, and 16, but so that there are no blocks around it. You should be able to fit two block spaces between block 11 and block 14.
- eleven        eleven           0.17  0.10  0.00   49_num4_07.png     Move block 11 to the middle and then slightly to the right. It should not be directly close to any other blocks.
+ eleven        NULL             0.17  0.10  0.00   49_num4_07.png     Move block 11 to the middle and then slightly to the right. It should not be directly close to any other blocks.
  eleven        fourteen         0.17  0.10  0.00   49_num4_07.png     Put block 11 in the vertical axis of blocks 14,15,16 but far enough away so that you can fit two more blocks in the middle.
  twelve        eleven           0.17  0.10  -0.17  49_num4_08.png     Move 12 so it is below 11
  twelve        eleven           0.17  0.10  -0.17  49_num4_08.png     Position 12 so its top edge touches 11's bottom edge
@@ -2198,12 +2198,12 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  ups           toyota           0.67  0.10  0.33   88_num8_03.png     Move the UPS block diagonally above and to the right of the Toyota block.
  ups           toyota           0.67  0.10  0.33   88_num8_03.png     Place the UPS block directly northeast of the Toyota block.
  ups           target           0.67  0.10  0.33   88_num8_03.png     Put the UPS block in the first open space diagonally above and to the right of the Target block.
- ups           ups              0.67  0.10  0.33   88_num8_03.png     slide the UPS box diagonally one space to the right and down
+ ups           NULL             0.67  0.10  0.33   88_num8_03.png     slide the UPS box diagonally one space to the right and down
  ups           toyota           0.67  0.10  0.33   88_num8_03.png     place the UPS box so its lower left corner touches the upper right corner of the Toyota box
  ups           mercedes benz    0.67  0.10  0.33   88_num8_03.png     place the ups box two spaces to the right of the mercedes benz box
  ups           toyota           0.67  0.10  0.33   88_num8_03.png     UPS is placed so that its lower left corner is touching the upper right corner of Toyota
  ups           mercedes benz    0.67  0.10  0.33   88_num8_03.png     UPS moves down even with Mercedes, then moves to the right one square
- ups           ups              0.67  0.10  0.33   88_num8_03.png     UPS moves to the right by one of its own width, then down one of its own height.
+ ups           NULL             0.67  0.10  0.33   88_num8_03.png     UPS moves to the right by one of its own width, then down one of its own height.
  twitter       ups              0.67  0.10  0.50   88_num8_04.png     Move the Twitter block above the UPS block.
  twitter       ups              0.67  0.10  0.50   88_num8_04.png     Place the Twitter block north of the UPS block.
  twitter       ups              0.67  0.10  0.50   88_num8_04.png     Put the Twitter block in the same column as the UPS block, and one row above the UPS block.
@@ -2273,7 +2273,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  starbucks     pepsi            0.33  0.10  -0.33  59_num5_11.png     Move the Starbucks block diagonally below and to the right of the Pepsi block.
  starbucks     pepsi            0.33  0.10  -0.33  59_num5_11.png     Place the Starbucks block directly southeast of the Pepsi block.
  starbucks     mcdonalds        0.33  0.10  -0.33  59_num5_11.png     Put the Starbucks block in the first empty block space diagonally south and east of the McDonalds block.
- starbucks     starbucks        0.33  0.10  -0.33  59_num5_11.png     Move the Starbucks cube so that it's upper left corner touches the lower left corner of the right cube.
+ starbucks     NULL             0.33  0.10  -0.33  59_num5_11.png     Move the Starbucks cube so that it's upper left corner touches the lower left corner of the right cube.
  starbucks     pepsi            0.33  0.10  -0.33  59_num5_11.png     Line up the Starbucks cube with the SRI cube but one row lower than the Pepsi cube.
  starbucks     sri              0.33  0.10  -0.33  59_num5_11.png     Place the Starbucks cube 8 rows from the top and 4 rows over from the right side.  Should be lined up with the SRI cube.
  texaco        starbucks        0.50  0.10  -0.50  59_num5_12.png     Place the Texaco block so that its upper left corner touches the lower right corner of the Starbucks block.
@@ -2339,7 +2339,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  heineken      mercedes benz    -0.17 0.10  -0.67  59_num5_18.png     Move the Heineken cube so that it's lower right corner touches the upper left corner of the Mercedes Benz cube.
  heineken      texaco           -0.17 0.10  -0.67  59_num5_18.png     Line up the Heineken cube with the Esso cube but one row lower than the Texaco cube.
  heineken      esso             -0.17 0.10  -0.67  59_num5_18.png     Place the Heineken cube 10 rows from the top and 7 rows over from the right side.  Should be lined up with the Esso cube.
- burger king   burger king      -0.33 0.10  -0.50  59_num5_19.png     Place the Burger King block so that its lower right corner touches the upper left corner of the Heniken block.
+ burger king   NULL             -0.33 0.10  -0.50  59_num5_19.png     Place the Burger King block so that its lower right corner touches the upper left corner of the Heniken block.
  burger king   heineken         -0.33 0.10  -0.50  59_num5_19.png     Place Burger King to the left of Heineken, then slide it up.
  burger king   heineken         -0.33 0.10  -0.50  59_num5_19.png     Place Burger King above Heineken, then slide it to the left.
  burger king   heineken         -0.33 0.10  -0.50  59_num5_19.png     Move the Burger King block diagonally above and to the left of the Heineken block.
@@ -2912,7 +2912,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  eight         ten              0.00  0.10  -0.67  9_num0_12.png     Take block 8 and place it so that the right side touches the left side of block 10.
  eight         ten              0.00  0.10  -0.67  9_num0_12.png     Take block 8 and place it so that it is directly to the left of block 10.
  eight         two              0.00  0.10  -0.67  9_num0_12.png     Take block 8 and place it so that it is 2 spaces down and 3 spaces to the left of block 19.
- eight         eight            0.00  0.10  -0.67  9_num0_12.png     Move the 8 to the space left of the 8.
+ eight         NULL             0.00  0.10  -0.67  9_num0_12.png     Move the 8 to the space left of the 8.
  eight         ten              0.00  0.10  -0.67  9_num0_12.png     Slide the 8 to the position directly left of the 10.
  eight         ten              0.00  0.10  -0.67  9_num0_12.png     Place the 8 left of the 10.
  six           eight            -0.17 0.10  -0.50  9_num0_13.png     place box 6 to the immediate left of box 8 then slide it up one spot
@@ -3019,7 +3019,7 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  three         four             0.17  0.10  0.17   18_num1_05.png     3 should be north of 4
  three         four             0.17  0.10  0.17   18_num1_05.png     place block 3 right above 4
  three         four             0.17  0.10  0.17   18_num1_05.png     place block 3 right above 4 and 5
- three         three            0.17  0.10  0.17   18_num1_05.png     place block 3 right above the rest of the blocks
+ three         NULL             0.17  0.10  0.17   18_num1_05.png     place block 3 right above the rest of the blocks
  three         four             0.17  0.10  0.17   18_num1_05.png     Move the 3 atop the 4.
  three         four             0.17  0.10  0.17   18_num1_05.png     Slide the 3 to the position above the 4.
  three         four             0.17  0.10  0.17   18_num1_05.png     Place the 3 on the topside of the 4.
@@ -3036,8 +3036,8 @@ Slide the box marked ESSO to the right until it is an inch or so from the HEINEK
  one           two              0.17  0.10  0.50   18_num1_07.png     Position 1 so its bottom edge touches 2's top edge.
  one           two              0.17  0.10  0.50   18_num1_07.png     1 should be north of 2
  one           two              0.17  0.10  0.50   18_num1_07.png     place block 1 right above 2
- one           one              0.17  0.10  0.50   18_num1_07.png     place 1 above all blocks to form and 1-8 block sequence
- one           one              0.17  0.10  0.50   18_num1_07.png     place block 1 right above all of the blocks for a full sequence
+ one           NULL             0.17  0.10  0.50   18_num1_07.png     place 1 above all blocks to form and 1-8 block sequence
+ one           NULL             0.17  0.10  0.50   18_num1_07.png     place block 1 right above all of the blocks for a full sequence
  one           two              0.17  0.10  0.50   18_num1_07.png     Move the 1 atop the 2.
  one           two              0.17  0.10  0.50   18_num1_07.png     Slide the 1 to the position above the 2.
  one           two              0.17  0.10  0.50   18_num1_07.png     Place the 1 on the topside of the 2.

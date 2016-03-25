@@ -140,7 +140,7 @@
  five          seven            -0.33 0.10  -0.50  7_num0_15.png     Touch 5's lower right corner to 7's upper left.
  five          seven            -0.33 0.10  -0.50  7_num0_15.png     Put 5 above 7 as far left as it can go while still touching 7.
  five          seven            -0.33 0.10  -0.50  7_num0_15.png     Move block 5 down so that it is just one space above and to the left of block 7.
- five          five             -0.33 0.10  -0.50  7_num0_15.png     Place block 5 so that it is diagonal to block seven with the corners touching.
+ five          NULL             -0.33 0.10  -0.50  7_num0_15.png     Place block 5 so that it is diagonal to block seven with the corners touching.
  five          seven            -0.33 0.10  -0.50  7_num0_15.png     Place block  5 next to block 3. Slide it over to the left until it's right bottom corner is touching the upper left corner of the 7 block.
  four          five             -0.33 0.10  -0.33  7_num0_16.png     move block 4 such that its bottom touches the top of block 5, such that their sides are flush
  four          five             -0.33 0.10  -0.33  7_num0_16.png     block 4's bottom side should touch block 5's top side
@@ -195,7 +195,7 @@
  adidas        heineken         -0.17 0.10  -0.33  17_num1_10.png     THE ADIDAS TILE SHOULD BE DIRECTLY BELOW AND LEFT THE HEINEKEN TILE.
  adidas        heineken         -0.17 0.10  -0.33  17_num1_10.png     Move the Adidas block so that the upper right corner touches the lower left corner of the Heineken block.
  adidas        heineken         -0.17 0.10  -0.33  17_num1_10.png     Slide the Adidas block 6 blocks to the left. Slide it up until its upper right corner touches the lower left corner of the Heineken block.
- adidas        adidas           -0.17 0.10  -0.33  17_num1_10.png     Slide the Adidas block 2 blocks straight up. Then slide it 6 block spaces to the left.
+ adidas        NULL             -0.17 0.10  -0.33  17_num1_10.png     Slide the Adidas block 2 blocks straight up. Then slide it 6 block spaces to the left.
  hp            heineken         0.00  0.10  -0.33  17_num1_11.png     Move the HP block directly below the Heineken block.
  hp            adidas           0.00  0.10  -0.33  17_num1_11.png     Move the HP block directly right of the Adidas block.
  hp            heineken         0.00  0.10  -0.33  17_num1_11.png     Place the HP block adjacent to both the Heineken and Adidas blocks, in the space furthest away from the Mercedes block.
@@ -210,10 +210,10 @@
  mercedes benz  hp               0.00  0.10  -0.67  17_num1_12.png     Place the Mercedes block in the same vertical column as the HP block, and one horizontal row below the BMW block.
  mercedes benz  hp               0.00  0.10  -0.67  17_num1_12.png     PLACE THE MERCEDES TILE BELOW THE HP TILE, LEAVING SOME SPACE IN BETWEEN THE TILES.
  mercedes benz  hp               0.00  0.10  -0.67  17_num1_12.png     THE HP TILE SHOULD BE ABOVE THE MERCEDES TILE, LEAVING SPACE BETWEEN THE TWO. DONT MOVE THE HP TILE.
- mercedes benz  mercedes benz    0.00  0.10  -0.67  17_num1_12.png     THE MERCEDES TILE SHOULD BE AT THE BOTTOM OF THE LINE OF TILES IN THE MIDDLE OF THE PICTURE, LEAVING SOME SPACE BETWEEN THE LINE AND THAT TILE.
+ mercedes benz  NULL             0.00  0.10  -0.67  17_num1_12.png     THE MERCEDES TILE SHOULD BE AT THE BOTTOM OF THE LINE OF TILES IN THE MIDDLE OF THE PICTURE, LEAVING SOME SPACE BETWEEN THE LINE AND THAT TILE.
  mercedes benz  esso             0.00  0.10  -0.67  17_num1_12.png     Slide the Mercedes Benz block 2 block spaces to the left. Then slide it up until it is across from the Esso.
  mercedes benz  esso             0.00  0.10  -0.67  17_num1_12.png     Put the Mercedes Benz block so that it is on the same level as the Esso block with one empty space between them.
- mercedes benz  mercedes benz    0.00  0.10  -0.67  17_num1_12.png     Slide the Mercedes Benz block 2 spaces to the left. Then slide it 4 block spaces straight up.
+ mercedes benz  NULL             0.00  0.10  -0.67  17_num1_12.png     Slide the Mercedes Benz block 2 spaces to the left. Then slide it 4 block spaces straight up.
  mcdonalds     hp               0.00  0.10  -0.50  17_num1_13.png     Move the McDonalds block directly below the HP block.
  mcdonalds     mercedes benz    0.00  0.10  -0.50  17_num1_13.png     Move the McDonalds block directly above the Mercedes block.
  mcdonalds     hp               0.00  0.10  -0.50  17_num1_13.png     Place the McDonalds block directly between the HP and Mercedes blocks.
@@ -258,9 +258,9 @@
  sri           starbucks        0.17  0.10  -0.17  17_num1_00.png     place the SRI block so that it aligns with the bottom of the Mercedes benz block horizontally and the right side of the starbucks block vertically
  sri           nvidia           0.17  0.10  -0.17  17_num1_00.png     Move SRI directly below NVIDIA and just slightly to the left.
  sri           nvidia           0.17  0.10  -0.17  17_num1_00.png     Move SRI diagonally down to the left until it is below barely to the left of NVIDIA.
- sri           sri              0.17  0.10  -0.17  17_num1_00.png     Move SRI down three spots then over two to the left.
+ sri           NULL             0.17  0.10  -0.17  17_num1_00.png     Move SRI down three spots then over two to the left.
  texaco        shell            0.50  0.10  0.67   17_num1_01.png     Move the TEXACO block to the right side of the shell block. Line the top left corner of the TEXACO block up with the bottom right corner of the SHELL block. Line the bottom left corner of the TEXACO block up with the top left corner of the pepsi block.
- texaco        texaco           0.50  0.10  0.67   17_num1_01.png     move the texaco block down one block length. move the texaco block over 4 block lengths
+ texaco        NULL             0.50  0.10  0.67   17_num1_01.png     move the texaco block down one block length. move the texaco block over 4 block lengths
  texaco        bmw              0.50  0.10  0.67   17_num1_01.png     move the texaco block 5 block lengths above the BMW block
  texaco        shell            0.50  0.10  0.67   17_num1_01.png     move the Texaco block to right of the Shell block aligning it's back edge with the front edge of the Shell block and making sure it is aligned vertically with the BMW block
  texaco        pepsi            0.50  0.10  0.67   17_num1_01.png     place the Texaco block in above the BMW block so that it's back edge aligns with the coca cola blocks front edge in a horizontal line and it's right side aligns with the Pepsi block in a vertical line
@@ -302,14 +302,14 @@
  nvidia        target           0.17  0.10  0.33   17_num1_05.png     slide the Nvidia block up til it is completely touching the Target block on it's right side
  nvidia        target           0.17  0.10  0.33   17_num1_05.png     move the nvidia block so that the target block is between it and the stella artois block
  nvidia        target           0.17  0.10  0.33   17_num1_05.png     Move NVIDIA to the left side of Target.
- nvidia        nvidia           0.17  0.10  0.33   17_num1_05.png     Slide NVIDIA up one spot.
+ nvidia        NULL             0.17  0.10  0.33   17_num1_05.png     Slide NVIDIA up one spot.
  nvidia        shell            0.17  0.10  0.33   17_num1_05.png     Move NVIDIA to two spaces below Shell.
  pepsi         nvidia           0.17  0.10  0.17   17_num1_06.png     place the pepsi block beneath the nvidia block
- pepsi         pepsi            0.17  0.10  0.17   17_num1_06.png     move the pepsi block left 3 block lengths
+ pepsi         NULL             0.17  0.10  0.17   17_num1_06.png     move the pepsi block left 3 block lengths
  pepsi         nvidia           0.17  0.10  0.17   17_num1_06.png     line the pepsi block up with the bottom of the nvidia block
  pepsi         nvidia           0.17  0.10  0.17   17_num1_06.png     move the pepsi block to the left so it is directly under and touching the NVIDIA block
  pepsi         nvidia           0.17  0.10  0.17   17_num1_06.png     Align the pepsi block vertically with the Nvidia block and the SRI block do not change it's position horizontally
- pepsi         pepsi            0.17  0.10  0.17   17_num1_06.png     move the pepsi bolck three block widths to the left
+ pepsi         NULL             0.17  0.10  0.17   17_num1_06.png     move the pepsi bolck three block widths to the left
  pepsi         nvidia           0.17  0.10  0.17   17_num1_06.png     Place Pepsi below NVIDIA.
  pepsi         target           0.17  0.10  0.17   17_num1_06.png     Move Pepsi to the left of Target.
  pepsi         sri              0.17  0.10  0.17   17_num1_06.png     Move Pepsi two spaces above SRI.
@@ -323,7 +323,7 @@
  shell         sri              0.17  0.10  0.00   17_num1_07.png     Place Shell above SRI.
  shell         mercedes benz    0.17  0.10  0.00   17_num1_07.png     Move Shell three spaces to the right of Mercedes.
  esso          shell            0.00  0.10  0.00   17_num1_08.png     place the esso block directly left of the shell block.
- esso          esso             0.00  0.10  0.00   17_num1_08.png     move the esso block left 3 block lengths. move the esso block north 2 block lengths
+ esso          NULL             0.00  0.10  0.00   17_num1_08.png     move the esso block left 3 block lengths. move the esso block north 2 block lengths
  esso          nvidia           0.00  0.10  0.00   17_num1_08.png     put the esso block next to the nvidia block on the left. move the esso block 2 block lengths south
  esso          shell            0.00  0.10  0.00   17_num1_08.png     move the Esso block so it's right side is touching the shell block and it is aligned horizontally with the Mercedes Benz block
  esso          shell            0.00  0.10  0.00   17_num1_08.png     move the Esso block into line horizontally with the Shell block and the Mercedes benz block it should be touching the shell block on it's right edge
@@ -410,7 +410,7 @@
  four          five             -0.17 0.10  -0.50  87_num8_08.png     Place block 4 directly north of block 5.
  four          sixteen          -0.17 0.10  -0.50  87_num8_08.png     Put block 4 in the same row as block 16, to the left and with two intervening empty block spaces.
  four          five             -0.17 0.10  -0.50  87_num8_08.png     Move the 4 box directly above and even with the 5 box.
- four          four             -0.17 0.10  -0.50  87_num8_08.png     Slide the 4 box straight down and line it up directly and evenly with the top of the five box.
+ four          NULL             -0.17 0.10  -0.50  87_num8_08.png     Slide the 4 box straight down and line it up directly and evenly with the top of the five box.
  four          five             -0.17 0.10  -0.50  87_num8_08.png     Pickup the 4 box and place it above the 5 box with all edges lined up.
  eight         fourteen         0.00  0.10  0.33   87_num8_09.png     Slide block 8 over to the right until it is between block 14 and 19, but just slightly above block 14.
  eight         fourteen         0.00  0.10  0.33   87_num8_09.png     Block 8 should be slid down and to the right until it is resting just slightly above block 14 and between block 14 and 19.
@@ -1195,12 +1195,12 @@
  adidas        bmw              -0.67 0.10  -0.33  57_num5_19.png     Adidas is placed directly above and to the left of BMW
  adidas        bmw              -0.67 0.10  -0.33  57_num5_19.png     Adidas is placed to that its lower right corner is touching the upper left corner of BMW
  adidas        bmw              -0.67 0.10  -0.33  57_num5_19.png     Adidas lines up on the left side of Texaco, just to the left of BMW
- stella artois  stella artois    0.50  0.10  -1.00  77_num7_00.png     Move the Stella block down  to the very bottom of the square.
- stella artois  stella artois    0.50  0.10  -1.00  77_num7_00.png     put stella along the south border
- stella artois  stella artois    0.50  0.10  -1.00  77_num7_00.png     stella falls tot he bottom
- stella artois  stella artois    0.50  0.10  -1.00  77_num7_00.png     Move Stella Artois down til it's at the bottom edge.
+ stella artois  NULL             0.50  0.10  -1.00  77_num7_00.png     Move the Stella block down  to the very bottom of the square.
+ stella artois  NULL             0.50  0.10  -1.00  77_num7_00.png     put stella along the south border
+ stella artois  NULL             0.50  0.10  -1.00  77_num7_00.png     stella falls tot he bottom
+ stella artois  NULL             0.50  0.10  -1.00  77_num7_00.png     Move Stella Artois down til it's at the bottom edge.
  stella artois  burger king      0.50  0.10  -1.00  77_num7_00.png     Place Stella Artois straight down to the row of Burger King
- stella artois  stella artois    0.50  0.10  -1.00  77_num7_00.png     Take Stella Artois and move it south, stop when it's at the southern edge.
+ stella artois  NULL             0.50  0.10  -1.00  77_num7_00.png     Take Stella Artois and move it south, stop when it's at the southern edge.
  stella artois  burger king      0.50  0.10  -1.00  77_num7_00.png     Pick up STELLA ARTOIS  block. put it across from the Burger king block at the bottom leave a space between them
  stella artois  burger king      0.50  0.10  -1.00  77_num7_00.png     place Stella Artois block  across from burger king block leavin a  space between
  stella artois  burger king      0.50  0.10  -1.00  77_num7_00.png     ;lace Stell Artois across from burger king bottom center
@@ -1236,7 +1236,7 @@
  pepsi         shell            0.50  0.10  -0.33  77_num7_04.png     pepsi tops the shell block
  pepsi         shell            0.50  0.10  -0.33  77_num7_04.png     Take Pepsi and place it directly north of Shell, so that it's touching.
  pepsi         shell            0.50  0.10  -0.33  77_num7_04.png     Place Pepsi next to Shell, towards the top.
- pepsi         pepsi            0.50  0.10  -0.33  77_num7_04.png     Move Pepsi to the slight southwest until it's north of Pepsi.
+ pepsi         NULL             0.50  0.10  -0.33  77_num7_04.png     Move Pepsi to the slight southwest until it's north of Pepsi.
  pepsi         shell            0.50  0.10  -0.33  77_num7_04.png     take the pepsi block and place directly above the Shell block
  pepsi         shell            0.50  0.10  -0.33  77_num7_04.png     put pepsi above shell
  pepsi         shell            0.50  0.10  -0.33  77_num7_04.png     remove pepsi, place above shell
@@ -1268,7 +1268,7 @@
  texaco        toyota           0.67  0.10  0.00   77_num7_07.png     put texaco above toyota
  texaco        toyota           0.67  0.10  0.00   77_num7_07.png     remove texaco and place above toyota
  target        texaco           0.67  0.10  0.17   77_num7_08.png     stack target on top of texaco
- target        target           0.67  0.10  0.17   77_num7_08.png     make target touch texas on the north
+ target        NULL             0.67  0.10  0.17   77_num7_08.png     make target touch texas on the north
  target        texaco           0.67  0.10  0.17   77_num7_08.png     target tops the texaco block
  target        texaco           0.67  0.10  0.17   77_num7_08.png     Take Target and place it directly north of Texaco so that it's touching.
  target        texaco           0.67  0.10  0.17   77_num7_08.png     Place Target right next to Texaco, on the top.
@@ -1326,14 +1326,14 @@
  bmw           esso             -0.33 0.10  0.17   77_num7_14.png     BMW, Left of Esso
  bmw           esso             -0.33 0.10  0.17   77_num7_14.png     Drive your BMW block to the left of the Esso block
  bmw           esso             -0.33 0.10  0.17   77_num7_14.png     Place the BMW block immediately to the left of the Esso cube
- bmw           bmw              -0.33 0.10  0.17   77_num7_14.png     Put the BMW block so that theEsso cube is immediately to the right of it
+ bmw           NULL             -0.33 0.10  0.17   77_num7_14.png     Put the BMW block so that theEsso cube is immediately to the right of it
  bmw           esso             -0.33 0.10  0.17   77_num7_14.png     BMW goes next to the very left side of ESSO
  bmw           esso             -0.33 0.10  0.17   77_num7_14.png     BMW should be moved next to Esso, you should have a line of 7 blocks now.
  bmw           esso             -0.33 0.10  0.17   77_num7_14.png     BMW next to Esso, continuing the row
  adidas        bmw              -0.50 0.10  0.00   77_num7_15.png     Move the Adidas block next and just below the BMW block.
  adidas        bmw              -0.50 0.10  0.00   77_num7_15.png     Adidas beside and below BMW
  adidas        bmw              -0.50 0.10  0.00   77_num7_15.png     Adidas, left of and beneath BMW
- adidas        adidas           -0.50 0.10  0.00   77_num7_15.png     Move the Adidas block until its top right corner is touching the bottom left corner of the BWM cube
+ adidas        NULL             -0.50 0.10  0.00   77_num7_15.png     Move the Adidas block until its top right corner is touching the bottom left corner of the BWM cube
  adidas        bmw              -0.50 0.10  0.00   77_num7_15.png     The Adidas block moves to a position below and to the left of the BMW block
  adidas        bmw              -0.50 0.10  0.00   77_num7_15.png     Put the Addidas block so that the BMW Cube is immediately to the upper right of it
  adidas        bmw              -0.50 0.10  0.00   77_num7_15.png     Move Adidas down so it's right top corner touches the left bottom corner of BMW.
@@ -1373,7 +1373,7 @@
  twenty        eighteen         0.67  0.10  -0.50  67_num6_01.png     Slide the 20 box down and left until the bottom right corner of the 18 box and the top left corner of the 10 box are close.
  twenty        eighteen         0.67  0.10  -0.50  67_num6_01.png     Pick up box 20 and place it to the bottom right of 18 so that the bottom corner of of 18 is close to the top left corner of box 20.
  twenty        eighteen         0.67  0.10  -0.50  67_num6_01.png     Take block 20 and place it near block 18 so that the top left corner of 20 is at the bottom right corner of 18.
- twenty        twenty           0.67  0.10  -0.50  67_num6_01.png     Move block 20 so that it is touching  the bottom right corner is adjacent with the top left corner f block 20
+ twenty        NULL             0.67  0.10  -0.50  67_num6_01.png     Move block 20 so that it is touching  the bottom right corner is adjacent with the top left corner f block 20
  twenty        eighteen         0.67  0.10  -0.50  67_num6_01.png     Place the top left of block 20  to the bottom right corner of block 18
  nineteen      twenty           0.50  0.10  -0.67  67_num6_02.png     Move block 19 diagonally below and to the left of block 20.
  nineteen      twenty           0.50  0.10  -0.67  67_num6_02.png     Move block 19 directly southwest of block 20.
@@ -1410,7 +1410,7 @@
  ten           fourteen         0.00  0.10  -0.67  67_num6_05.png     Pick up the 10 box and place is lined up directly to the left of the 14 box.
  ten           fourteen         0.00  0.10  -0.67  67_num6_05.png     Place block 10 to the left of block 14 so that it is in line with 14, 17, and 19
  ten           fourteen         0.00  0.10  -0.67  67_num6_05.png     Line block 10 up beside block 14
- ten           ten              0.00  0.10  -0.67  67_num6_05.png     Put block 10 to the left of the 14-19 line
+ ten           NULL             0.00  0.10  -0.67  67_num6_05.png     Put block 10 to the left of the 14-19 line
  six           ten              -0.17 0.10  -0.50  67_num6_06.png     Move block 6 diagonally above and to the left of block 10.
  six           ten              -0.17 0.10  -0.50  67_num6_06.png     Place block 6 directly northwest of block 10.
  six           twenty           -0.17 0.10  -0.50  67_num6_06.png     Place block 6 on the same row as block 20, to the left and with four intervening empty block spaces.
@@ -1421,7 +1421,7 @@
  six           ten              -0.17 0.10  -0.50  67_num6_06.png     Bring the bottom right corner of block 6 to the top left corner of 10
  six           four             -0.17 0.10  -0.50  67_num6_06.png     Place block 6 two space up and one space to the right of block 4
  four          six              -0.17 0.10  -0.17  67_num6_07.png     Move block 4 above block 6, with one intervening empty block space.
- four          four             -0.17 0.10  -0.17  67_num6_07.png     Place block 4 north of block6, with one intervening empty block space.
+ four          NULL             -0.17 0.10  -0.17  67_num6_07.png     Place block 4 north of block6, with one intervening empty block space.
  four          six              -0.17 0.10  -0.17  67_num6_07.png     Place block 4 on the same column as blocks 6 and 11, with above block 6 and with one intervening empty block space.
  four          six              -0.17 0.10  -0.17  67_num6_07.png     Move the four box above the 6 box with a space about the size of a box in between.
  four          six              -0.17 0.10  -0.17  67_num6_07.png     Slide the 4 box up and slightly right to line it up above the 6 box leaving an empty space about the size of a box in between.
@@ -1508,7 +1508,7 @@
  eight         seven            0.00  0.10  0.33   67_num6_16.png     Place block 8 south of block 7.
  eight         seven            0.00  0.10  0.33   67_num6_16.png     Move block 8 to the intersection of the column with block 7 and the row with block 3, below block 7.
  eight         three            0.00  0.10  0.33   67_num6_16.png     Slide block 8 directly to its right so that there are two block length between it and 3
- eight         eight            0.00  0.10  0.33   67_num6_16.png     Move block 8 to the left, but not all the way to the edge.
+ eight         NULL             0.00  0.10  0.33   67_num6_16.png     Move block 8 to the left, but not all the way to the edge.
  eight         seven            0.00  0.10  0.33   67_num6_16.png     Put block 8 just south of block 7.
  one           eight            -0.17 0.10  0.33   67_num6_17.png     Move block 1 over to the left until it is beside block 8 and above block 4.
  one           eight            -0.17 0.10  0.33   67_num6_17.png     Slide block 1 to the left until it is to the left of block 8.
@@ -1537,15 +1537,15 @@
  three         two              -0.17 0.10  0.00   67_num6_19.png     Move block 3 below block 2.  it should also be above 4.
  three         two              -0.17 0.10  0.00   67_num6_19.png     Move block 3 so that it is between blocks 2 and 4.
  three         two              -0.17 0.10  0.00   67_num6_19.png     Put block 3 south of 2 and north of 4.
- shell         shell            0.17  0.10  -1.00  97_num9_00.png     Slide the Shell logo all the way to the bottom so it is just over the bottom margin.
+ shell         NULL             0.17  0.10  -1.00  97_num9_00.png     Slide the Shell logo all the way to the bottom so it is just over the bottom margin.
  shell         nvidia           0.17  0.10  -1.00  97_num9_00.png     Move the Shell logo to the bottom, so that it is just below the top margin of the Nvidia logo.
  shell         nvidia           0.17  0.10  -1.00  97_num9_00.png     Push the shell logo to the bottom of the area until is just below the Nvidia logo.
- shell         shell            0.17  0.10  -1.00  97_num9_00.png     Move the Shell block all the way to the front of the board (toward you).
+ shell         NULL             0.17  0.10  -1.00  97_num9_00.png     Move the Shell block all the way to the front of the board (toward you).
  shell         nvidia           0.17  0.10  -1.00  97_num9_00.png     Pull the Shell block toward you until it is closer than the nvidia block.
- shell         shell            0.17  0.10  -1.00  97_num9_00.png     Put the block with the shell on it as close as possible on the board without moving it left or right.
+ shell         NULL             0.17  0.10  -1.00  97_num9_00.png     Put the block with the shell on it as close as possible on the board without moving it left or right.
  shell         nvidia           0.17  0.10  -1.00  97_num9_00.png     Take the Shell block and place it on the left side of the NVIDIA block.
  shell         starbucks        0.17  0.10  -1.00  97_num9_00.png     Take the Shell block and place it  below the Starbucks block, and slightly to the right
- shell         shell            0.17  0.10  -1.00  97_num9_00.png     Take the Shell block and place it directly across on the other side
+ shell         NULL             0.17  0.10  -1.00  97_num9_00.png     Take the Shell block and place it directly across on the other side
  mercedes benz  adidas           0.17  0.10  -0.50  97_num9_01.png     Slide the Mercedes logo right until it's at the lower right corner of the Target logo, then slide the Mercedes logo down until it is even with the Adidas logo on the left.
  mercedes benz  adidas           0.17  0.10  -0.50  97_num9_01.png     Move the Mercedes logo down until it touches the Texaco logo, then right until it is above the Shell logo, then down until it is level with Adidas logo.
  mercedes benz  adidas           0.17  0.10  -0.50  97_num9_01.png     Move the Mercedes logo right until above the Shell logo, then move it down until it is is even with the Adidas logo.
@@ -1560,7 +1560,7 @@
  nvidia        mercedes benz    0.17  0.10  -0.67  97_num9_02.png     Push the Nvidia logo left as far as it will go, then push it up until it is just below the Mercedes logo, then push it left until it is directly below the Mercedes logo.
  nvidia        mercedes benz    0.17  0.10  -0.67  97_num9_02.png     Move the Nvidia block just below the Mercedes block.
  nvidia        mercedes benz    0.17  0.10  -0.67  97_num9_02.png     put the nvidia block between the Mercedes and Shell blocks, as close as possible to the Mercedes block.
- nvidia        nvidia           0.17  0.10  -0.67  97_num9_02.png     Put the block with the spiral directly below the one with the circle and three lines.
+ nvidia        NULL             0.17  0.10  -0.67  97_num9_02.png     Put the block with the spiral directly below the one with the circle and three lines.
  nvidia        mercedes benz    0.17  0.10  -0.67  97_num9_02.png     Take the NVIDIA block and place it underneath the Benz block, where the top of the NVIDIA block touches the bottom of the benz block completely
  nvidia        shell            0.17  0.10  -0.67  97_num9_02.png     Take the NVIDIA block and place it one block above the Shell block
  nvidia        mercedes benz    0.17  0.10  -0.67  97_num9_02.png     take the NVIDIA block and place it between the Shell and the Benz block, touching the Benz block
@@ -1569,7 +1569,7 @@
  pepsi         shell            0.17  0.10  -0.83  97_num9_03.png     Push the Pepsi logo all the way to the left until it is touching the Mercedes logo, then slide it down and left uno fit into the black spot above the Shell logo.
  pepsi         nvidia           0.17  0.10  -0.83  97_num9_03.png     Put the Pepsi block between the Nvidia and Shell blocks.
  pepsi         shell            0.17  0.10  -0.83  97_num9_03.png     Put the pepsi block just north of the shell block.
- pepsi         pepsi            0.17  0.10  -0.83  97_num9_03.png     Put the pepsi block directly below the one with the spiral.
+ pepsi         NULL             0.17  0.10  -0.83  97_num9_03.png     Put the pepsi block directly below the one with the spiral.
  pepsi         nvidia           0.17  0.10  -0.83  97_num9_03.png     Take the Pepsi block and place it in between the NVIDIA block and the Shell block.
  pepsi         shell            0.17  0.10  -0.83  97_num9_03.png     Take the Pepsi block and place it directly above the Shell block
  pepsi         nvidia           0.17  0.10  -0.83  97_num9_03.png     Take the Pepsi block and place it under the NVIDIA block
@@ -1587,7 +1587,7 @@
  toyota        twitter          0.33  0.10  -0.67  97_num9_05.png     Push the Toyota logo to the right two lengths, then up until it is above the McDonalds logo, then right until it is right above the Twitter logo, then down as far as it will go until it touches the Twitter logo.
  toyota        twitter          0.33  0.10  -0.67  97_num9_05.png     Put the Toyota block just above the Twitter block.
  toyota        nvidia           0.33  0.10  -0.67  97_num9_05.png     Put the Toyota Block directly to the right of the Nvidia block.
- toyota        toyota           0.33  0.10  -0.67  97_num9_05.png     Put the block that looks like a taurus symbol just above the bird.
+ toyota        NULL             0.33  0.10  -0.67  97_num9_05.png     Put the block that looks like a taurus symbol just above the bird.
  toyota        twitter          0.33  0.10  -0.67  97_num9_05.png     Take the Toyota block and place it to the right of the NVIDIA block and above the Twitter block, where the bottom of the toyota block touches the top of the twitter block and the left of the toyota block touches the right side of the NVIDIA block
  toyota        twitter          0.33  0.10  -0.67  97_num9_05.png     Take the Toyota block and place it in the space between the NVIDIA and the twitter block
  toyota        twitter          0.33  0.10  -0.67  97_num9_05.png     Take the toyota block and place it bewteen the SRI and the NVIDIA block, touching the NVIDIA block and the Twitter block
@@ -1596,7 +1596,7 @@
  texaco        toyota           0.33  0.10  -0.50  97_num9_06.png     Push the Texaco logo right until it is directly above the Toyota logo, then push it down until it touches the Toyota logo.
  texaco        toyota           0.33  0.10  -0.50  97_num9_06.png     Put the Texaco block just above the Toyota block.
  texaco        mercedes benz    0.33  0.10  -0.50  97_num9_06.png     Put the Texaco block directly to the right of the Mercedes block.
- texaco        texaco           0.33  0.10  -0.50  97_num9_06.png     Put the block with a star in a circle just right of the three lines in a circle.
+ texaco        NULL             0.33  0.10  -0.50  97_num9_06.png     Put the block with a star in a circle just right of the three lines in a circle.
  texaco        mercedes benz    0.33  0.10  -0.50  97_num9_06.png     Take the TEXACo block and place it the right of the Benz block and above the toyota block, where the right side of the benz block touches the left of the texaco block and the bottom of the texaco block touches the top of the toyota block
  texaco        mercedes benz    0.33  0.10  -0.50  97_num9_06.png     Take the  Texaco block and place it in the space between the Benz and the toyota block
  texaco        mercedes benz    0.33  0.10  -0.50  97_num9_06.png     Take the Texaco block and place it below and to the far left of the BMW block, touching the Benz block and Toyota block
@@ -1605,7 +1605,7 @@
  target        texaco           0.33  0.10  -0.33  97_num9_07.png     Push the Target logo to the right until it is directly above the Texaco logo, then push it down until it touches the top  of the Texaco logo.
  target        texaco           0.33  0.10  -0.33  97_num9_07.png     Put the Target block just above the Texaco block.
  target        mercedes benz    0.33  0.10  -0.33  97_num9_07.png     Put the Target block above the Mercedes block, but shifted one block to the right.
- target        target           0.33  0.10  -0.33  97_num9_07.png     Put the target block just above the star in a circle.
+ target        NULL             0.33  0.10  -0.33  97_num9_07.png     Put the target block just above the star in a circle.
  target        texaco           0.33  0.10  -0.33  97_num9_07.png     Take the target block and place if above the texaco block, where the bottom of the target block touches the top of the texaco block
  target        mercedes benz    0.33  0.10  -0.33  97_num9_07.png     Take the Target block and place it above and to the right of the Benz block
  target        texaco           0.33  0.10  -0.33  97_num9_07.png     Take the Target block and place it below and to the left of the BMW block, touching the texaco block
@@ -1614,7 +1614,7 @@
  burger king   mcdonalds        -0.17 0.10  0.33   97_num9_08.png     Push the Burger King logo down until it touches the Esso logo, then move it left until it is almost even with the McDonalds logo, then move it down so that it is halfway even with the Esso logo.
  burger king   mcdonalds        -0.17 0.10  0.33   97_num9_08.png     Put the Burger King block above and slightly right of the McDonalds block, spaced about one block away and staggered about half a block to the right.
  burger king   ups              -0.17 0.10  0.33   97_num9_08.png     Move the burger king block directly left of the ups block, and then two squares toward you.
- burger king   burger king      -0.17 0.10  0.33   97_num9_08.png     Put the Burger King block one space above and slightly to the right of the other fast food block.
+ burger king   NULL             -0.17 0.10  0.33   97_num9_08.png     Put the Burger King block one space above and slightly to the right of the other fast food block.
  burger king   mcdonalds        -0.17 0.10  0.33   97_num9_08.png     Take the Starbucks block and place it above, but not touching, the McDonalds block
  burger king   ups              -0.17 0.10  0.33   97_num9_08.png     Take the Starbucks block and place it below and to the left of the UPS block
  burger king   mcdonalds        -0.17 0.10  0.33   97_num9_08.png     Take the Starbucks block and place it below and to the far right of the Heineken block, above the McDonalds block
@@ -1623,7 +1623,7 @@
  esso          burger king      0.00  0.10  0.50   97_num9_09.png     Push the Esso logo to the left until it is next to the Burger King logo, then push it up until its bottom left corner touches the top right corner of the Burger King logo.
  esso          burger king      0.00  0.10  0.50   97_num9_09.png     Put the Esso block in front of the ups block, spaced about one block away (so the left near corner is pointing at the right far corner of burger king).
  esso          ups              0.00  0.10  0.50   97_num9_09.png     Put the Esso block in the same north-south line as the ups block, but  one space south of it.
- esso          esso             0.00  0.10  0.50   97_num9_09.png     Move the Esso block left until it's in line with the delivery company block.
+ esso          NULL             0.00  0.10  0.50   97_num9_09.png     Move the Esso block left until it's in line with the delivery company block.
  esso          burger king      0.00  0.10  0.50   97_num9_09.png     Take the Esso block and place it underneath, but not touching the UPS block, and still above the Burger King block.
  esso          burger king      0.00  0.10  0.50   97_num9_09.png     Take the Esso block and place it above and to the right of the Burger King block
  esso          burger king      0.00  0.10  0.50   97_num9_09.png     Take the Esso block and place it between the Burger King and the UPS block, directly underneath the UPS block.

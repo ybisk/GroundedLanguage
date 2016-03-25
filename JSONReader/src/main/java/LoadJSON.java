@@ -6,6 +6,7 @@ import edu.stanford.nlp.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import java.util.regex.Pattern;
@@ -101,6 +102,34 @@ public class LoadJSON {
       BW.write("\n");
     }
     BW.close();
+  }
+
+  /**
+   * Compute percentage of dataset written by any given person
+   */
+  public static void authorStatistics(ArrayList<Task> tasks) throws IOException {
+    HashMap<String,Integer> authors = new HashMap<>();
+    double total = 0;
+    for (Task task : tasks) {
+      for (Note note : task.notes) {
+        if (note.type.equals("A0")) {
+          for (String user : note.users) {
+            if (!authors.containsKey(user))
+              authors.put(user, 0);
+            authors.put(user, authors.get(user) + 1);
+            ++total;
+          }
+        }
+      }
+    }
+    ArrayList<Tuple> tuples = new ArrayList<>();
+    for (String user : authors.keySet())
+      tuples.add(new Tuple(user, authors.get(user)));
+    Collections.sort(tuples);
+
+    System.out.println("Total annotators: " + tuples.size());
+    for (Tuple tuple : tuples)
+      System.out.println(String.format("%-25s %d %f", tuple.content(), (int) tuple.value(), 100.0*tuple.value()/total));
   }
 
   /**
@@ -228,7 +257,7 @@ public class LoadJSON {
       }
       return target;
     } else {
-      return source;
+      return -1;
     }
   }
 
@@ -390,18 +419,73 @@ public class LoadJSON {
     System.out.println("Created " + filename);
   }
 
+  /**
+   * Currently we assume all data is STRP
+   */
+  public static void createRecords(ArrayList<Task> data, String filename) throws IOException {
+    BufferedWriter BW = TextFile.Writer(filename);
+    int idx = 0;
+    String[] utterance;
+    String[][] tokens = new String[9][];
+    for (Task task : data) {
+      if (task.decoration.equals("logo")) {
+        for (Note note : task.notes) {
+          if (note.type.equals("A0")) {
+            for (int i = 0; i < note.notes.length; ++i) {
+              tokens[i] = tokenize(note.notes[i]);
+            }
+            for (int i = 0; i < note.notes.length; ++i) {
+              utterance = tokens[i];
+              int source = getSource(task.states[note.start], task.states[note.finish]);
+              int target = getTarget(source, utterance, task.states[note.finish], task.decoration);
+              int RP;
+              if (target != -1)
+                RP = getRP(task.states[note.finish][source], task.states[note.finish][target]);
+              else
+                RP = getRP(task.states[note.finish][source], task.states[note.start][source]);
+              BW.write(String.format("Example_%d\n", ++idx));
+              BW.write(Arrays.asList(utterance).stream().collect(Collectors.joining(" ")) + "\n");
+              for (int j = 0; j < note.notes.length; ++j) {
+                if (i != j)
+                  BW.write(Arrays.asList(note.notes[j]).stream().collect(Collectors.joining(" ")) + "\n");
+              }
+              BW.write(String.format(".id:0\t.type:source\t@block:%d\n", source));
+              BW.write(String.format(".id:1\t.type:target\t@block:%s\n", target > -1 ? String.valueOf(target) : "--"));
+              BW.write(String.format(".id:2\t.type:pos\t@RP:%d\n", RP));
+              BW.write("0 0 1 2\n");
+            }
+          }
+        }
+      }
+    }
+    BW.close();
+    System.out.println("Created " + filename);
+  }
+
+
   public static strictfp void main(String[] args) throws Exception {
     Configuration.setConfiguration(args.length > 0 ? args[0] : "JSONReader/config.properties");
 
     ArrayList<Task> Train = readJSON(Configuration.training);
     ArrayList<Task> Test = readJSON(Configuration.testing);
     ArrayList<Task> Dev = readJSON(Configuration.development);
+
+    // computeVocabulary(Train);
+
+    switch(Configuration.output) {
+      case Matrix:
+        createMatrix(Train, "Train.mat");
+        createMatrix(Test, "Test.mat");
+        createMatrix(Dev, "Dev.mat");
+        break;
+      case Records:
+        createRecords(Train, "Train.records");
+        createRecords(Test, "Test.records");
+        createRecords(Dev, "Dev.records");
+        break;
+    }
+
     //statistics(Train);
-
-    computeVocabulary(Train);
-
-    createMatrix(Train, "Train.mat");
-    createMatrix(Test,  "Test.mat");
-    createMatrix(Dev,   "Dev.mat");
+    //authorStatistics(Train);
   }
 }

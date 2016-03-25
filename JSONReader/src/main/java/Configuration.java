@@ -7,8 +7,12 @@ public class Configuration {
   public static String testing = "BlockWorld/DataCreation/testset/testset.json.gz";
   public static String development = "BlockWorld/DataCreation/devset/devset.json.gz";
 
+  // What to extract
   public static Information[] condition = new Information[] {Information.CurrentWorld, Information.Utterance};
   public static Information[] predict = new Information[] {Information.Source, Information.Target, Information.RelativePosition};
+
+  // What the output format is
+  public static OutputFormat output = OutputFormat.Matrix;
 
   public static void setConfiguration(String configuration) {
     List<String> config = TextFile.Read(configuration);
@@ -41,10 +45,17 @@ public class Configuration {
               predict[i] = Information.valueOf(split[i].trim());
             }
             break;
+          case "output":
+            output = OutputFormat.valueOf(split[1].trim());
+            break;
           default:
             System.err.println("Invalid configuration option: " + split[0] + " ... ignoring");
         }
       }
     }
+  }
+
+  public enum OutputFormat {
+    Matrix, Records
   }
 }
