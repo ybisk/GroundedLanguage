@@ -12,79 +12,23 @@ import java.util.regex.Pattern;
 
 public class LoadJSON {
   private static final Gson gsonReader = new Gson();
-  private static final Pattern whitespace_pattern = Pattern.compile("\\s+");
+  static final Pattern whitespace_pattern = Pattern.compile("\\s+");
   private static final Pattern dash_pattern = Pattern.compile("_");
   private static MaxentTagger tagger = new MaxentTagger(MaxentTagger.DEFAULT_JAR_PATH);
   private static final HashMap<String,Integer> Vocab = new HashMap<>();
 
+  /**
+   * Deserialize the JSONs
+   */
   public static ArrayList<Task> readJSON(String filename) throws IOException {
     BufferedReader BR = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(new File(filename))), "UTF-8"));
     ArrayList<Task> Tasks = new ArrayList<>();
     String line;
     while ((line = BR.readLine()) != null)
       Tasks.add(gsonReader.fromJson(line, Task.class));
-    return Tasks;
-  }
 
-  public static String UPOS(String PTB) {
-    switch(PTB) {
-      case "!"      : return ".";
-      case "#"      : return ".";
-      case "$"      : return ".";
-      case "''"     : return ".";
-      case "("      : return ".";
-      case ")"      : return ".";
-      case ","      : return ".";
-      case "-LRB-"  : return ".";
-      case "-RRB-"  : return ".";
-      case "."      : return ".";
-      case ":"      : return ".";
-      case "?"      : return ".";
-      case "CC"     : return "CONJ";
-      case "CD"     : return "NUM";
-      case "DT"     : return "DET";
-      case "EX"     : return "DET";
-      case "FW"     : return "X";
-      case "IN"     : return "ADP";
-      case "JJ"     : return "ADJ";
-      case "JJR"    : return "ADJ";
-      case "JJRJR"  : return "ADJ";
-      case "JJS"    : return "ADJ";
-      case "LS"     : return "X";
-      case "MD"     : return "VERB";
-      case "NN"     : return "NOUN";
-      case "NNP"    : return "NOUN";
-      case "NNPS"   : return "NOUN";
-      case "NNS"    : return "NOUN";
-      case "NP"     : return "NOUN";
-      case "PDT"    : return "DET";
-      case "POS"    : return "PRT";
-      case "PRP"    : return "PRON";
-      case "PRP$"   : return "PRON";
-      case "PRT"    : return "PRT";
-      case "RB"     : return "ADV";
-      case "RBR"    : return "ADV";
-      case "RBS"    : return "ADV";
-      case "RN"     : return "X";
-      case "RP"     : return "PRT";
-      case "SYM"    : return "X";
-      case "TO"     : return "PRT";
-      case "UH"     : return "X";
-      case "VB"     : return "VERB";
-      case "VBD"    : return "VERB";
-      case "VBG"    : return "VERB";
-      case "VBN"    : return "VERB";
-      case "VBP"    : return "VERB";
-      case "VBZ"    : return "VERB";
-      case "VP"     : return "VERB";
-      case "WDT"    : return "DET";
-      case "WH"     : return "X";
-      case "WP"     : return "PRON";
-      case "WP$"    : return "PRON";
-      case "WRB"    : return "ADV";
-      case "``"     : return " .";
-      default: return "BLAH";
-    }
+    System.out.println("Read " + filename);
+    return Tasks;
   }
 
   /**
@@ -147,6 +91,9 @@ public class LoadJSON {
     BW.close();
   }
 
+  /**
+   * Map every word which occurs at least twice to an integer
+   */
   public static void computeVocabulary(ArrayList<Task> tasks) {
     // Compute the counts
     HashMap<String, Integer> counts = new HashMap<>();
@@ -169,6 +116,12 @@ public class LoadJSON {
     System.out.println(String.format("Created Vocabulary: %d of %d", Vocab.size(), counts.size()));
   }
 
+  /**
+   * Extract the block-id that moved
+   * @param world_t
+   * @param world_tp1
+   * @return
+   */
   public static int getSource(double[][] world_t, double[][] world_tp1) {
     for (int i = 0; i < world_t.length; ++i) {
       if (world_t[i][0] != world_tp1[i][0] || world_t[i][1] != world_tp1[i][1] || world_t[i][2] != world_tp1[i][2])
@@ -178,10 +131,16 @@ public class LoadJSON {
     return -1;
   }
 
+  /**
+   * Euclidean Distance (in block-lengths)
+   */
   public static double distance(double[] A, double[] B) {
     return Math.sqrt(Math.pow(A[0] - B[0], 2) + Math.pow(A[1] - B[1], 2) + Math.pow(A[2] - B[2], 2)) / 0.1524;
   }
 
+  /**
+   * Use the text to choose possible reference blocks
+   */
   public static Set<Integer> getPossibleTargets(int source, String[] tokenized, String decoration) {
     // Set of brands for labeling blocks
     String[] brands = {"adidas", "bmw", "burger king", "coca cola", "esso", "heineken", "hp", "mcdonalds",
@@ -246,6 +205,9 @@ public class LoadJSON {
     return blocks;
   }
 
+  /**
+   * Return the closest reference block to the goal location (from the set returned by getPossibleTargets)
+   */
   public static int getTarget(int source, String[] tokenized, double[][] world, String decoration) {
     Set<Integer> blocks = getPossibleTargets(source, tokenized, decoration);
     if (!blocks.isEmpty()) {
@@ -267,6 +229,9 @@ public class LoadJSON {
     }
   }
 
+  /**
+   * Return Relative position of the source's new destination as compared to a reference block
+   */
   public static int getRP(double[] source, double[] target) {
     // Amended Ozan RP scheme of Source relative to Target
     //  1 2 3
@@ -306,6 +271,9 @@ public class LoadJSON {
     return -1;
   }
 
+  /**
+   * Returns a flattened world representation (20x3) --> 60D vector
+   */
   public static String getWorld(double[][] world) {
     double[] locs = new double[60];
     Arrays.fill(locs, -1);
@@ -320,6 +288,9 @@ public class LoadJSON {
     return toRet;
   }
 
+  /**
+   * Returns a tokenized string[]
+   */
   public static String[] tokenize(String utterance) {
     String[] tagged = whitespace_pattern.split(tagger.tagString(utterance.replace(",", " , ")));
     for (int i = 0; i < tagged.length; ++i)
@@ -327,6 +298,9 @@ public class LoadJSON {
     return tagged;
   }
 
+  /**
+   * Convert utterance to a sparse vector.  Words are UNKed according to Vocab dictionary
+   */
   public static String unkUtterance(String[] tokenized) {
     String toRet = "";
     for (String word : tokenized) {
@@ -338,14 +312,19 @@ public class LoadJSON {
     return toRet;
   }
 
-  public static void createMatrix(ArrayList<Task> data, Information[] condition, Information[] predict, BufferedWriter BW) throws IOException {
+  /**
+   * Takes a series of tasks and extracts prediction and conditioning information based on Configuration file.
+   * Results is a sparse matrix (ints) or floats
+   */
+  public static void createMatrix(ArrayList<Task> data, String filename) throws IOException {
+    BufferedWriter BW = TextFile.Writer(filename);
     for (Task task : data) {
       for (Note note : task.notes) {
         if (note.type.equals("A0")) {
           for (String utterance : note.notes) {
             // Compute predictions
             int source = -1, target = -1;
-            for (Information info : predict) {
+            for (Information info : Configuration.predict) {
               switch (info) {
                 case Source:
                   source = getSource(task.states[note.start], task.states[note.finish]);
@@ -370,7 +349,7 @@ public class LoadJSON {
               }
             }
             // Compute conditioning variables
-            for (Information info : condition) {
+            for (Information info : Configuration.condition) {
               switch (info) {
                 case CurrentWorld:
                   BW.write(getWorld(task.states[note.start]));
@@ -391,32 +370,21 @@ public class LoadJSON {
         }
       }
     }
+    System.out.println("Created " + filename);
   }
 
   public static strictfp void main(String[] args) throws Exception {
-    ArrayList<Task> Train = readJSON(args[0]);
-    System.out.print("Read Training ");
-    ArrayList<Task> Test = readJSON(args[1]);
-    System.out.print(" Testing");
-    ArrayList<Task> Dev = readJSON(args[2]);
-    System.out.println(" Development");
+    Configuration.setConfiguration(args.length > 0 ? args[0] : "JSONReader/config.properties");
+
+    ArrayList<Task> Train = readJSON(Configuration.training);
+    ArrayList<Task> Test = readJSON(Configuration.testing);
+    ArrayList<Task> Dev = readJSON(Configuration.development);
     //statistics(Train);
 
     computeVocabulary(Train);
 
-    // Settings
-    Information[] condition = new Information[] {Information.CurrentWorld, Information.Utterance};
-    Information[] predict = new Information[] {Information.Source, Information.Target, Information.RelativePosition};
-
-    createMatrix(Train, condition, predict, MatrixFile.Writer("Train.mat"));
-    System.out.println("Created Train.mat");
-    createMatrix(Test, condition, predict, MatrixFile.Writer("Test.mat"));
-    System.out.println("Created Test.mat");
-    createMatrix(Dev, condition, predict, MatrixFile.Writer("Dev.mat"));
-    System.out.println("Created Dev.mat");
-  }
-
-  public enum Information {
-    CurrentWorld, Utterance, NextWorld, Source, Target, RelativePosition, XYZ
+    createMatrix(Train, "Train.mat");
+    createMatrix(Test,  "Test.mat");
+    createMatrix(Dev,   "Dev.mat");
   }
 }
