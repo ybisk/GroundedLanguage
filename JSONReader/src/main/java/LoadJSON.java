@@ -17,6 +17,18 @@ public class LoadJSON {
   private static MaxentTagger tagger = new MaxentTagger(MaxentTagger.DEFAULT_JAR_PATH);
   private static final HashMap<String,Integer> Vocab = new HashMap<>();
 
+  // Set of brands for labeling blocks
+  static String[] brands = {"adidas", "bmw", "burger king", "coca cola", "esso", "heineken", "hp", "mcdonalds",
+      "mercedes benz", "nvidia", "pepsi", "shell", "sri", "starbucks", "stella artois",
+      "target", "texaco", "toyota", "twitter", "ups"};
+
+  // Set of digits for labeling blocks
+  static String[] digits = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+      "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
+
+  // cardinal directions
+  static String[] cardinal = {"NW", "N", "NE", "W", "TOP", "E", "SW", "S", "SE"};
+
   /**
    * Deserialize the JSONs
    */
@@ -142,15 +154,6 @@ public class LoadJSON {
    * Use the text to choose possible reference blocks
    */
   public static Set<Integer> getPossibleTargets(int source, String[] tokenized, String decoration) {
-    // Set of brands for labeling blocks
-    String[] brands = {"adidas", "bmw", "burger king", "coca cola", "esso", "heineken", "hp", "mcdonalds",
-        "mercedes benz", "nvidia", "pepsi", "shell", "sri", "starbucks", "stella artois",
-        "target", "texaco", "toyota", "twitter", "ups"};
-
-    // Set of digits for labeling blocks
-    String[] digits = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-        "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
-
     String[] cleanup = {"the", "to", "on", "right", "line", "then", "even", "for", "them", "sit"};
 
     HashSet<String> words = new HashSet<>();
@@ -243,29 +246,29 @@ public class LoadJSON {
       case -1:
         switch (dz) {
           case -1:  // if dx < 0 and dz < 0 SW
-            return 7;
+            return 6;
           case 0:   // if dx < 0 and dz = 0 W
-            return 4;
+            return 3;
           case 1:   // if dx < 0 and dz > 0 NW
+            return 0;
+      }
+      case 0:
+        switch (dz) {
+          case -1:    // if dx = 0 and dz < 0 S
+            return 7;
+          case 0:     // if dx = 0 and dz = 0 TOP
+            return 4;
+          case 1:     // if dx = 0 and dz > 0 N
             return 1;
-        }
+      }
       case 1:
         switch (dz) {
           case -1:  // if dx > 0 and dz < 0 SE
-            return 9;
+            return 8;
           case 0:   // if dx > 0 and dz = 0 E
-            return 6;
+            return 5;
           case 1:   // if dx > 0 and dz > 0 NE
-            return 3;
-        }
-      case 0:
-        switch (dz) {
-        case -1:    // if dx = 0 and dz < 0 S
-          return 8;
-        case 0:     // if dx = 0 and dz = 0 TOP
-          return 5;
-        case 1:     // if dx = 0 and dz > 0 N
-          return 2;
+            return 2;
       }
     }
     return -1;
@@ -318,31 +321,39 @@ public class LoadJSON {
    */
   public static void createMatrix(ArrayList<Task> data, String filename) throws IOException {
     BufferedWriter BW = TextFile.Writer(filename);
+    BufferedWriter Human = TextFile.Writer(filename + ".human");
     for (Task task : data) {
       for (Note note : task.notes) {
         if (note.type.equals("A0")) {
           for (String utterance : note.notes) {
             // Compute predictions
-            int source = -1, target = -1;
+            int source = -1, target = -1, RP = -1;
             for (Information info : Configuration.predict) {
               switch (info) {
                 case Source:
                   source = getSource(task.states[note.start], task.states[note.finish]);
                   BW.write(String.format(" %d ", source));
+                  Human.write(String.format(" %-12s ", task.decoration.equals("logo") ? brands[source] : digits[source]));
                   break;
                 case Target:
                   target = getTarget(source, tokenize(utterance), task.states[note.finish], task.decoration);
                   BW.write(String.format(" %d ", target));
+                  Human.write(String.format(" %-15s ", target > -1 ? task.decoration.equals("logo") ? brands[target] : digits[target] : "NULL"));
                   break;
                 case RelativePosition:
                   if (target != -1)
-                    BW.write(String.format(" %d ", getRP(task.states[note.finish][source], task.states[note.finish][target])));
+                    RP = getRP(task.states[note.finish][source], task.states[note.finish][target]);
                   else
-                    BW.write(String.format(" %d ", getRP(task.states[note.finish][source], task.states[note.start][source])));
+                    RP = getRP(task.states[note.finish][source], task.states[note.start][source]);
+                  BW.write(String.format(" %d ", RP));
+                  Human.write(String.format(" %-3s ", cardinal[RP]));
                   break;
                 case XYZ:
                   BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
                       task.states[note.finish][source][1], task.states[note.finish][source][2]));
+                  Human.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
+                      task.states[note.finish][source][1], task.states[note.finish][source][2]));
+                  break;
                 default:
                   System.err.println("We don't predict " + info);
                   return;
@@ -353,12 +364,15 @@ public class LoadJSON {
               switch (info) {
                 case CurrentWorld:
                   BW.write(getWorld(task.states[note.start]));
+                  Human.write(String.format(" %s ", task.images[note.start]));
                   break;
                 case NextWorld:
                   BW.write(getWorld(task.states[note.finish]));
+                  Human.write(String.format(" %s ", task.images[note.finish]));
                   break;
                 case Utterance:
                   BW.write(unkUtterance(tokenize(utterance)));
+                  Human.write("    " + utterance);
                   break;
                 default:
                   System.err.println("We don't condition on " + info);
@@ -366,10 +380,13 @@ public class LoadJSON {
               }
             }
             BW.write("\n");
+            Human.write("\n");
           }
         }
       }
     }
+    BW.close();
+    Human.close();
     System.out.println("Created " + filename);
   }
 
