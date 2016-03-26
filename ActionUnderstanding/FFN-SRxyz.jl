@@ -1,12 +1,11 @@
-# Feed forward neural network which predicts Source and predicts XYZ final location
-# Input File: JSONReader/data/2016-NAACL/Sxyz/*.mat
-# Input:  World (60-Dim vector) and Utterance as Sparse vector
-# Output:  Source (20-D softmax) and (x,y,z) target position
+# Feed forward neural network which predicts Source, Target, and uses them to predict XYZ coordinates
+# Input File: JSONReader/data/2016-NAACL/STxyz/*.mat
 
 using Knet
 using ArgParse
 using JLD
 using CUDArt
+
 
 # turns each row of data into a column of a one-hot sparse matrix
 # data should have a one based index for each attribute

@@ -1,3 +1,3 @@
 public enum Information {
-  CurrentWorld, Utterance, NextWorld, Source, Target, RelativePosition, XYZ
+  CurrentWorld, Utterance, NextWorld, Source, Reference, Direction, XYZ
 }

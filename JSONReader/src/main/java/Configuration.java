@@ -9,7 +9,7 @@ public class Configuration {
 
   // What to extract
   public static Information[] condition = new Information[] {Information.CurrentWorld, Information.Utterance};
-  public static Information[] predict = new Information[] {Information.Source, Information.Target, Information.RelativePosition};
+  public static Information[] predict = new Information[] {Information.Source, Information.Reference, Information.Direction};
 
   // What the output format is
   public static OutputFormat output = OutputFormat.Matrix;
