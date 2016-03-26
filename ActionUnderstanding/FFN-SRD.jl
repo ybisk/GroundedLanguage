@@ -1,5 +1,5 @@
 # Feed forward neural network which predicts Source, Target, and Relative Position independantly
-# Input File: JSONReader/data/2016-NAACL/STRP/*.mat
+# Input File: JSONReader/data/2016-NAACL/STD/*.mat
 # Input:  Utterance as sparse Array
 # Output:  Source, Target, or Relative Position.  Each prediction is an indep model.
 
@@ -26,26 +26,28 @@ function sparsify(data, offset)
 end
 
 ## Load Data, compute vocabulary and matrix dimensions ##
-traindir = "JSONReader/data/2016-NAACL/STRP/Train.mat"
-data     = readdlm(traindir);
+# Cut off words from long sentences > 80
+longest_sentence = 80
+traindir = "JSONReader/data/2016-NAACL/SRD/Train.mat"
+data     = readdlm(traindir)[:,1:83];
 data[data.==""]=1
 V        = maximum(data[:,4:end])
-indim    = Int(size(data[:,4:end],2)*V)
 outdim   = 20
-RPoutdim = 9
+Doutdim  = 9
 
 X  = sparsify(data[:,4:end], V);
 S  = sparsify(data[:,1] + 1, outdim);
-T  = sparsify(data[:,2] + 1, outdim);
-RP = sparsify(data[:,3] + 1, RPoutdim);
+R  = sparsify(data[:,2] + 1, outdim);
+D = sparsify(data[:,3] + 1, Doutdim);
 
-testdir = "JSONReader/data/2016-NAACL/STRP/Dev.mat"
-test_data = readdlm(testdir);
+testdir = "JSONReader/data/2016-NAACL/SRD/Dev.mat"
+test_data = readdlm(testdir)[:,1:83];
 test_data[test_data.==""]=1
+V        = maximum(data[:,4:end])
 X_t  = sparsify(test_data[:,4:end], V);
 S_t  = sparsify(test_data[:,1] + 1, outdim);
-T_t  = sparsify(test_data[:,2] + 1, outdim);
-RP_t = sparsify(test_data[:,3] + 1, RPoutdim);
+R_t  = sparsify(test_data[:,2] + 1, outdim);
+D_t = sparsify(test_data[:,3] + 1, Doutdim);
 
 
 function train(f, data, loss)
@@ -109,7 +111,7 @@ function main(args=ARGS)
         ("--lrate"; arg_type=Float64; default=0.1)
         ("--decay"; arg_type=Float64; default=0.9)
         ("--dropout"; arg_type=Float64; default=0.5)
-        ("--seed"; arg_type=Int; default=20160113)
+        ("--seed"; arg_type=Int; default=20160326)
         ("--epochs"; arg_type=Int; default=10)
         ("--task"; arg_type=Int; default=1)
   end
@@ -129,14 +131,14 @@ function main(args=ARGS)
     predict(Snet, X_t)
   end
   if o[:task] == 2
-    Tnet = compile(:SM, dropout=dropout, outdim=outdim)
-    trainloop(Tnet, epochs, lrate, decay, X, T, X_t, T_t)
-    predict(Tnet, X_t)
+    Rnet = compile(:SM, dropout=dropout, outdim=outdim)
+    trainloop(Rnet, epochs, lrate, decay, X, R, X_t, R_t)
+    predict(Rnet, X_t)
   end
   if o[:task] == 3
-    RPnet = compile(:SM, dropout=dropout, outdim=RPoutdim)
-    trainloop(RPnet, epochs, lrate, decay, X, RP, X_t, RP_t)
-    predict(RPnet, X_t)
+    Dnet = compile(:SM, dropout=dropout, outdim=Doutdim)
+    trainloop(Dnet, epochs, lrate, decay, X, D, X_t, D_t)
+    predict(Dnet, X_t)
   end
 
   # Save net and parameterize
