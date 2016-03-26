@@ -4,7 +4,7 @@
 using Knet
 using ArgParse
 using JLD
-#using CUDArt
+using CUDArt
 
 
 # turns each row of data into a column of a one-hot sparse matrix
@@ -30,7 +30,7 @@ data[data.==""]=1
 V        = maximum(data[:,4:end])
 indim    = Int(size(data[:,4:end],2)*V)
 outdim   = 20
-RPoutdim = 8
+RPoutdim = 9
 
 X  = sparsify(data[:,4:end], V);
 S  = sparsify(data[:,1] + 1, outdim);
