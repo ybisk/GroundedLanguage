@@ -1,5 +1,7 @@
 # Feed forward neural network which predicts Source and predicts XYZ final location
 # Input File: JSONReader/data/2016-NAACL/Sxyz/*.mat
+# Input:  World (60-Dim vector) and Utterance as Sparse vector
+# Output:  Source (20-D softmax) and (x,y,z) target position
 
 using Knet
 using ArgParse
@@ -24,22 +26,24 @@ end
 
 ## Load Data, compute vocabulary and matrix dimensions ##
 traindir = "JSONReader/data/2016-NAACL/Sxyz/Train.mat"
-data     = readdlm(traindir, Float32);
+data     = readdlm(traindir);
+data[data.==""]=1
 V        = maximum(data[:,65:end])
 indim    = Int(size(data[:,65:end],2)*V)
 outdim   = 20
 
 ## Input:  Text, World (dim 60), Source, (x,y,z) ##
 X  = sparsify(data[:,65:end], V);
-W  = data[:,5:64]';
-S  = sparsify(data[:,1], outdim);
+W  = convert(Array{Float32},data[:,5:64]');
+S  = sparsify(data[:,1] + 1, outdim);
 Locs = data[:,2:4]';
 
 testdir = "JSONReader/data/2016-NAACL/Sxyz/Dev.mat"
-test_data = readdlm(testdir, Float32);
+test_data = readdlm(testdir);
+test_data[test_data.==""]=1
 X_t  = sparsify(test_data[:,65:end], V);
-W_t  = test_data[:,5:64]';
-S_t  = sparsify(test_data[:,1], outdim);
+W_t  = convert(Array{Float32},test_data[:,5:64]');
+S_t  = sparsify(test_data[:,1] + 1, outdim);
 Locs_t = test_data[:,2:4]';
 
 
@@ -82,6 +86,7 @@ function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
   end
 end
 
+import Knet:minibatch
 function minibatch(x,w,y, batchsize)
   data = Any[]
   for i=1:batchsize:size(x,2)-batchsize+1
@@ -119,6 +124,10 @@ function predict(f, world, txt, wrld)
   println(flat(P))
 end
 
+"""
+  If loc = false:  Predict Source with softmax(2 layers + Dropout)
+  If loc = true:   Predict (x,y,z) with hidden layer from source
+"""
 @knet function SM_Reg(x, world; dropout=0.5, outdim=20)
     h = wbf(x; out=100, f=:relu)
     hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
