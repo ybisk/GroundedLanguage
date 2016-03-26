@@ -107,7 +107,7 @@ function main(args=ARGS)
   end
   isa(args, AbstractString) && (args=split(args))
   o = parse_args(args, s; as_symbols=true); println(o)
-  o[:seed] > 0 && setseed(o[:seed]) 
+  o[:seed] > 0 && setseed(o[:seed])
 
   lrate = o[:lrate]
   decay = o[:decay]
