@@ -366,8 +366,9 @@ public class LoadJSON {
                   break;
                 case Target:
                   target = getTarget(source, tokenize(utterance), task.states[note.finish], task.decoration);
-                  BW.write(String.format(" %d ", target));
-                  Human.write(String.format(" %-15s ", target > -1 ? task.decoration.equals("logo") ? brands[target] : digits[target] : "NULL"));
+                  int t_target = target > -1 ? target : source;
+                  BW.write(String.format(" %d ", t_target));
+                  Human.write(String.format(" %-15s ", t_target > -1 ? task.decoration.equals("logo") ? brands[t_target] : digits[t_target] : "NULL"));
                   break;
                 case RelativePosition:
                   if (target != -1)
@@ -470,10 +471,9 @@ public class LoadJSON {
     ArrayList<Task> Test = readJSON(Configuration.testing);
     ArrayList<Task> Dev = readJSON(Configuration.development);
 
-    // computeVocabulary(Train);
-
     switch(Configuration.output) {
       case Matrix:
+        computeVocabulary(Train);
         createMatrix(Train, "Train.mat");
         createMatrix(Test, "Test.mat");
         createMatrix(Dev, "Dev.mat");
