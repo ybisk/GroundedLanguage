@@ -26,7 +26,7 @@ end
 
 ## Load Data, compute vocabulary and matrix dimensions ##
 traindir = "JSONReader/data/2016-NAACL/Sxyz/Train.mat"
-data     = readdlm(traindir);
+data     = readdlm(traindir)[:,1:144];
 data[data.==""]=1
 V        = maximum(data[:,65:end])
 indim    = Int(size(data[:,65:end],2)*V)
@@ -36,15 +36,15 @@ outdim   = 20
 X  = sparsify(data[:,65:end], V);
 W  = convert(Array{Float32},data[:,5:64]');
 S  = sparsify(data[:,1] + 1, outdim);
-Locs = data[:,2:4]';
+Locs = convert(Array{Float32},data[:,2:4]');
 
 testdir = "JSONReader/data/2016-NAACL/Sxyz/Dev.mat"
-test_data = readdlm(testdir);
+test_data = readdlm(testdir)[:,1:144];
 test_data[test_data.==""]=1
 X_t  = sparsify(test_data[:,65:end], V);
 W_t  = convert(Array{Float32},test_data[:,5:64]');
 S_t  = sparsify(test_data[:,1] + 1, outdim);
-Locs_t = test_data[:,2:4]';
+Locs_t = convert(Array{Float32},test_data[:,2:4]');
 
 
 function train(f, data, loss; loc=false) # we should use softloss, not quadloss when loc=false
@@ -124,10 +124,8 @@ function predict(f, world, txt, wrld)
   println(flat(P))
 end
 
-"""
-  If loc = false:  Predict Source with softmax(2 layers + Dropout)
-  If loc = true:   Predict (x,y,z) with hidden layer from source
-"""
+##  If loc = false:  Predict Source with softmax(2 layers + Dropout)
+##  If loc = true:   Predict (x,y,z) with hidden layer from source
 @knet function SM_Reg(x, world; dropout=0.5, outdim=20)
     h = wbf(x; out=100, f=:relu)
     hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
