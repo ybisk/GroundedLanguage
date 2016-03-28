@@ -71,10 +71,13 @@ Target	Hidden	TrnLogp	DevErr	BestDevEpoch
 Other attempts to improve target 3 fail (over the .3112 best result).
 a. Increasing dropout to 0.75. => .3187@30
 b. Adding dropout to wvec (input embedding) as well as hvec (hidden). => .3182@38
-@@c. Trying a two layer LSTM instead of one. => 
+c. Trying a two layer LSTM instead of one. => .3211@36
 d. Trying embedding sizes different than hidden size. => .3223@64emb .3315@128emb .3246@512emb
 
-@@Fixing padding in RNN-SRD4. Rerunning best models for target=1,2,3.
+Fixing padding (using 0 instead of 1 to pad, so unk tokens are not skipped in backprop):
+target=1 .0320@13
+target=2 .1344@11
+target=3 .3188@27
 
 Sxyz File format:
 -----------------
