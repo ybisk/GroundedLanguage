@@ -12,11 +12,13 @@ function main(args)
     s = ArgParseSettings()
     s.exc_handler=ArgParse.debug_handler
     @add_arg_table s begin
-        ("--datafiles"; nargs='+'; default=["JSONReader/data/2016-NAACL/SRD/Train.mat","JSONReader/data/2016-NAACL/SRD/Dev.mat"])
+        ("--datafiles"; nargs='+'; default=["JSONReader/data/2016-NAACL/SRD/Train.mat",
+                                            "JSONReader/data/2016-NAACL/SRD/Dev.mat",
+                                            "JSONReader/data/2016-NAACL/SRD/Test.mat"])
         ("--loadfile"; help="initialize model from file")
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
-        ("--hidden"; arg_type=Int; default=100; help="hidden layer size")
+        ("--hidden"; arg_type=Int; default=256; help="hidden layer size") # DY: best 64 for 1, 128 for 2, 256 for 3.
         ("--embedding"; arg_type=Int; default=0; help="word embedding size (default same as hidden)")
         ("--epochs"; arg_type=Int; default=10; help="number of epochs to train")
         ("--batchsize"; arg_type=Int; default=10; help="minibatch size")
@@ -55,7 +57,7 @@ function main(args)
         end
     end
 
-    # Minibatch data: data[1]:train, data[2]:dev
+    # Minibatch data: data[1]:train, data[2]:dev, data[3]:test
     # global yvocab = o[:yvocab][o[:target]] # DY: We should get this from the data as well like xvocab?
     global trange = yrange[o[:target]]      # DY: we want to use only one of the y values as output.
     trange = trange:trange                  # DY: minibatch expects ranges for both x and y, so use a singleton range for y
@@ -70,9 +72,10 @@ function main(args)
     setp(net, lr=o[:lr])
     lasterr = besterr = 1.0
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
-        trnerr = train(net, data[1], softloss; gclip=o[:gclip])
+        trnloss = train(net, data[1], softloss; gclip=o[:gclip])
         deverr = test(net, data[2], zeroone)
-        println((epoch, o[:lr], trnerr, deverr))
+        tsterr = test(net, data[3], zeroone)
+        println((epoch, o[:lr], trnloss, deverr, tsterr))
         if deverr < besterr
             besterr=deverr
             o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
