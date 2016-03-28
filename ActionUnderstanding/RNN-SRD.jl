@@ -46,7 +46,7 @@ function main(args)
     global yvocabs = zeros(yrange)
     global rawdata = map(f->readdlm(f)[:,1:83], o[:datafiles])
     for i=1:length(rawdata)
-        rawdata[i][rawdata[i].==""]=1
+        rawdata[i][rawdata[i].==""]=0 # DY: use word=0 for padding, word=1 for unk.
         rawdata[i] = convert(Array{Int,2},rawdata[i]);
         rawdata[i][:,yrange] += 1   # DY: converting from 0-based to 1-based, better to fix the data and remove this hack.
         xvocab = max(xvocab, maximum(rawdata[i][:,xrange]))
@@ -135,9 +135,9 @@ function test(f, data, loss)
     sumloss / numloss
 end
 
-function predict(f, data; xrange=4:83, padding=1, xvocab=326, ftype=Float32, xsparse=false)
+function predict(f, data; xrange=4:83, padding=0, xvocab=326, ftype=Float32, xsparse=false)
     reset!(f)
-    sentences = extract(data, xrange; padding=1)	# sentences[i][j] = j'th word of i'th sentence
+    sentences = extract(data, xrange; padding=padding)	# sentences[i][j] = j'th word of i'th sentence
     ypred = Any[]
     eos = xvocab + 1
     x = (xsparse ? sponehot : zeros)(ftype, eos, 1)
@@ -158,7 +158,7 @@ end
 # minibatch(d, xrange, yrange, o[:batchsize]; xvocab=xvocab, yvocab=yvocab, ftype=o[:ftype], xsparse=o[:xsparse])
 
 function minibatch(data, xrange, yrange, batchsize; o...) # data[i,j] is the j'th entry of i'th instance
-    x = extract(data, xrange; padding=1)	# x[i][j] = j'th word of i'th sentence
+    x = extract(data, xrange; padding=0)	# x[i][j] = j'th word of i'th sentence
     y = extract(data, yrange)                   # y[i][j] = j'th class of i'th sentence, here we assume j=1, i.e. single output for each sentence
     s = sortperm(x, by=length)
     batches = Any[]
