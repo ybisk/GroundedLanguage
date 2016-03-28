@@ -11,6 +11,8 @@ public class Configuration {
   public static Information[] condition = new Information[] {Information.CurrentWorld, Information.Utterance};
   public static Information[] predict = new Information[] {Information.Source, Information.Reference, Information.Direction};
 
+  public static BlockType blocktype = BlockType.MNIST;
+
   // What the output format is
   public static OutputFormat output = OutputFormat.Matrix;
 
@@ -48,6 +50,9 @@ public class Configuration {
           case "output":
             output = OutputFormat.valueOf(split[1].trim());
             break;
+          case "blocktype":
+            blocktype = BlockType.valueOf(split[1].trim());
+            break;
           default:
             System.err.println("Invalid configuration option: " + split[0] + " ... ignoring");
         }
@@ -57,5 +62,9 @@ public class Configuration {
 
   public enum OutputFormat {
     Matrix, Records
+  }
+
+  public enum BlockType {
+    Random, MNIST
   }
 }

@@ -182,7 +182,11 @@ public class LoadJSON {
   /**
    * Use the text to choose possible reference blocks
    */
-  public static Set<Integer> getPossibleTargets(int source, String[] tokenized, String decoration) {
+  public static Set<Integer> getPossibleReferences(int source, String[] tokenized, String decoration) {
+    // If random blank blocks then return the full set and choose the closest
+    if (Configuration.blocktype.equals(Configuration.BlockType.Random)) {
+      return new HashSet<>(Arrays.asList(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19));
+    }
     String[] cleanup = {"the", "to", "on", "right", "line", "then", "even", "for", "them", "sit"};
 
     HashSet<String> words = new HashSet<>();
@@ -238,24 +242,24 @@ public class LoadJSON {
   }
 
   /**
-   * Return the closest reference block to the goal location (from the set returned by getPossibleTargets)
+   * Return the closest reference block to the goal location (from the set returned by getPossibleReferences)
    */
-  public static int getTarget(int source, String[] tokenized, double[][] world, String decoration) {
-    Set<Integer> blocks = getPossibleTargets(source, tokenized, decoration);
+  public static int getReference(int source, String[] tokenized, double[][] world, String decoration) {
+    Set<Integer> blocks = getPossibleReferences(source, tokenized, decoration);
     if (!blocks.isEmpty()) {
       double maxD = 100000;
       double dist;
-      int target = -1;
+      int reference = -1;
       for (int block : blocks) {
-        if (block < world.length) {
+        if (block < world.length && block != source) {
           dist = distance(world[block], world[source]);
           if (dist < maxD) {
             maxD = dist;
-            target = block;
+            reference = block;
           }
         }
       }
-      return target;
+      return reference;
     } else {
       return -1;
     }
@@ -264,13 +268,13 @@ public class LoadJSON {
   /**
    * Return Relative position of the source's new destination as compared to a reference block
    */
-  public static int getRP(double[] source, double[] target) {
-    // Amended Ozan RP scheme of Source relative to Target
+  public static int getDir(double[] source, double[] reference) {
+    // Amended Ozan Dir scheme of Source relative to Reference
     //  1 2 3
     //  4 5 6
     //  7 8 9
-    int dx = (int)Math.signum(source[0] - target[0]);
-    int dz = (int)Math.signum(source[2] - target[2]);
+    int dx = (int)Math.signum(source[0] - reference[0]);
+    int dz = (int)Math.signum(source[2] - reference[2]);
     switch (dx) {
       case -1:
         switch (dz) {
@@ -356,7 +360,7 @@ public class LoadJSON {
         if (note.type.equals("A0")) {
           for (String utterance : note.notes) {
             // Compute predictions
-            int source = -1, target = -1, RP = -1;
+            int source = -1, reference = -1, Dir = -1;
             for (Information info : Configuration.predict) {
               switch (info) {
                 case Source:
@@ -364,19 +368,19 @@ public class LoadJSON {
                   BW.write(String.format(" %d ", source));
                   Human.write(String.format(" %-12s ", task.decoration.equals("logo") ? brands[source] : digits[source]));
                   break;
-                case Target:
-                  target = getTarget(source, tokenize(utterance), task.states[note.finish], task.decoration);
-                  int t_target = target > -1 ? target : source;
-                  BW.write(String.format(" %d ", t_target));
-                  Human.write(String.format(" %-15s ", t_target > -1 ? task.decoration.equals("logo") ? brands[t_target] : digits[t_target] : "NULL"));
+                case Reference:
+                  reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
+                  int t_reference = reference > -1 ? reference : source;
+                  BW.write(String.format(" %d ", t_reference));
+                  Human.write(String.format(" %-15s ", t_reference > -1 ? task.decoration.equals("logo") ? brands[t_reference] : digits[t_reference] : "NULL"));
                   break;
-                case RelativePosition:
-                  if (target != -1)
-                    RP = getRP(task.states[note.finish][source], task.states[note.finish][target]);
+                case Direction:
+                  if (reference != -1)
+                    Dir = getDir(task.states[note.finish][source], task.states[note.finish][reference]);
                   else
-                    RP = getRP(task.states[note.finish][source], task.states[note.start][source]);
-                  BW.write(String.format(" %d ", RP));
-                  Human.write(String.format(" %-3s ", cardinal[RP]));
+                    Dir = getDir(task.states[note.finish][source], task.states[note.start][source]);
+                  BW.write(String.format(" %d ", Dir));
+                  Human.write(String.format(" %-3s ", cardinal[Dir]));
                   break;
                 case XYZ:
                   BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
@@ -421,7 +425,7 @@ public class LoadJSON {
   }
 
   /**
-   * Currently we assume all data is STRP
+   * Currently we assume all data is STDir
    */
   public static void createRecords(ArrayList<Task> data, String filename) throws IOException {
     BufferedWriter BW = TextFile.Writer(filename);
@@ -438,12 +442,12 @@ public class LoadJSON {
             for (int i = 0; i < note.notes.length; ++i) {
               utterance = tokens[i];
               int source = getSource(task.states[note.start], task.states[note.finish]);
-              int target = getTarget(source, utterance, task.states[note.finish], task.decoration);
-              int RP;
-              if (target != -1)
-                RP = getRP(task.states[note.finish][source], task.states[note.finish][target]);
+              int reference = getReference(source, utterance, task.states[note.finish], task.decoration);
+              int Dir;
+              if (reference != -1)
+                Dir = getDir(task.states[note.finish][source], task.states[note.finish][reference]);
               else
-                RP = getRP(task.states[note.finish][source], task.states[note.start][source]);
+                Dir = getDir(task.states[note.finish][source], task.states[note.start][source]);
               BW.write(String.format("Example_%d\n", ++idx));
               BW.write(Arrays.asList(utterance).stream().collect(Collectors.joining(" ")) + "\n");
               for (int j = 0; j < note.notes.length; ++j) {
@@ -451,8 +455,8 @@ public class LoadJSON {
                   BW.write(Arrays.asList(note.notes[j]).stream().collect(Collectors.joining(" ")) + "\n");
               }
               BW.write(String.format(".id:0\t.type:source\t@block:%d\n", source));
-              BW.write(String.format(".id:1\t.type:target\t@block:%s\n", target > -1 ? String.valueOf(target) : "--"));
-              BW.write(String.format(".id:2\t.type:pos\t@RP:%d\n", RP));
+              BW.write(String.format(".id:1\t.type:reference\t@block:%s\n", reference > -1 ? String.valueOf(reference) : "--"));
+              BW.write(String.format(".id:2\t.type:pos\t@Dir:%d\n", Dir));
               BW.write("0 0 1 2\n");
             }
           }
