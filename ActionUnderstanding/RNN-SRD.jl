@@ -1,5 +1,5 @@
 # Recurrent neural network which predicts Source, Target, and Relative Position independenantly
-# Input File: JSONReader/data/2016-NAACL/STRP/*.mat
+# Input File: JSONReader/data/2016-NAACL/SRD/*.mat
 
 using ArgParse
 using JLD
@@ -12,7 +12,7 @@ function main(args)
     s = ArgParseSettings()
     s.exc_handler=ArgParse.debug_handler
     @add_arg_table s begin
-        ("--datafiles"; nargs='+'; default=["BlockWorld/logos/Train.STRP.data", "BlockWorld/logos/Dev.STRP.data"])
+        ("--datafiles"; nargs='+'; default=["JSONReader/data/2016-NAACL/SRD/Train.mat","JSONReader/data/2016-NAACL/SRD/Dev.mat"])
         ("--loadfile"; help="initialize model from file")
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
@@ -38,15 +38,18 @@ function main(args)
 
     # Read data files: Limit to length 80 sentence (+3 for predictions)
     global rawdata = map(f->readdlm(f)[:,1:83], o[:datafiles])
-    rawdata[rawdata.==""]=1
-    xvocab = maximum(data[:,4:end])
+    rawdata[1][rawdata[1].==""]=1
+    rawdata[2][rawdata[2].==""]=1
+    rawdata[1] = convert(Array{Int,2},rawdata[1]);
+    rawdata[2] = convert(Array{Int,2},rawdata[2]);
+    xvocab = maximum(rawdata[1][:])
 
     # Minibatch data: data[1]:train, data[2]:dev
     xrange = 4:80
     yrange = 1:3
     yvocab = o[:yvocab][o[:target]]
     global data = map(rawdata) do d
-        minibatch(d, xrange, yrange, o[:batchsize]; xvocab=o[:xvocab], yvocab=yvocab, ftype=o[:ftype], xsparse=o[:xsparse])
+        minibatch(d, xrange, yrange, o[:batchsize]; xvocab=xvocab, yvocab=yvocab, ftype=o[:ftype], xsparse=o[:xsparse])
     end
 
     # Load or create the model:
@@ -55,8 +58,8 @@ function main(args)
     setp(net, lr=o[:lr])
     lasterr = besterr = 1.0
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
-        @date trnerr = train(net, data[1], softloss; gclip=o[:gclip])
-        @date deverr = test(net, data[2], zeroone)
+        trnerr = train(net, data[1], softloss; gclip=o[:gclip])
+        deverr = test(net, data[2], zeroone)
         println((epoch, o[:lr], trnerr, deverr))
         if deverr < besterr
             besterr=deverr
@@ -69,7 +72,7 @@ function main(args)
         lasterr = deverr
     end
     o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
-    @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=o[:xvocab], ftype=o[:ftype], xsparse=o[:xsparse])
+    @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=xvocab, ftype=o[:ftype], xsparse=o[:xsparse])
     println(devpred)
 end
 
@@ -207,13 +210,5 @@ end
 setrow!(x::SparseMatrixCSC,i,j)=(i>0 ? (x.rowval[j] = i; x.nzval[j] = 1) : (x.rowval[j]=1; x.nzval[j]=0); x)
 setrow!(x::Array,i,j)=(x[:,j]=0; i>0 && (x[i,j]=1); x)
 
-!isinteractive() && main(ARGS)
-
-# TODO: write minibatching versions, this is too slow, even slower on gpu, so run with gpu(false)
-# For minibatching:
-# Sentences will have to be padded in the beginning, so they end together.
-# They need to be sorted by length.
-# Each minibatch will be accompanied with a mask.
-# Possible minibatch sizes to get the whole data:
-# 6003 = 9 x 23 x 29
-# 855 = 9 x 5 x 19
+#!isinteractive() && main(ARGS)
+main(ARGS)
