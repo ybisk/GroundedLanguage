@@ -20,7 +20,7 @@ function main(args)
         ("--bestfile"; help="save best model to file")
         ("--hidden"; arg_type=Int; default=256; help="hidden layer size") # DY: best 64 for 1, 128 for 2, 256 for 3.
         ("--embedding"; arg_type=Int; default=0; help="word embedding size (default same as hidden)")
-        ("--epochs"; arg_type=Int; default=10; help="number of epochs to train")
+        ("--epochs"; arg_type=Int; default=40; help="number of epochs to train")
         ("--batchsize"; arg_type=Int; default=10; help="minibatch size")
         ("--lr"; arg_type=Float64; default=1.0; help="learning rate")
         ("--gclip"; arg_type=Float64; default=5.0; help="gradient clipping threshold")
@@ -41,29 +41,32 @@ function main(args)
     o[:embedding] == 0 && (o[:embedding] = o[:hidden])
     Knet.gpu(!o[:nogpu])
 
-    # Read data files: Limit to length 80 sentence (+3 for predictions)
-    global xrange = 4:80
+    # Read data files:
+    global rawdata = map(f->readdlm(f), o[:datafiles])
     global yrange = 1:3
-    global xvocab = 0
     global yvocabs = zeros(yrange)
-    global rawdata = map(f->readdlm(f)[:,1:83], o[:datafiles])
+    # global yvocab = o[:yvocab][o[:target]] # DY: We should get this from the data as well like xvocab?
+    global xvocab = 0
+    global xranges = cell(length(rawdata))
+
     for i=1:length(rawdata)
         rawdata[i][rawdata[i].==""]=0 # DY: use word=0 for padding, word=1 for unk.
         rawdata[i] = convert(Array{Int,2},rawdata[i]);
         rawdata[i][:,yrange] += 1   # DY: converting from 0-based to 1-based, better to fix the data and remove this hack.
-        xvocab = max(xvocab, maximum(rawdata[i][:,xrange]))
+        xranges[i] = (1+maximum(yrange)):size(rawdata[i],2)
+        xvocab = max(xvocab, maximum(rawdata[i][:,xranges[i]]))
         for j in 1:length(yvocabs)
             yvocabs[j] = max(yvocabs[j], maximum(rawdata[i][:,yrange[j]]))
         end
     end
 
-    # Minibatch data: data[1]:train, data[2]:dev, data[3]:test
-    # global yvocab = o[:yvocab][o[:target]] # DY: We should get this from the data as well like xvocab?
     global trange = yrange[o[:target]]      # DY: we want to use only one of the y values as output.
     trange = trange:trange                  # DY: minibatch expects ranges for both x and y, so use a singleton range for y
     global tvocab = yvocabs[o[:target]]
-    global data = map(rawdata) do d
-        minibatch(d, xrange, trange, o[:batchsize]; xvocab=xvocab, yvocab=tvocab, ftype=o[:ftype], xsparse=o[:xsparse])
+
+    global data = cell(length(rawdata))
+    for i=1:length(rawdata)
+        data[i] = minibatch(rawdata[i], xranges[i], trange, o[:batchsize]; xvocab=xvocab, yvocab=tvocab, ftype=o[:ftype], xsparse=o[:xsparse])
     end
 
     # Load or create the model:
