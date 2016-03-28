@@ -17,6 +17,7 @@ function main(args)
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
         ("--hidden"; arg_type=Int; default=100; help="hidden layer size")
+        ("--embedding"; arg_type=Int; default=100; help="word embedding size")
         ("--epochs"; arg_type=Int; default=10; help="number of epochs to train")
         ("--batchsize"; arg_type=Int; default=10; help="minibatch size")
         ("--lr"; arg_type=Float64; default=1.0; help="learning rate")
@@ -26,7 +27,8 @@ function main(args)
         ("--nogpu"; action = :store_true; help="do not use gpu, which is used by default if available")
         ("--seed"; arg_type=Int; default=20160427; help="random number seed")
         ("--target"; arg_type=Int; default=1; help="which target to predict: 1:source,2:target,3:direction")
-        ("--yvocab"; arg_type=Int; nargs='+'; default=[20,20,9]; help="vocab sizes for target columns (all columns assumed independent)")
+        # DY: this is read from the data now
+        # ("--yvocab"; arg_type=Int; nargs='+'; default=[20,20,9]; help="vocab sizes for target columns (all columns assumed independent)")
         ("--xsparse"; action = :store_true; help="use sparse inputs, dense arrays used by default")
         ("--ftype"; default = "Float32"; help="floating point type to use: Float32 or Float64")
     end
@@ -37,24 +39,33 @@ function main(args)
     Knet.gpu(!o[:nogpu])
 
     # Read data files: Limit to length 80 sentence (+3 for predictions)
+    global xrange = 4:80
+    global yrange = 1:3
+    global xvocab = 0
+    global yvocabs = zeros(yrange)
     global rawdata = map(f->readdlm(f)[:,1:83], o[:datafiles])
-    rawdata[1][rawdata[1].==""]=1
-    rawdata[2][rawdata[2].==""]=1
-    rawdata[1] = convert(Array{Int,2},rawdata[1]);
-    rawdata[2] = convert(Array{Int,2},rawdata[2]);
-    xvocab = maximum(rawdata[1][:])
+    for i=1:length(rawdata)
+        rawdata[i][rawdata[i].==""]=1
+        rawdata[i] = convert(Array{Int,2},rawdata[i]);
+        rawdata[i][:,yrange] += 1   # DY: converting from 0-based to 1-based, better to fix the data and remove this hack.
+        xvocab = max(xvocab, maximum(rawdata[i][:,xrange]))
+        for j in 1:length(yvocabs)
+            yvocabs[j] = max(yvocabs[j], maximum(rawdata[i][:,yrange[j]]))
+        end
+    end
 
     # Minibatch data: data[1]:train, data[2]:dev
-    xrange = 4:80
-    yrange = 1:3
-    yvocab = o[:yvocab][o[:target]]
+    # global yvocab = o[:yvocab][o[:target]] # DY: We should get this from the data as well like xvocab?
+    global trange = yrange[o[:target]]      # DY: we want to use only one of the y values as output.
+    trange = trange:trange                  # DY: minibatch expects ranges for both x and y, so use a singleton range for y
+    global tvocab = yvocabs[o[:target]]
     global data = map(rawdata) do d
-        minibatch(d, xrange, yrange, o[:batchsize]; xvocab=xvocab, yvocab=yvocab, ftype=o[:ftype], xsparse=o[:xsparse])
+        minibatch(d, xrange, trange, o[:batchsize]; xvocab=xvocab, yvocab=tvocab, ftype=o[:ftype], xsparse=o[:xsparse])
     end
 
     # Load or create the model:
     global net = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
-                  compile(:rnnmodel; hidden=o[:hidden], output=yvocab, pdrop=o[:dropout]))
+                  compile(:rnnmodel; hidden=o[:hidden], embedding=o[:embedding], output=tvocab, pdrop=o[:dropout]))
     setp(net, lr=o[:lr])
     lasterr = besterr = 1.0
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
@@ -142,9 +153,12 @@ function predict(f, data; xrange=4:83, padding=1, xvocab=326, ftype=Float32, xsp
     println(ypred)
 end
 
-function minibatch(data, xrange, yrange, batchsize; o...)
+# DY: minibatch called with (d is rawdata, with each row an instance)
+# minibatch(d, xrange, yrange, o[:batchsize]; xvocab=xvocab, yvocab=yvocab, ftype=o[:ftype], xsparse=o[:xsparse])
+
+function minibatch(data, xrange, yrange, batchsize; o...) # data[i,j] is the j'th entry of i'th instance
     x = extract(data, xrange; padding=1)	# x[i][j] = j'th word of i'th sentence
-    y = extract(data, yrange)                   # y[i][j] = j'th class of i'th sentence
+    y = extract(data, yrange)                   # y[i][j] = j'th class of i'th sentence, here we assume j=1, i.e. single output for each sentence
     s = sortperm(x, by=length)
     batches = Any[]
     for i=1:batchsize:length(x)
@@ -207,8 +221,12 @@ function batchsentences(x, y, batches; xvocab=326, yvocab=20, ftype=Float32, xsp
 end
 
 # These assume one hot columns:
-setrow!(x::SparseMatrixCSC,i,j)=(i>0 ? (x.rowval[j] = i; x.nzval[j] = 1) : (x.rowval[j]=1; x.nzval[j]=0); x)
-setrow!(x::Array,i,j)=(x[:,j]=0; i>0 && (x[i,j]=1); x)
+# setrow!(x::SparseMatrixCSC,i,j)=(i>0 ? (x.rowval[j] = i; x.nzval[j] = 1) : (x.rowval[j]=1; x.nzval[j]=0); x)
+# setrow!(x::Array,i,j)=(x[:,j]=0; i>0 && (x[i,j]=1); x)
+
+# DY: It should be an error to try to set 0
+setrow!(x::SparseMatrixCSC,i,j)=(i>0 ? (x.rowval[j] = i; x.nzval[j] = 1) : error("setting row 0"); x)
+setrow!(x::Array,i,j)=(x[:,j]=0; i>0 ? x[i,j]=1 : error("setting row 0"); x)
 
 #!isinteractive() && main(ARGS)
 main(ARGS)
