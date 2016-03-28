@@ -2,3 +2,5 @@
 foo*
 .juliahistory
 unused
+setup.sh
+*.jld

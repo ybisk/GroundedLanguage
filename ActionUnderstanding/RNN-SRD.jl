@@ -78,7 +78,7 @@ function main(args)
         trnloss = train(net, data[1], softloss; gclip=o[:gclip])
         deverr = test(net, data[2], zeroone)
         tsterr = test(net, data[3], zeroone)
-        println((epoch, o[:lr], trnloss, deverr, tsterr))
+        println((epoch, o[:lr], trnloss, deverr, tsterr)); flush(STDOUT)
         if deverr < besterr
             besterr=deverr
             o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
