@@ -237,12 +237,12 @@ public class CreateTrainingData {
                                        BufferedWriter Human) throws IOException {
     // Several pieces require knowledge of the source and reference
     int source = -1;
-    if (info == Information.Source || info == Information.Reference || info == Information.Direction)
+    if (info == Information.Source || info == Information.Reference || info == Information.Direction ||
+        info == Information.tXYZ   || info == Information.sXYZ)
        source = getSource(task.states[note.start], task.states[note.finish]);
     int reference = -1;
     if (info == Information.Reference || info == Information.Direction)
       reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
-
 
     switch (info) {
       case Source:
@@ -256,7 +256,6 @@ public class CreateTrainingData {
         break;
       case Direction:
         int Dir;
-        reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
         if (reference != -1)
           Dir = getDir(task.states[note.finish][source], task.states[note.finish][reference]);
         else
@@ -265,14 +264,12 @@ public class CreateTrainingData {
         Human.write(String.format(" %-3s ", cardinal[Dir]));
         break;
       case tXYZ:
-        source = getSource(task.states[note.start], task.states[note.finish]);
         BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
             task.states[note.finish][source][1], task.states[note.finish][source][2]));
         Human.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
             task.states[note.finish][source][1], task.states[note.finish][source][2]));
         break;
       case sXYZ:
-        source = getSource(task.states[note.start], task.states[note.finish]);
         BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.start][source][0],
             task.states[note.start][source][1], task.states[note.start][source][2]));
         Human.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.start][source][0],
@@ -291,7 +288,7 @@ public class CreateTrainingData {
         Human.write("    " + utterance);
         break;
       default:
-        System.err.println("We don't predict " + info);
+        System.err.println("We don't handle " + info);
         return;
     }
   }
