@@ -39,8 +39,12 @@ S  = sparsify(data[:,1] + 1, outdim);
 Locs = convert(Array{Float32},data[:,2:4]');
 
 testdir = "JSONReader/data/2016-NAACL/Sxyz/Dev.mat"
-test_data = readdlm(testdir)[:,1:144];
+test_data = readdlm(testdir);
 test_data[test_data.==""]=1
+if size(test_data,2) < 144
+  test_data = hcat(test_data, ones(Int,size(test_data,1),144 - size(test_data,2)))
+end
+test_data = test_data[:,1:144]
 X_t  = sparsify(test_data[:,65:end], V);
 W_t  = convert(Array{Float32},test_data[:,5:64]');
 S_t  = sparsify(test_data[:,1] + 1, outdim);
@@ -70,6 +74,7 @@ function trainloop(net, epochs, lrate, decay, world, X, W, Y, X_t, W_t, Y_t)
   lasterr = 1.0;
 
   setp(net; lr=lrate, loc=world)
+  # Fix the embedding during stage 2
   global trn = minibatch(X, W, Y, batchsize)
   global tst = minibatch(X_t, W, Y_t, batchsize)
   for epoch=1:epochs
@@ -161,6 +166,7 @@ function main(args=ARGS)
 
   print("\nTrain Softmax\n")
   trainloop(net, epochs, lrate, decay, false, X, W, S, X_t, W_t, S_t)
+  predict(net, false, X_t, W_t)
   print("\nTrain Regression\n")
   trainloop(net, epochs, lrate, decay, true, X, W, Locs, X_t, W_t, Locs_t)
 
