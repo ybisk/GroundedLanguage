@@ -83,6 +83,6 @@ public class Configuration {
   }
 
   public enum Baseline {
-    None, Random, Center
+    None, Random, Center, Oracle
   }
 }

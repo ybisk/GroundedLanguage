@@ -233,6 +233,69 @@ public class CreateTrainingData {
     return toRet;
   }
 
+  public static void appendInformation(Information info, Task task, Note note, String utterance, BufferedWriter BW,
+                                       BufferedWriter Human) throws IOException {
+    // Several pieces require knowledge of the source and reference
+    int source = -1;
+    if (info == Information.Source || info == Information.Reference || info == Information.Direction)
+       source = getSource(task.states[note.start], task.states[note.finish]);
+    int reference = -1;
+    if (info == Information.Reference || info == Information.Direction)
+      reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
+
+
+    switch (info) {
+      case Source:
+        BW.write(String.format(" %d ", source));
+        Human.write(String.format(" %-12s ", task.decoration.equals("logo") ? brands[source] : digits[source]));
+        break;
+      case Reference:
+        int t_reference = reference > -1 ? reference : source;
+        BW.write(String.format(" %d ", t_reference));
+        Human.write(String.format(" %-15s ", t_reference > -1 ? task.decoration.equals("logo") ? brands[t_reference] : digits[t_reference] : "NULL"));
+        break;
+      case Direction:
+        int Dir;
+        reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
+        if (reference != -1)
+          Dir = getDir(task.states[note.finish][source], task.states[note.finish][reference]);
+        else
+          Dir = getDir(task.states[note.finish][source], task.states[note.start][source]);
+        BW.write(String.format(" %d ", Dir));
+        Human.write(String.format(" %-3s ", cardinal[Dir]));
+        break;
+      case tXYZ:
+        source = getSource(task.states[note.start], task.states[note.finish]);
+        BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
+            task.states[note.finish][source][1], task.states[note.finish][source][2]));
+        Human.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
+            task.states[note.finish][source][1], task.states[note.finish][source][2]));
+        break;
+      case sXYZ:
+        source = getSource(task.states[note.start], task.states[note.finish]);
+        BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.start][source][0],
+            task.states[note.start][source][1], task.states[note.start][source][2]));
+        Human.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.start][source][0],
+            task.states[note.start][source][1], task.states[note.start][source][2]));
+        break;
+      case CurrentWorld:
+        BW.write(getWorld(task.states[note.start]));
+        Human.write(String.format(" %s ", task.images[note.start]));
+        break;
+      case NextWorld:
+        BW.write(getWorld(task.states[note.finish]));
+        Human.write(String.format(" %s ", task.images[note.finish]));
+        break;
+      case Utterance:
+        BW.write(unkUtterance(tokenize(utterance)));
+        Human.write("    " + utterance);
+        break;
+      default:
+        System.err.println("We don't predict " + info);
+        return;
+    }
+  }
+
   /**
    * Takes a series of tasks and extracts prediction and conditioning information based on Configuration file.
    * Results is a sparse matrix (ints) or floats
@@ -245,58 +308,12 @@ public class CreateTrainingData {
         if (note.type.equals("A0")) {
           for (String utterance : note.notes) {
             // Compute predictions
-            int source = -1, reference = -1, Dir = -1;
             for (Information info : Configuration.predict) {
-              switch (info) {
-                case Source:
-                  source = getSource(task.states[note.start], task.states[note.finish]);
-                  BW.write(String.format(" %d ", source));
-                  Human.write(String.format(" %-12s ", task.decoration.equals("logo") ? brands[source] : digits[source]));
-                  break;
-                case Reference:
-                  reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
-                  int t_reference = reference > -1 ? reference : source;
-                  BW.write(String.format(" %d ", t_reference));
-                  Human.write(String.format(" %-15s ", t_reference > -1 ? task.decoration.equals("logo") ? brands[t_reference] : digits[t_reference] : "NULL"));
-                  break;
-                case Direction:
-                  if (reference != -1)
-                    Dir = getDir(task.states[note.finish][source], task.states[note.finish][reference]);
-                  else
-                    Dir = getDir(task.states[note.finish][source], task.states[note.start][source]);
-                  BW.write(String.format(" %d ", Dir));
-                  Human.write(String.format(" %-3s ", cardinal[Dir]));
-                  break;
-                case XYZ:
-                  BW.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
-                      task.states[note.finish][source][1], task.states[note.finish][source][2]));
-                  Human.write(String.format(" %-5.2f %-5.2f %-5.2f ", task.states[note.finish][source][0],
-                      task.states[note.finish][source][1], task.states[note.finish][source][2]));
-                  break;
-                default:
-                  System.err.println("We don't predict " + info);
-                  return;
-              }
+              appendInformation(info, task, note, utterance, BW, Human);
             }
             // Compute conditioning variables
             for (Information info : Configuration.condition) {
-              switch (info) {
-                case CurrentWorld:
-                  BW.write(getWorld(task.states[note.start]));
-                  Human.write(String.format(" %s ", task.images[note.start]));
-                  break;
-                case NextWorld:
-                  BW.write(getWorld(task.states[note.finish]));
-                  Human.write(String.format(" %s ", task.images[note.finish]));
-                  break;
-                case Utterance:
-                  BW.write(unkUtterance(tokenize(utterance)));
-                  Human.write("    " + utterance);
-                  break;
-                default:
-                  System.err.println("We don't condition on " + info);
-                  return;
-              }
+              appendInformation(info, task, note, utterance, BW, Human);
             }
             BW.write("\n");
             Human.write("\n");

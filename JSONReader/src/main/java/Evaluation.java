@@ -17,7 +17,7 @@ public class Evaluation {
     ArrayList<double[][]> final_worlds = new ArrayList<>();
     ArrayList<double[][]> start_worlds = new ArrayList<>();
 
-    ArrayList<Task> data = LoadJSON.readJSON(Configuration.development);
+    ArrayList<Task> data = LoadJSON.readJSON(Configuration.testing);
     Double[][] Gold = Utils.readMatrix(TextFile.Read(Configuration.GoldData));
     readValues(Gold, gS, gR, gD, gxyz, false);
 
@@ -40,6 +40,11 @@ public class Evaluation {
           pD.add(rand.nextInt(9));
           //pxyz.add(new double[] {rand.nextDouble()*2 - 1, rand.nextDouble()*2 - 1, rand.nextDouble()*2 - 1});
         }
+        break;
+      case Oracle:
+        pS.addAll(gS);
+        pR.addAll(gR);
+        pD.addAll(gD);
         break;
       default:
         System.err.println("Invalid baseline: " + Configuration.baseline);
@@ -76,7 +81,8 @@ public class Evaluation {
           }
           index += 1;
           break;
-        case XYZ:
+        case sXYZ:
+        case tXYZ:
           for (int i = 0; i < Data.length; ++i) {
             xyz.add(new double[]{Data[i][index], Data[i][index + 1], Data[i][index + 2]});
           }
