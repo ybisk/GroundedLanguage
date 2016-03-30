@@ -12,7 +12,7 @@ import java.util.zip.GZIPOutputStream;
 import java.util.regex.Pattern;
 
 public class LoadJSON {
-  private static final Gson gsonReader = new Gson();
+  static final Gson gsonReader = new Gson();
 
   /**
    * Deserialize the JSONs
