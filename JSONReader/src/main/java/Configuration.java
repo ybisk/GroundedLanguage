@@ -15,6 +15,11 @@ public class Configuration {
 
   // What the output format is
   public static OutputFormat output = OutputFormat.Matrix;
+  public static String GoldData;
+  public static String PredData;
+
+  // Evaluate a baseline instead
+  public static Baseline baseline = Baseline.None;
 
   public static void setConfiguration(String configuration) {
     List<String> config = TextFile.Read(configuration);
@@ -34,14 +39,14 @@ public class Configuration {
             development = split[1].trim();
             break;
           case "condition":
-            split = LoadJSON.whitespace_pattern.split(split[1].trim());
+            split = Utils.whitespace_pattern.split(split[1].trim());
             condition = new Information[split.length];
             for (int i = 0; i < split.length; ++i) {
               condition[i] = Information.valueOf(split[i].trim());
             }
             break;
           case "predict":
-            split = LoadJSON.whitespace_pattern.split(split[1].trim());
+            split = Utils.whitespace_pattern.split(split[1].trim());
             predict = new Information[split.length];
             for (int i = 0; i < split.length; ++i) {
               predict[i] = Information.valueOf(split[i].trim());
@@ -52,6 +57,15 @@ public class Configuration {
             break;
           case "blocktype":
             blocktype = BlockType.valueOf(split[1].trim());
+            break;
+          case "GoldData":
+            GoldData = split[1].trim();
+            break;
+          case "PredData":
+            PredData = split[1].trim();
+            break;
+          case "Baseline":
+            baseline = Baseline.valueOf(split[1].trim());
             break;
           default:
             System.err.println("Invalid configuration option: " + split[0] + " ... ignoring");
@@ -66,5 +80,9 @@ public class Configuration {
 
   public enum BlockType {
     Random, MNIST
+  }
+
+  public enum Baseline {
+    None, Random, Center
   }
 }

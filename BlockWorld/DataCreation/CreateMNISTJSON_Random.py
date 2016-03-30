@@ -1,8 +1,8 @@
 import os,sys,commands,json,gzip
 
-directory = "trainset"
 directory = "devset"
 directory = "testset"
+directory = "trainset"
 
 #from simple
 #organize by file name
