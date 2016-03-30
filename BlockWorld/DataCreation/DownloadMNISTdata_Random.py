@@ -1,9 +1,9 @@
 import os,sys,commands,json,gzip
 import requests
 
-directory = "testset"
 directory = "devset"
 directory = "trainset"
+directory = "testset"
 
 #from simple
 #organize by file name

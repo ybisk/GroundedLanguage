@@ -86,6 +86,8 @@ public class CreateHumanExperiments {
     ArrayList<double[][]> currentWorld = new ArrayList<>();
     ArrayList<double[][]> nextWorld = new ArrayList<>();
     ArrayList<String> decoration = new ArrayList<>();
+    ArrayList<String> imgstart = new ArrayList<>();
+    ArrayList<String> imgstop = new ArrayList<>();
     for (Task task : Test) {
       for (Note note : task.notes) {
         if (note.type.equals("A0")) {
@@ -94,6 +96,8 @@ public class CreateHumanExperiments {
             currentWorld.add(task.states[note.start]);
             nextWorld.add(task.states[note.finish]);
             decoration.add(task.decoration);
+            imgstart.add(task.images[note.start]);
+            imgstop.add(task.images[note.finish]);
           }
         }
       }
@@ -127,6 +131,8 @@ public class CreateHumanExperiments {
       Gold.put("name", String.format("%s_%d_gold.json", decoration.get(idx), idx));
       Gold.put("current", current);
       Gold.put("next", next);
+      Gold.put("startimg", imgstart.remove(idx));
+      Gold.put("stopimg", imgstop.remove(idx));
       goldBW.write(gsonBuilder.disableHtmlEscaping().create().toJson(Gold) + "\n");
       goldBW.close();
     }
