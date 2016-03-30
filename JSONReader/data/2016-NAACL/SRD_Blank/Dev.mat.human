@@ -1,0 +1,360 @@
+ five          six              SW      The upper right box moves down and to the left slightly, below the box previously below it.
+ five          six              SW      The northeast box moves down five spaces or so, and slightly to the left.
+ five          six              SW      The box in the top right corner leaps over the box below it, and to the left by a half square.
+ five          six              SW      Move the block nearest the top right corner of the table to a position one block length below and half a  block length to the left of the block on  the middle right of the table.
+ five          six              SW      Move the block closest to the top right corner of the table so its back face faces the middle right block's front face.  The block should also be half a block length to the left.
+ five          six              SW      The  eastmost block should be  south-southwest of the second most east block
+ five          six              SW      Move the top block with purple side down and over the other purple side block, decreasing the space (though not eliminating it) in the process.
+ five          six              SW      Move the top rightmost block down, such that the bottom one is parallel with the leftmost non-stacked block and the other block is a block's length above this one.
+ five          six              SW      Condense the right blocks so that they are a width apart with the top now below the bottom one.
+ one           seven            NE      The upper left box moves south by about five spaces, and slightly to the left. Its bottom left corner ALMOST touches the upper right corner of the box below it.
+ one           seven            NE      The northwestern box moves down, almost touching the top box on the left.
+ one           seven            NE      The box in the upper left corner moves straight down about five or size squares. It is slightly the the NW of the box to its left, and left and slightly down of the box to its right.
+ one           seven            NE      Move the block closest to the top left corner so it is above half a block length to the right of the blocks near the lower left corner of the table.
+ one           seven            NE      Position the block nearest the top left corner so its right face faces the middle block's left face with half a block length between them.
+ one           seven            NE      The most northwest block should be northeast of the three-block stack in the southwest corner of the table
+ one           seven            NE      Move the topmost block on the left down, ending parallel with the seam between the cluster of blocks in the center and equidistant from the two tower stacks.
+ one           seven            NE      Move the block in the top left down, so that it is in line with the leftmost cluster but almost immediately (add a slight space) to the right of this cluster.
+ one           seven            NE      Move the top left block down so that it is flush with the left cluster and then right slightly more than a block width.
+ five          seven            N       The bottom right box moves one peg up and all the way to the left, forming a vertical line three boxes long.
+ five          seven            N       Southeastern box moves right above the top box on the left, sharing an edge.
+ five          seven            N       The structure on the left (two stories on the bottom, one on top) adds another box on top, coming from the box in the southeast corner.
+ five          seven            N       Move the block moved in step 1 so it is above the blocks in the lower left corner.
+ five          seven            N       Position the block moved in step 1 so its bottom face touches the top face of the block in the lower left corner.
+ five          seven            N       The most southeast block should be to the north of the three-block stack
+ five          seven            N       Move the lower block with a purple side to the left and place it directly (and touching) to the North of the leftmost stack.
+ five          seven            N       Move the block in the bottom right so that it is directly above the leftmost cluster, touching its south side to the cluster's north side.
+ five          seven            N       Move the bottom right block so that is is flush with the top of the left cluster.
+ six           ten              NE      The middle right box moves down one space, and slightly left.
+ six           ten              NE      The box on the right shifts slightly south-southwest.
+ six           ten              NE      The lone box on the right moves down and a smidge to the left.
+ six           ten              NE      Move the block nearest the right edge of the table down one block length.
+ six           ten              NE      Position the block closest to the right table edge so its front face moves one block length down.
+ six           ten              NE      The eastmost block should be moved 1 block length south.
+ six           ten              NE      Move the remaining block with a purple side to the spot that was just occupied in the last step.
+ six           ten              NE      Move the leftmost block one block's length to the south.
+ six           ten              NE      Move the left block half a width to the left and one and a half widths towards the bottom.
+ four          eight            S       A box from the middle two-story building moves to the top, just below the top box, sharing a side.
+ four          eight            S       The middle two-story building loses a box, which moves just below the upper box.
+ four          eight            S       The two-story structure near the middle becomes one story. One of its squares moves to the top, directly below and touching the box already up there.
+ four          eight            S       Take the topmost block from the stack near the center of the table and put it below the block near the top of the table.
+ four          eight            S       Position the top block from the center stack  so its back face touches the front face of the block at the back of the table.
+ four          eight            S       The block on the top of the middle stack should be moved to a position just south of the northmost block
+ four          eight            S       Move the block that is stacked in the center (at the top of the stack) and put it directly South (and touching) of the topmost block.
+ four          eight            S       Take the top block from the center stack and place it below the topmost block, so that its north side is touching this top block's bottom south side.
+ four          eight            S       Put the block on the top of the center stack flush with the bottom of the top block.
+ three         six              NW      The most centric box moves southeast by two spaces, now in the middle of three boxes.
+ three         six              NW      The box slightly left of center moves down one space and right two.
+ three         six              NW      Take the box slightly left of center and move it two spaces tot he right, and down one.
+ three         six              NW      Move the block closes to the middle of the table so that is is one block length away from the block closest to the right edge.
+ three         six              NW      Position the middle right block so its right face faces the rightmost block's left face, with a block length between them.
+ three         six              NW      The centemost block should be to the west of the eastmost block
+ three         six              NW      Move the upper block from the center duo of blocks right and down slightly, so that it is parallel with the rightmost block (with the purple side) and equidistant from this block and the center block.
+ three         six              NW      Take the block from the center that is closer towards the top of the plane, and move it so that it is equidistant from the rightmost block and the remaining center block.
+ three         six              NW      Move the centermost block to be parallel with but one width to the left of the right block.
+ ten           four             S       The two-box line at the top adds a third below it, taking the box just southwest of center.
+ ten           four             S       The left of the three right boxes moves up to become the third box in a verticle line at the top.
+ ten           four             S       Of the three boxes in a horizontal line, take the leftmost and have it join the vertical line on the top, now three blocks long.
+ ten           four             S       Move the block closest to the center of the table so that is is below the two blocks at the top of the table.
+ ten           four             S       Position the block in the center of the table so its back face faces the front face of the block that is next to the block closest to the back of the table.
+ ten           four             S       The centermost block should be south of the block that is south of the northmost block
+ ten           four             S       Move the center block (it is the only one remaining from the previous stack) so that it is directly South (and touching) the northmost cluster.
+ ten           four             S       Move the block that is third from the right (excluding the two blocks in the top) and move it so that its North side is touching the South side of the topmost cluster.
+ ten           four             S       Put the center block flush with the bottom of the top cluster.
+ three         five             TOP     The middlemost box becomes the second story of the top box on the left.
+ three         five             TOP     The box closest to center joins the highest box on the left, forming two stories.
+ three         five             TOP     On the left, the top box adds a story from the second box on the right.
+ three         five             TOP     Move the block that is to the left of the block closest to the right side of the table so that it is on top of the block that is at the top of the group of blocks closest to the left side of the table.
+ three         five             TOP     Move the block closest to the center so its bottom face touches the top face of the block closest to the middle of the left edge of the table
+ three         five             TOP     The centermost block should be stacked on the block in the four-block stack that is the most north
+ three         five             TOP     Take the second block from the right (near the center) and stack it on top of the topmost block of the leftmost cluster.
+ three         five             TOP     Move the block that is directly below the topmost cluster so that is stacked on the block that is closest to the center left.
+ three         five             TOP     Stack the center block on the top block of the left cluster.
+ one           nine             TOP     The freestanding box on the left now becomes the third story in the bottom left.
+ one           nine             TOP     The nonattached left box forms the third story in the southwerstern corner.
+ one           nine             TOP     The five-box configuration on the left has a box slightly to its right. Take that, and make the bottom corner three stories high.
+ one           nine             TOP     Move the block next to the group of blocks near the left side of the table and put it on top of the bottom stack of blocks.
+ one           nine             TOP     Position the block next to the group of blocks near the left side of the table so its bottom edge touches the top edge of the bottom stack of blocks.
+ one           nine             TOP     The block to the east of the five-block stack should be put on the southmost block tower
+ one           nine             TOP     Take the block that is slightly to the right of the leftmost cluster and stack it on the block that is the bottom left corner (it should now be a tower of three).
+ one           nine             TOP     Stack the block that is directly right of the leftmost cluster on the bottom-most block.
+ one           nine             TOP     Stack the block that is slightly to the right of the left stack on the bottom left block.
+ three         eight            SW      The two-story box on the left loses its top, which now moves to the top, center.
+ three         eight            SW      The leftmost two-story structure throws its bottom block to the top middle, left of the three-long line.
+ three         eight            SW      The top block of the two-story building  moves to the top center, two blocks to the left of the highest box in the line.
+ three         eight            SW      Move the block from the top of the stack closest to the top of the table so that is is one block length away from the block that is closest to the top of the table.
+ three         eight            SW      Position the block on the top of the stack closest to the back of the table and put it so its right face faces the left face of the block closest to the  back of the table.
+ three         eight            SW      The block on the top of the northmost tower of blocks should be to the west of the northmost block.
+ three         eight            SW      Take the top block from the stack of two and move it to be one blocks's length to the left of the absolute topmost block.
+ three         eight            SW      Take the top block from the center left stack and place it a width away from the top cluster, flush with the upper limit of the plane.
+ three         eight            SW      Move the block that was stacked two steps ago to be one width directly to the left of the top block.
+ ten           five             SE      Move the block that appears on the left most pile of two and place it two rows directly beneath the set of blocks in right most lowest row.
+ ten           five             SE      Move the block on top of the stack of two blocks slightly to the right and above the block furthest to the bottom to the left, two block spaces below and slightly to the right of the stack of two blocks furthest down to the right.
+ ten           five             SE      Move the block in the stack second from the bottom to the bottom right section of the table.
+ ten           five             SE      Take the top block off the middle tower and put it at the bottom right, one space from the closest tower.
+ ten           five             SE      move the top block from the 2nd closest tower an put it 2 spaces below the bottom tower.
+ ten           five             SE      take the top block on theleft column and put below the bottom right tower with a block space.
+ ten           five             SE      There are two two-story units. The one furthest to the left loses its top, which falls to the bottom right, about three squares up from the bottom of the grid.
+ ten           five             SE      The leftmost two-story unit has its top box move southeast, two squares below the other two-story box on the right.
+ ten           five             SE      The most centric middle box it chopped in half, its piece moving to the bottom right.
+ eight         one              TOP     Move the block which is current located two spots right and one spot below the block closest to the top left corner on top of the block at the top left corner.
+ eight         one              TOP     Move the block that is 3rd from the left and 4th from the top on top of the block 1st on the left and 1st from the top.
+ eight         one              TOP     Move the single block that is fourth from the bottom onto the top left corner block.
+ eight         one              TOP     Take the first small block thats to the left of the top tower and put it on top of the very firs block on top of table.
+ eight         one              TOP     Take the 1st block in the 2nd column and put it on the block left of the top tower.
+ eight         one              TOP     Take the block above to the middle block and put it on the very 1st block.
+ eight         one              TOP     The box in the upper left now becomes twice as high, taking its closest box to add on.
+ eight         one              TOP     The box slightly to the southwest of the top two-story structure now vertically joins the box on the upper left.
+ eight         one              TOP     Of the three middle boxes NOT on an edge, the top box joins the box to its northwest, now two stories high.
+ eight         three            SW      Move the block that is currently located closest to the top left corner to the bottom left of the table, slightly higher than the block in the bottom right corner.
+ eight         three            SW      Move the block at the top left to the left side of the board  four block spaces above the bottom and one block space to the right.
+ eight         three            SW      Move the block at the top left of the table onto the bottom left of the table.
+ eight         three            SW      Take the top block off the first  tower and move it down in between the last two blocks and move it to the left twice.
+ eight         three            SW      take the block from the tower in column one and slide it down to be in the middle of the last two blocks and move it to the left two columns.
+ eight         three            SW      Take the block off the very 1st tower , move it over 2 spots to the left, then slide it down to the last row.
+ eight         three            SW      The box that just moved now shifts to the bottom left, slightly higher than the box on the bottom right.
+ eight         three            SW      The top of the upper-left two-story building moves to the bottom left, about one space right and three spaces up from the bottom left of the grid.
+ eight         three            SW      This new two-story structure is chopped in half, losing one of its boxes to the southwest corner.
+ three         one              SW      Move the block closest to the center bottom about two block spaces to the left of the block at the middle top and slightly down.
+ three         one              SW      Move the block 3rd from the left two block spaces left from the middle block at the top and slightly below.
+ three         one              SW      Move the block third from the bottom to the top left of the table.
+ three         one              SW      Move the top small block to the left two spaces. Then take the small middle block closest to the bottom and put it where you moved the first block from.
+ three         one              SW      Move the first top row block to the left 2 columns. Then move the block in the 3rd column to that space.
+ three         one              SW      Take the bottom moiddle block and put it in the top 1st row.
+ three         one              SW      The upper left box moves down about five rows and to the right four spaces. It should be about two spaces to the left and one down of the two-story box in the middle.
+ three         one              SW      The box slightly southeast of center moves to the upper left portion.
+ three         one              SW      The most centric box moves to the northwest corner.
+ two           five             S       Move the bock that is a bit above and to the left of the lowest pile of two blocks directly below the lowest pile of two blocks.
+ two           five             S       Move the block fourth from the left to be right below the second furthest down pile of two blocks.
+ two           five             S       Move the block closest to the middle below the stack of two cubes at the bottom.
+ two           five             S       Take the middle small block and put it next to the middle tall block on the left.
+ two           five             S       Take the block on the 3rd column and put it next to the tower closest to the bottom.
+ two           five             S       Take the middle block and put it next to the bottom tower.
+ two           five             S       The only box in the middle (not on the edge) moves southeast. It is now directly below and touching the two-story box on the right.
+ two           five             S       The only box not on an "edge" moves below the two-story on the right, touching it.
+ two           five             S       The most centric box (slightly NE of center), touches the bottom of the two-story to its right.
+ ten           one              SW      Move the block that is in the further bottom right position a little bit below the block slightly to the right of the top left block.
+ ten           one              SW      Move the block that is the furthest right and to the bottom slightly below the 3rd most right block.
+ ten           one              SW      Move the block that is directly below the block to the right of the top left block to the bottom right of the staircase of blocks in the bottom right.
+ ten           one              SW      Take the last block in the last row and put it in front of the top second block.
+ ten           one              SW      Take the block on the bottom and put it below the block in the 2nd column.
+ ten           one              SW      Take the 2nd block from the 2nd column and put it at the bottom of the last column.
+ ten           one              SW      The bottom right box moves about 1 1/2 spaces below the middle box in the top row.
+ ten           one              SW      The southeastern most box moves northeast, and rests about 1.5 spaces below the top middle box.
+ ten           one              SW      The box on the bottom right shifts to the northwest, just below the top single box on close to center.
+ ten           four             TOP     Move the block that is slightly below the block to the right of the top left block on top of the pile of two blocks near the top right corner.
+ ten           four             TOP     Move the block that is lower in the second column of blocks on top of the pile of two blocks closest to the top.
+ ten           four             TOP     Move the block below the second to the top left block on top of the stack of two cubes near the top right.
+ ten           four             TOP     Take the block below the second top block and put it on top of the top tower.
+ ten           four             TOP     Take the 2nd block in the 2nd column and put it on the tower in the top row.
+ ten           four             TOP     Take the 2nd block from the 2nd column and put it on the 1st tower.
+ ten           four             TOP     The box that just moved now goes on top of the two-story box in the upper left corner, making it three boxes high.
+ ten           four             TOP     The upper right two-story building claims the box that just moved as its third story.
+ ten           four             TOP     The box that just moved northwest becomes the third story of the tower in the northeast corner.
+ seven         ten              TOP     Move the single block that is to the bottom right of the three block pile on top of the three block pile.
+ seven         ten              TOP     Move the single block that is closest to the top right on top of the highest pile of blocks.
+ seven         ten              TOP     The single block near the top right is moved to the highest stack of blocks.
+ seven         ten              TOP     Take the first block in the first column and put it on top of the top tower.
+ seven         ten              TOP     Take the block behind the top tower and put it on that tower.
+ seven         ten              TOP     The block behind the 1st towe, put it on top of thae 1st tower.
+ seven         ten              TOP     The three-story structure takes its nearest box and puts it on top, and is now 4 stories high.
+ seven         ten              TOP     Now four-stories high, the tallest structure takes the box to its southeast.
+ seven         ten              TOP     The tower in the northeast corner gains another block from its closest neighbor.
+ eight         six              TOP     Move the block at the bottom left to the top of the two block pile that is directly behind a one block pile.
+ eight         six              TOP     Move the block furthest to the left and bottom on top of the two block pile.
+ eight         six              TOP     Move the block at the bottom left on top of the highest stair of the staircase of blocks.
+ eight         six              TOP     Take the block on the bottom and put it on the closest tower.
+ eight         six              TOP     Take the bottom block and put it on the smallest tower.
+ eight         six              TOP     The bottom block put it on the samall tower.
+ eight         six              TOP     The bottom left box moves to become the third story of the two-story box on the right.
+ eight         six              TOP     The bottom left box adds onto the two-story structure on the right.
+ eight         six              TOP     The southwestern box becomes the third story of the righthand structure.
+ seven         two              S       Move the block that is on top of the pile at the top right, right below the single block at the bottom right.
+ seven         two              S       Move the block that is on the highest pile below the block that is right below the three block pile.
+ seven         two              S       Move the block from the highest tower slightly below the staircase of blocks.
+ seven         two              S       Take the top block off the top tower and put it next to the block thats next to the bottom tower.
+ seven         two              S       Take the block off the tallest tower and put it at the last bottom column.
+ seven         two              S       the block from the tallest tower should be at the very bottom.
+ seven         two              S       The top box in the four-story structure moves down and to the right. It is now two spaces below the new three-story structure, touching the box above it, forming an "L".
+ seven         two              S       The "L" in the middle right adds one box below it, touching. It claims the top box of the 4-story building.
+ seven         two              S       The four story building loses a floor, which falls directly south, and is now the southernmost box a three-dimensional "L"
+ seven         eight            NW      Slide the top left block a few spaces over to the left.
+ seven         eight            NW      Move the top left block next left towards the stack.
+ seven         eight            NW      Place the top left block a few spaces further away from the second box at the top.
+ seven         eight            NW      Take the leftmost block on the second row from the back and move it left until it's lined up with the second leftmost blocks on the board.
+ seven         eight            NW      Take the second farthest block and push it two squares left.
+ seven         eight            NW      Take the farthest block on the left side of the board and put it so it's lined up, left to right, with the stack of blocks.
+ seven         eight            NW      The left box in the second row from the top should move two spaces to the left.
+ seven         eight            NW      In the second row from the top, the box on the left will shift over about two spaces. It will be about two spaces higher than the two-story block.
+ seven         eight            NW      The box in the second row from the top moves westward about two spaces, and is now north of the 2-story box by about two spaces.
+ six           nine             SW      Move the middle block down and near the two bottom blocks. Place the box a few spaces to the left of the bottom two blocks.
+ six           nine             SW      Slide the middle block to the bottom row and  left of the other blocks.
+ six           nine             SW      Place the middle block down close to the bottom two blocks and a few spaces to the left of them.
+ six           nine             SW      Take the fourth farthest block and put it just left of the fourth leftmost block, then pull it toward you until it's just a hair farther than the closest block.
+ six           nine             SW      Take the third block from the right and put it just left of the fourth from the left, then pull it one block toward you.
+ six           nine             SW      Take the block from the right side that's nearest to the middle and put it just left of the third nearest and level with the nearest.
+ six           nine             SW      In the third row from the top, the box on the right will move down to the bottom row, to the left of the objects in the row, but about three spaces away from the leftmost edge.
+ six           nine             SW      In the third visible row, the box on the right leaps over the box slightly to its left and down two rows. It is now in the bottom line, one space to the left of the previous leftmost box.
+ six           nine             SW      The box that is on the right in the fourth-highest visible row will leapfrog southeast. It is now in the bottom row, about 1 1/2 spaces to the left of the center box in that row.
+ seven         eight            NE      Move the top left block a little to the right and then move it down where it is placed to the right of the left two blocks.
+ seven         eight            NE      Slide the top left block down next to the group of blocks on the left.
+ seven         eight            NE      Place the top left block one space above the stack of blocks and a little to the right of them.
+ seven         eight            NE      Take the leftmost block of the top three and put it to the right and just above the double high block.
+ seven         eight            NE      Take the top left block and put it so its near left corner nearly touches the far right corner of the stack of blocks.
+ seven         eight            NE      Take the one closest to the left back corner and move it one square toward you and one to the right.
+ seven         eight            NE      The upper lefthand box will move down one space, and right one space. The rest remain the same.
+ seven         eight            NE      The upper left box moves southeast, by one space in each direction.
+ seven         eight            NE      The upper lefthand box slides one grid southeast. It should be one space higher and to the right of the two-story box.
+ six           four             NE      Move the bottom left block all the way to the right of the bottom right block and push it forward where is it slightly above the bottom right block.
+ six           four             NE      Slide the bottom left block above the right bottom block.
+ six           four             NE      Place the bottom left block a two spaces and a little towards the right above the bottom right block.
+ six           four             NE      Take the leftmost of the three nearest blocks and move it right and back until it's just left of the rightmost block and level with the third closest.
+ six           four             NE      Take the near left block and put it between the two leftmost, left to right, lined up with the third nearest near to far, and then push it back another half block.
+ six           four             NE      Take the block closest to the near left corner and put it just below the centerline and just left of the farthest right block.
+ six           four             NE      The square on the bottom left will now move up about two spaces and to the right about five spaces. It is now two spaces from the right, halfway down the grid.
+ six           four             NE      The bottom left square moves slightly northeast. It shifts by about two rows up, and is slightly to the right of the box below it.
+ six           four             NE      The southwesternmost square jumps slightly east-northeast. It moved about two spaces north and five spaces east.
+ six           two              TOP     Remove the block above the bottom right block from the sequence and put it on the stack.
+ six           two              TOP     Remove the block above the right bottom block and place it on top of the left stack of blocks.
+ six           two              TOP     find the middle block towards the right and stack it on top of the already stacked blocks.
+ six           two              TOP     Take the second rightmost block and put it on top of the double high block.
+ six           two              TOP     Take the second from the right and put it on top of the second from the left.
+ six           two              TOP     Take the block on the right side that's nearest to the horizontal center line and put it on top of the stack.
+ six           two              TOP     The square that just moved (halfway down on the right), will now stack on top of the tall piece on the left (two squares high). It is now three squares high.
+ six           two              TOP     Of the three rightmost squares, the middle box will now stack on top of the two-story block.
+ six           two              TOP     The middle right box now creates a three-story box to its left.
+ ten           seven            NE      Move the top left block down a few spaces where it is almost aligned with the top left third block.
+ ten           seven            NE      Slide the top left block down and a few spaces away from the group of blocks.
+ ten           seven            NE      Place the second block from the top a few spaces away from the third block near the stack of blocks where it is almost aligned with them.
+ ten           seven            NE      Take the second farthest block and pull it toward you one block width.
+ ten           seven            NE      Take the third from the right and pull it closer until half a block farther than the third farthest.
+ ten           seven            NE      Take the block second closest to the far right corner and move it down one square.
+ ten           seven            NE      The box in the middle, two rows from the top, moves down one space.
+ ten           seven            NE      The box in the middle, towards the top, moves southward by one space.
+ ten           seven            NE      The middle box in the second row from the top shifts down by exactly one space.
+ nine          one              SW      Move the middle block on the left down and a few spaces in front of the first of the  bottom block.
+ nine          one              SW      Slide the middle block in front of the bottom left block.
+ nine          one              SW      Place the middle block in front the bottom left block and a little to the left of it.
+ nine          one              SW      Take the third nearest block and put it in front of the nearest, then shift it a half block forward and a half block left.
+ nine          one              SW      Take the block closest to the middle of the board and put it half a block to the front of, and right of, the nearest block.
+ nine          one              SW      Take the block closest to the horizontal center line and put it just left of the vertical center line, one square back from the near edge.
+ nine          one              SW      The box halfway down, about five spaces in, moves down three spaces and slightly to the right. It is now in the bottom row, halfway across the screen.
+ nine          one              SW      The box in the middle row now moves to a position just left of 6-o-clock, one line below the previous low line.
+ nine          one              SW      The only box in the middle row moves down about two and a half spaces, and one space to the right. It is below the box above it, but their edges overlap slightly.
+ nine          one              NW      Move the bottom left block above the second block at the bottom and place it back in the middle.
+ nine          one              NW      Slide the bottom left block back into the middle where it is above the second bottom block.
+ nine          one              NW      Place the bottom left block in the middle where it is placed directly between the third and fourth block and a few spaces behind them.
+ nine          one              NW      Take the nearest block and push it half a block left and two and a half blocks back.
+ nine          one              NW      Take the nearest block and put it on the middle of the board, then shift it one block left and one block closer.
+ nine          one              NW      Take the block closest to the bottom and put it so its far right corner touches the center of the board.
+ nine          one              NW      The exact opposite action of what just happened takes place here. The box that moved down to the left now returns to its previous spot.
+ nine          one              NW      The bottom middle box returns to its previous position.
+ nine          one              NW      Re-do that action, returning the piece that just moved to its previous position.
+ ten           eight            E       Move the third from right  block near the top right directly in front of the third block on the left.
+ ten           eight            E       Slide the third from the right top block in front of the block on its left.
+ ten           eight            E       Place the second right top block directly in front of the back block on the left.
+ ten           eight            E       Take the second farthest block and put it directly right of the stack of blocks.
+ ten           eight            E       Take the third rightmost block and put it just below the next farthest away block.
+ ten           eight            E       Take the block second closest to the center and put it directly right of the piled up blocks.
+ ten           eight            E       The box in the third row, slightly right of center now moves down a row and to the left. It will be touching the large, 3-block-high structure, as well as the block directly above it.
+ ten           eight            E       The box that is just southwest of the upper right box moves down one space, and shifts three to the left. It is now touching both the tall structure and the box above it.
+ ten           eight            E       In the second visible row from the top, the rightmost box moves down one space and three to the left, so it is touching both the tall box and the box right above it. The structure is now three boxes long.
+ one           ten              E       Move the second bottom block right of the group of blocks on the top left.
+ one           ten              E       Move the middle block in front next to the blocks on the left and on the right.
+ one           ten              E       Place the middle front block directly right of and next to the stack of blocks on the left.
+ one           ten              E       Take the nearest block and put it just right of the block just right of the stack.
+ one           ten              E       Take the block just right of the center line and put it on the right end of the horizontal line of blocks.
+ one           ten              E       Take the third block from the right and put it just to the right of the block that has the stack directly to its left.
+ one           ten              E       The block in the bottom center will join the mega-structure by moving up and to the left. It will be touching the right side of the structure, and is now the 4th block from the left.
+ one           ten              E       Bottom center moves up three spaces and left two. It is attached to the structure on the right, now making it four pieces long.
+ one           ten              E       The bottom center box joins the structure, becoming the fourth box on the right in the main row.
+ one           four             TOP     Consider the two blocks in the lower left quadrant and move the upper of the two on top of the uppermost block of the diagonally connected pair directly above it.
+ one           four             TOP     Transfer the uppermost block of the only pair separated by a single block space and place it on top of the uppermost block that touches another block diagonally.
+ one           four             TOP     Move the top block of the pair that looks like an equals sign on top of the block closest to the highest block.
+ one           four             TOP     The box slightly above the bottom left box now moves up three spaces and two to the right, to form a two-story structure.
+ one           four             TOP     The second box in the bottom left moves over two spaces to the right, and up three. It is now the top of a two-story building.
+ one           four             TOP     The box about three down and three right of the upper left corner gains a story. It comes from the middle left box.
+ one           four             TOP     Move the second to the front block on the corner on top of the second to the back block on the left side.
+ one           four             TOP     Take the second block from the front in the left side and move it backwards. Put this block on top of the back block in the set of blocks that are touching each others corners.
+ one           four             TOP     Remove the block that is just behind the front left block. Take it directly to the second block behind it and place it on top.
+ nine          four             NE      Move the single block directly above the lower of the diagonal pair to the upper most right corner of the diagonal two block stack.
+ nine          four             NE      Move the highest block on the board two block-sized spaces down and two spaces to the right.
+ nine          four             NE      Move the block closest to the diagonal to create step-pyramid symmetry along the diagonal.
+ nine          four             NE      The upper left box moves down one space and two to the right, sharing an edge with the two-story building.
+ nine          four             NE      The northernmost box shifts southeast by two spaces.
+ nine          four             NE      The northwestern box moves to the southeast by two slots, touching edges with the two-story building.
+ nine          four             NE      Move the block that is closest to the back on the left side to be kitty corner to the tower of blocks. The blocks will be in a diagonal line of three now.
+ nine          four             NE      Take the block that is the very end left block and move it forward and to the right of the tower that is directly in front of it.
+ nine          four             NE      Remove the very back left block and slide it forward and to directly behind and to the right of the tower of blocks just in front of it.
+ nine          eight            TOP     Move the uppermost right of the diagonal blocks on top of the lower two block pair near the center.
+ nine          eight            TOP     Move the uppermost block not in a stack in the upper left quadrant on top of the lower block in the only edge to edge touching pair.
+ nine          eight            TOP     Move the uppermost block on the left on top of the centermost block.
+ nine          eight            TOP     The box that just moved continues, moving two spaces to the right and two down. It is now the second story of a two-story structure that blocks the view of the block just above them.
+ nine          eight            TOP     The box continues, moving another two spaces southeast, now part of a two-story building that has a box attached above it.
+ nine          eight            TOP     The same box  is now the top of the a two-story building two squares southeast.
+ nine          eight            TOP     Take the top block off of the tower in the middle of the field. Place that block kitty corner to the other tower of blocks. There will now be a diagonal line of three blocks.
+ nine          eight            TOP     Take the block that is kitty corner and behind the tower of blocks on the left. Move it on top of the block that is the forward block of the set of two blocks touching each other.
+ nine          eight            TOP     Remove the block that is the furthest back on the left and place it on the front block in the pair of two blocks in the center of the field.
+ ten           two              TOP     Move the sole lower middle block directly on top to the block to its immediate right.
+ ten           two              TOP     Move the only block directly along a center y-axis on top of the block in the lower right corner.
+ ten           two              TOP     Move the block straddled by the green shadows of the two towers on top of the only block in the lower right corner.
+ ten           two              TOP     The bottom center box moves three spaces to the right, and on top of the box in the corner.
+ ten           two              TOP     The bottom middle box hops to the right and joins the bottom right box.
+ ten           two              TOP     The bottom middle box moves over a few spaces to the right, and is now part of a two-story box.
+ ten           two              TOP     Take the block that is in the front center of the field and put it on top of the block that is in front on the left.
+ ten           two              TOP     Move the center block to the top of the block to the right of it.
+ ten           two              TOP     Remove the middle block that is directly in the center in the front. Slide that block over to the right and place it on top of the block.
+ one           eight            SE      Move the uppermost block of the two block diagonal stack  one block-sized space below and two block spaces to the right from the bottom-most edge of the middle stack.
+ one           eight            SE      Move the upper block in from the upper left quadrant stack to make an L-shape with the center stack and then move it one space down and to the right.
+ one           eight            SE      Break off the upper left tower block and place it one step down and two steps to the right of the centermost block.
+ one           eight            SE      The top of the left two-story building leaps over the middle building, settling to its right, down a little.
+ one           eight            SE      The tall building in the upper left gets chopped in half so hard its top pieces moves down 2.5 spaces, and 4.5 to the right.
+ one           eight            SE      The northwestern two-story building loses one box, which is now one square southeast, and one more east, of the middle two-story building.
+ one           eight            SE      Take the top block off of the tower of blocks in the back and put that block to the right front of the center tower
+ one           eight            SE      Remove the top block off of the left tower and place it to the right and slightly in front of the tower of blocks in the center
+ one           eight            SE      Move the block that is the top of the tower of blocks in the back left. Slide that block to the tower of blocks in the middle and place the block to the right and in front of the center tower of blocks.
+ one           seven            NE      Move the block to the upper right of the spaced lower left quadrant diagonal one block-sized space below and two to the right of the bottom-most edge of the middle stack.
+ one           seven            NE      Move the first block to the right of the middle stack to the lower left quadrant and make a diagonal like the pair above it, but this diagonal should have a slight 1/2-block space such that the diagonal is spaced.
+ one           seven            NE      Move the single  block closest to the center stack to the lower left single block in a 1/2-block spaced, positive-sloped diagonal.
+ one           seven            NE      The middle right boxes moves southwest , and almost touches the upper right corner with the bottom left box.
+ one           seven            NE      The middle box on the right has its lower left corner ALMOST touch the upper right corner of the southwest box.
+ one           seven            NE      The box nearly touching the southwest box moves to about two spaces right of the center of the grid.
+ one           seven            NE      Move the block that is right next to the front block on the left and place it to the front right of the tower of blocks in the middle of the field.
+ one           seven            NE      Take the block that is just in front of the center tower and move it forward and to the left just kitty corner to the front left block.
+ one           seven            NE      Remove the block that is ahead and to the right of the center tower. Take that block and put it right kitty corner to, but not touching, the front left block.
+ one           five             TOP     Move the block to the upper right of the lower left quadrant diagonal on top of the block directly above it.
+ one           five             TOP     Move the uppermost block to the only spaced diagonal on top of the lower block of the only touching diagonal pair.
+ one           five             TOP     Move the block directly below the diagonal pair on top of the lowest block in the diagonal.
+ one           five             TOP     The box that just moved now moves north by two squares, forming a two-story building.
+ one           five             TOP     The same box moves up two squares to join into a two-story structure.
+ one           five             TOP     This box continues, now north, two spaces. It sits on top of the box immediately above its prior position.
+ one           five             TOP     Take the back block that is near to the front block in the top left and place it on top of the block that is directly behind it.
+ one           five             TOP     Take the second to the front left block and move it right behind placing it on top of the block that is right behind it.
+ one           five             TOP     Remove the block that is right behind the front left block. Slide that block to the block just behind it then place that block on top
+ three         six              NE      Move the sole block in the upper right quadrant one block sized space up and one step to the left.
+ three         six              NE      Move the only block in the upper right quadrant in the position that would be held if an imaginary block was currently making a negative sloped, directly touching diagonal with it.
+ three         six              NE      Move the single block in the upper right one block space down and two to the left from the upper right corner of the board.
+ three         six              NE      The upper right box shifts up one space to the left and up.
+ three         six              NE      The northeastern box moves left, then up.
+ three         six              NE      The lone box in the upper right corner moves diagonally up to the northwest.
+ three         six              NE      Take the left back block and move it backwards near the edge of the field and one blocks width to the left.
+ three         six              NE      Move the block that is the farthest back and the right and place it to the left and back.
+ three         six              NE      Slide the block that is the farthest back on the right and move it over to the left and back.
+ ten           nine             TOP     Move the upper block of the lower left quadrant stack directly on top of the highest block of the middle stack.
+ ten           nine             TOP     Move the upper block of the lowest stack on top of the centermost stack.
+ ten           nine             TOP     Break the lowest stack upper block and place it on the center stack.
+ ten           nine             TOP     The bottom right structure loses one of its blocks, which now forms a three-story block in the center of the grid.
+ ten           nine             TOP     The two-story building on the right has its top piece join the middle structure, now the third story.
+ ten           nine             TOP     The two-story building in the middle gains one story from the bottom right.
+ ten           nine             TOP     Take the top block off of the front left tower and place it on top of the tower of blocks in the middle of the field. You will now have a tower of three blocks.
+ ten           nine             TOP     Take off of top block from the tower on the right and put it on top of the tower in the middle
+ ten           nine             TOP     Remove the block from the right tower and put it on top of the center tower of blocks, making a three story tower.
+ two           six              N       Move the lower right quadrant single block behind the highest block on the board.
+ two           six              N       Move the lowest block on the board behind  of the centermost stack.
+ two           six              N       Move the block closest to the lower right corner behind the most elevated block near the center.
+ two           six              N       The bottom right box now moves two spaces above the three-story box in the center, touching the single box below it. It forms an L.
+ two           six              N       Bottom right abandons its post, and forms the top square of the 3D "L" in the middle.
+ two           six              N       Finally, to finish the "L" in the middle, the remaining bottom right piece becomes the northernmost point of the center L.
+ two           six              N       Take the front right block and place it directly behind the tower of three blocks.
+ two           six              N       Take the front right block and place it behind the tower of three blocks in the middle of the field.
+ two           six              N       Remove the block from the front right corner and place it behind the tower of three blocks. Which is to the left of the block that is kitty corner to the tower of two blocks.
