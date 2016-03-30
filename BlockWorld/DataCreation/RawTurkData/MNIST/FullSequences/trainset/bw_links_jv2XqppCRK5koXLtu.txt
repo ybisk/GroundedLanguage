@@ -1,0 +1,8 @@
+HIT: 3S1L4CQSFXRPCWS3W0OEHO89JTVFA8
+State: 565TFE32MCMD8uK4J  Name: full_63_num6
+Example:
+http://cwc-isi.org/annotate?taskId=jv2XqppCRK5koXLtu&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=jv2XqppCRK5koXLtu&hitId=3S1L4CQSFXRPCWS3W0OEHO89JTVFA8&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=jv2XqppCRK5koXLtu&hitId=3S1L4CQSFXRPCWS3W0OEHO89JTVFA8&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=jv2XqppCRK5koXLtu&hitId=3S1L4CQSFXRPCWS3W0OEHO89JTVFA8&workerId=A1FBBY2JJYRMRI&report=1

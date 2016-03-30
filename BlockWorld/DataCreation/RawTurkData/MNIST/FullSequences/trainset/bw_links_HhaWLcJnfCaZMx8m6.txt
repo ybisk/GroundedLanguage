@@ -1,0 +1,8 @@
+HIT: 31S7M7DAGGCGRK18OBIT763L4EWTL6
+State: ExodJ6Nyq7A5urxF9  Name: full_15_num1
+Example:
+http://cwc-isi.org/annotate?taskId=HhaWLcJnfCaZMx8m6&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=HhaWLcJnfCaZMx8m6&hitId=31S7M7DAGGCGRK18OBIT763L4EWTL6&workerId=A1GBOH6P5JZ681&report=1
+http://cwc-isi.org/annotate?taskId=HhaWLcJnfCaZMx8m6&hitId=31S7M7DAGGCGRK18OBIT763L4EWTL6&workerId=AZ57GKYAAO7T6&report=1
+http://cwc-isi.org/annotate?taskId=HhaWLcJnfCaZMx8m6&hitId=31S7M7DAGGCGRK18OBIT763L4EWTL6&workerId=A3SDFAOJW87FGP&report=1

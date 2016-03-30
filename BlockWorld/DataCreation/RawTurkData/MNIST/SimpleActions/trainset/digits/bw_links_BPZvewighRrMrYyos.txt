@@ -1,0 +1,8 @@
+HIT: 389A2A304O4M87ABDW1KKCBTCLPC0I
+State: 7Nw8o98GDJ7sXv3gY  Name: 81_num8
+Example:
+http://cwc-isi.org/annotate?taskId=BPZvewighRrMrYyos&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=BPZvewighRrMrYyos&hitId=389A2A304O4M87ABDW1KKCBTCLPC0I&workerId=A2XOKJX2IPLOA8&report=1
+http://cwc-isi.org/annotate?taskId=BPZvewighRrMrYyos&hitId=389A2A304O4M87ABDW1KKCBTCLPC0I&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=BPZvewighRrMrYyos&hitId=389A2A304O4M87ABDW1KKCBTCLPC0I&workerId=AR22D9E55HQBF&report=1

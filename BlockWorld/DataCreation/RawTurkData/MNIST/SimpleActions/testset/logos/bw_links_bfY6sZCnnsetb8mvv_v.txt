@@ -1,0 +1,8 @@
+HIT: 3XU80RHWHZ20CRFX3II4DHPI0X744L
+State: u2Kp4TgYiWYZpnrXk  Name: 28_num2
+Example:
+http://cwc-isi.org/annotate?taskId=bfY6sZCnnsetb8mvv&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=bfY6sZCnnsetb8mvv&hitId=3XU80RHWHZ20CRFX3II4DHPI0X744L&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=bfY6sZCnnsetb8mvv&hitId=3XU80RHWHZ20CRFX3II4DHPI0X744L&workerId=AVQGY7FCU80XP&report=1
+http://cwc-isi.org/annotate?taskId=bfY6sZCnnsetb8mvv&hitId=3XU80RHWHZ20CRFX3II4DHPI0X744L&workerId=A128BUMKWWS54Z&report=1

@@ -1,0 +1,8 @@
+HIT: 3VAOOVPI3ZES87T3F2G2LFT4A1ALLV
+State: 9sQyruGYjqTJ9h8he  Name: full_26_num2
+Example:
+http://cwc-isi.org/annotate?taskId=Be6g5QSBuCi7Br49K&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=Be6g5QSBuCi7Br49K&hitId=3VAOOVPI3ZES87T3F2G2LFT4A1ALLV&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=Be6g5QSBuCi7Br49K&hitId=3VAOOVPI3ZES87T3F2G2LFT4A1ALLV&workerId=AZ57GKYAAO7T6&report=1
+http://cwc-isi.org/annotate?taskId=Be6g5QSBuCi7Br49K&hitId=3VAOOVPI3ZES87T3F2G2LFT4A1ALLV&workerId=A2E3TO92MCQ9XU&report=1

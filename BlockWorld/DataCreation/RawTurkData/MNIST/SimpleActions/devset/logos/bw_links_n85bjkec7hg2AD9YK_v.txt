@@ -1,0 +1,8 @@
+HIT: 3CZH926SIC0I4TCQSOUHM319DFTE4F
+State: kqTqxZRbxpzPSspdA  Name: 97_num9 good
+Example:
+http://cwc-isi.org/annotate?taskId=n85bjkec7hg2AD9YK&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=n85bjkec7hg2AD9YK&hitId=3CZH926SIC0I4TCQSOUHM319DFTE4F&workerId=A3PJSGAKNK63FH&report=1
+http://cwc-isi.org/annotate?taskId=n85bjkec7hg2AD9YK&hitId=3CZH926SIC0I4TCQSOUHM319DFTE4F&workerId=A3PDTUA1YLJTMC&report=1
+http://cwc-isi.org/annotate?taskId=n85bjkec7hg2AD9YK&hitId=3CZH926SIC0I4TCQSOUHM319DFTE4F&workerId=A27BKFN6UB1LDP&report=1

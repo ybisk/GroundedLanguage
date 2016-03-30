@@ -1,0 +1,8 @@
+HIT: 3IVEC1GSLPL9NA1ZJ7M6LL7Y63D1J8
+State: qDNeKMyM4cEZd5i6q  Name: 87_num8 good
+Example:
+http://cwc-isi.org/annotate?taskId=77d77vwxYLARQuEzf&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=77d77vwxYLARQuEzf&hitId=3IVEC1GSLPL9NA1ZJ7M6LL7Y63D1J8&workerId=A3PJSGAKNK63FH&report=1
+http://cwc-isi.org/annotate?taskId=77d77vwxYLARQuEzf&hitId=3IVEC1GSLPL9NA1ZJ7M6LL7Y63D1J8&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=77d77vwxYLARQuEzf&hitId=3IVEC1GSLPL9NA1ZJ7M6LL7Y63D1J8&workerId=A2YI2GD7DLFD05&report=1

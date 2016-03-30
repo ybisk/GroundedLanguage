@@ -1,0 +1,8 @@
+HIT: 338GLSUI43XTCSEXD0A52O2F5YVSF8
+State: FecyMsgXYXW8Tq8NR  Name: 63_num6
+Example:
+http://cwc-isi.org/annotate?taskId=SBE5wrLqupqc3svad&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=SBE5wrLqupqc3svad&hitId=338GLSUI43XTCSEXD0A52O2F5YVSF8&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=SBE5wrLqupqc3svad&hitId=338GLSUI43XTCSEXD0A52O2F5YVSF8&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=SBE5wrLqupqc3svad&hitId=338GLSUI43XTCSEXD0A52O2F5YVSF8&workerId=A2E3TO92MCQ9XU&report=1

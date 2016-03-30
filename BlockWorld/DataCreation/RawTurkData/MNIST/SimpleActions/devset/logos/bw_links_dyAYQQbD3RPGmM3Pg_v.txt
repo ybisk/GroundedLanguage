@@ -1,0 +1,8 @@
+HIT: 3U74KRR67M76FK4T0OY8KY7A72CTN8
+State: N6Yu7jm5T65pQfm3Y  Name: 57_num5
+Example:
+http://cwc-isi.org/annotate?taskId=dyAYQQbD3RPGmM3Pg&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=dyAYQQbD3RPGmM3Pg&hitId=3U74KRR67M76FK4T0OY8KY7A72CTN8&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=dyAYQQbD3RPGmM3Pg&hitId=3U74KRR67M76FK4T0OY8KY7A72CTN8&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=dyAYQQbD3RPGmM3Pg&hitId=3U74KRR67M76FK4T0OY8KY7A72CTN8&workerId=A2AVFNOKFHQ2ME&report=1

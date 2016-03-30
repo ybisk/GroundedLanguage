@@ -1,0 +1,8 @@
+HIT: 3PIOQ99R7Y8LFXJI0TOIPUTCRELNUS
+State: 646wC7v7NQNMibraf  Name: 98_num9
+Example:
+http://cwc-isi.org/annotate?taskId=YrwN4zqRvNMGJ2tcW&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=YrwN4zqRvNMGJ2tcW&hitId=3PIOQ99R7Y8LFXJI0TOIPUTCRELNUS&workerId=A3OLRWACCCCUTU&report=1
+http://cwc-isi.org/annotate?taskId=YrwN4zqRvNMGJ2tcW&hitId=3PIOQ99R7Y8LFXJI0TOIPUTCRELNUS&workerId=A2LKP71TDQDL7B&report=1
+http://cwc-isi.org/annotate?taskId=YrwN4zqRvNMGJ2tcW&hitId=3PIOQ99R7Y8LFXJI0TOIPUTCRELNUS&workerId=AR22D9E55HQBF&report=1

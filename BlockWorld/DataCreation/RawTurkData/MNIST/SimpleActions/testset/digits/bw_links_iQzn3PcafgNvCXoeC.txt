@@ -1,0 +1,8 @@
+HIT: 3CVDZS288HMQEX1ST3EJQF39C1XMFT
+State: 8ygze35yNA9CbNNZX  Name: 69_num6
+Example:
+http://cwc-isi.org/annotate?taskId=iQzn3PcafgNvCXoeC&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=iQzn3PcafgNvCXoeC&hitId=3CVDZS288HMQEX1ST3EJQF39C1XMFT&workerId=A3GUQJST9XV5YR&report=1
+http://cwc-isi.org/annotate?taskId=iQzn3PcafgNvCXoeC&hitId=3CVDZS288HMQEX1ST3EJQF39C1XMFT&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=iQzn3PcafgNvCXoeC&hitId=3CVDZS288HMQEX1ST3EJQF39C1XMFT&workerId=AR22D9E55HQBF&report=1

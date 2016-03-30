@@ -1,0 +1,8 @@
+HIT: 31J7RYECZLCFI0PZMSYJ10KQA1VL1P
+State: 7ieHrSQKPMgENAxKr  Name: 79_num7
+Example:
+http://cwc-isi.org/annotate?taskId=RA2inoxtwsjxH2vz8&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=RA2inoxtwsjxH2vz8&hitId=31J7RYECZLCFI0PZMSYJ10KQA1VL1P&workerId=A2A4EX36X0JB4R&report=1
+http://cwc-isi.org/annotate?taskId=RA2inoxtwsjxH2vz8&hitId=31J7RYECZLCFI0PZMSYJ10KQA1VL1P&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=RA2inoxtwsjxH2vz8&hitId=31J7RYECZLCFI0PZMSYJ10KQA1VL1P&workerId=A6SIOBGW55XQV&report=1

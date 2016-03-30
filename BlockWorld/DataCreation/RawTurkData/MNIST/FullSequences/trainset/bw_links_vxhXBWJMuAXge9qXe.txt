@@ -1,0 +1,8 @@
+HIT: 3QREJ3J433JHO1BLU2416FGPL15LKS
+State: 9B5cFhYxHp4Wn9XQA  Name: full_14_num1
+Example:
+http://cwc-isi.org/annotate?taskId=vxhXBWJMuAXge9qXe&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=vxhXBWJMuAXge9qXe&hitId=3QREJ3J433JHO1BLU2416FGPL15LKS&workerId=AYUREWGFQG5JV&report=1
+http://cwc-isi.org/annotate?taskId=vxhXBWJMuAXge9qXe&hitId=3QREJ3J433JHO1BLU2416FGPL15LKS&workerId=AZ57GKYAAO7T6&report=1
+http://cwc-isi.org/annotate?taskId=vxhXBWJMuAXge9qXe&hitId=3QREJ3J433JHO1BLU2416FGPL15LKS&workerId=A11QDNT3W7DT7K&report=1

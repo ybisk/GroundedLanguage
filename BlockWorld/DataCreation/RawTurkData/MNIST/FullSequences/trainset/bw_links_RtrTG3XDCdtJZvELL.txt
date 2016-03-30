@@ -1,0 +1,8 @@
+HIT: 3BS6ERDL93TRRA24FHCCDJ32BYB6DM
+State: 8ZFZWkNLkks8XwDLf  Name: full_94_num9
+Example:
+http://cwc-isi.org/annotate?taskId=RtrTG3XDCdtJZvELL&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=RtrTG3XDCdtJZvELL&hitId=3BS6ERDL93TRRA24FHCCDJ32BYB6DM&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=RtrTG3XDCdtJZvELL&hitId=3BS6ERDL93TRRA24FHCCDJ32BYB6DM&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=RtrTG3XDCdtJZvELL&hitId=3BS6ERDL93TRRA24FHCCDJ32BYB6DM&workerId=A3FJE9AUW0O41D&report=1

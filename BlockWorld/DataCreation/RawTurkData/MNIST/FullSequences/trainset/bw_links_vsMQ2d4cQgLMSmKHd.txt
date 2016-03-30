@@ -1,0 +1,8 @@
+HIT: 3MWOYZD5WVAQ2SZL47C9QO1NA1EONG
+State: AniFa4uL7AQSmYFBu  Name: full_5_num0
+Example:
+http://cwc-isi.org/annotate?taskId=vsMQ2d4cQgLMSmKHd&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=vsMQ2d4cQgLMSmKHd&hitId=3MWOYZD5WVAQ2SZL47C9QO1NA1EONG&workerId=A1GBOH6P5JZ681&report=1
+http://cwc-isi.org/annotate?taskId=vsMQ2d4cQgLMSmKHd&hitId=3MWOYZD5WVAQ2SZL47C9QO1NA1EONG&workerId=AZ57GKYAAO7T6&report=1
+http://cwc-isi.org/annotate?taskId=vsMQ2d4cQgLMSmKHd&hitId=3MWOYZD5WVAQ2SZL47C9QO1NA1EONG&workerId=A11QDNT3W7DT7K&report=1

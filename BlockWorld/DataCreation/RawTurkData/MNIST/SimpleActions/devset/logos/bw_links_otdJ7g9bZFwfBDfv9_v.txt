@@ -1,0 +1,6 @@
+HIT: 311HQEI8RS2DYBL5Q961APM1SJTZ7J
+State: N6Yu7jm5T65pQfm3Y  Name: 57_num5
+Example:
+http://cwc-isi.org/annotate?taskId=otdJ7g9bZFwfBDfv9&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=otdJ7g9bZFwfBDfv9&hitId=311HQEI8RS2DYBL5Q961APM1SJTZ7J&workerId=A2E3TO92MCQ9XU&report=1

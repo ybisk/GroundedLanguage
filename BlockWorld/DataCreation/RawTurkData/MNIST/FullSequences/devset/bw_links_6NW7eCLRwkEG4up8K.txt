@@ -1,0 +1,8 @@
+HIT: 3S829FDFT2N4APM0G4L2DWGM8SBXDO
+State: MFm4Wv7gE4ghpZNHR  Name: full_97_num9
+Example:
+http://cwc-isi.org/annotate?taskId=6NW7eCLRwkEG4up8K&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=6NW7eCLRwkEG4up8K&hitId=3S829FDFT2N4APM0G4L2DWGM8SBXDO&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=6NW7eCLRwkEG4up8K&hitId=3S829FDFT2N4APM0G4L2DWGM8SBXDO&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=6NW7eCLRwkEG4up8K&hitId=3S829FDFT2N4APM0G4L2DWGM8SBXDO&workerId=A3SDFAOJW87FGP&report=1

@@ -1,0 +1,8 @@
+HIT: 3NCN4N1H1G36JYAC027NK41O2TFBN0
+State: wneGgJRganZ4n2gvR  Name: 89_num8
+Example:
+http://cwc-isi.org/annotate?taskId=GFrNqfR4NYd7hAtrD&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=GFrNqfR4NYd7hAtrD&hitId=3NCN4N1H1G36JYAC027NK41O2TFBN0&workerId=A3GUQJST9XV5YR&report=1
+http://cwc-isi.org/annotate?taskId=GFrNqfR4NYd7hAtrD&hitId=3NCN4N1H1G36JYAC027NK41O2TFBN0&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=GFrNqfR4NYd7hAtrD&hitId=3NCN4N1H1G36JYAC027NK41O2TFBN0&workerId=A3GQ6KDIZWCMW6&report=1

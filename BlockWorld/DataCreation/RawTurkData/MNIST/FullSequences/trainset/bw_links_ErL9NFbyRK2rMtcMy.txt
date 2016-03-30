@@ -1,0 +1,8 @@
+HIT: 3KTZHH2ONI1HZIR5LP8DGNMNQAV8M0
+State: BNZ2bdnRwyxuyqK9L  Name: full_72_num7
+Example:
+http://cwc-isi.org/annotate?taskId=ErL9NFbyRK2rMtcMy&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=ErL9NFbyRK2rMtcMy&hitId=3KTZHH2ONI1HZIR5LP8DGNMNQAV8M0&workerId=A2TMWYLZY40I9&report=1
+http://cwc-isi.org/annotate?taskId=ErL9NFbyRK2rMtcMy&hitId=3KTZHH2ONI1HZIR5LP8DGNMNQAV8M0&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=ErL9NFbyRK2rMtcMy&hitId=3KTZHH2ONI1HZIR5LP8DGNMNQAV8M0&workerId=A3HZ31VAGTVQMQ&report=1

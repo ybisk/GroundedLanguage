@@ -1,0 +1,8 @@
+HIT: 3OID399FXGTNA3VFGAFG7PGF209FDX
+State: u2Kp4TgYiWYZpnrXk  Name: 28_num2
+Example:
+http://cwc-isi.org/annotate?taskId=Z8tB96JuYq9R3SKbE&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=Z8tB96JuYq9R3SKbE&hitId=3OID399FXGTNA3VFGAFG7PGF209FDX&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=Z8tB96JuYq9R3SKbE&hitId=3OID399FXGTNA3VFGAFG7PGF209FDX&workerId=A2PE32I58ANCDD&report=1
+http://cwc-isi.org/annotate?taskId=Z8tB96JuYq9R3SKbE&hitId=3OID399FXGTNA3VFGAFG7PGF209FDX&workerId=A2DWPP1KKAY0HG&report=1

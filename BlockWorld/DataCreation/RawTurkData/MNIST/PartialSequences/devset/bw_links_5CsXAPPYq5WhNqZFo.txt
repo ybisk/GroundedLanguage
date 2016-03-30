@@ -1,0 +1,8 @@
+HIT: 3K1H3NEY7LLTO3RARULYPAGR500GDW
+State: 7gjJA5knDDPZnMRZN  Name: 7_num0
+Example:
+http://cwc-isi.org/annotate?taskId=5CsXAPPYq5WhNqZFo&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=5CsXAPPYq5WhNqZFo&hitId=3K1H3NEY7LLTO3RARULYPAGR500GDW&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=5CsXAPPYq5WhNqZFo&hitId=3K1H3NEY7LLTO3RARULYPAGR500GDW&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=5CsXAPPYq5WhNqZFo&hitId=3K1H3NEY7LLTO3RARULYPAGR500GDW&workerId=AR22D9E55HQBF&report=1

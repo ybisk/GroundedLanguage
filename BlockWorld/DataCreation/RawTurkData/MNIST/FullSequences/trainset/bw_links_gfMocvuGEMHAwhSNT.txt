@@ -1,0 +1,8 @@
+HIT: 3ZG552ORAMQP3QJPJ003TSSXVZN2V8
+State: sjB2z83mebxKkMnrn  Name: full_35_num3
+Example:
+http://cwc-isi.org/annotate?taskId=gfMocvuGEMHAwhSNT&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=gfMocvuGEMHAwhSNT&hitId=3ZG552ORAMQP3QJPJ003TSSXVZN2V8&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=gfMocvuGEMHAwhSNT&hitId=3ZG552ORAMQP3QJPJ003TSSXVZN2V8&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=gfMocvuGEMHAwhSNT&hitId=3ZG552ORAMQP3QJPJ003TSSXVZN2V8&workerId=A3SDFAOJW87FGP&report=1

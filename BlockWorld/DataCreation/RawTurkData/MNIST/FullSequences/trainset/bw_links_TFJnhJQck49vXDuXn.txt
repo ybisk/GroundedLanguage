@@ -1,0 +1,8 @@
+HIT: 3RWB1RTQDJ9NKLOID505XRGIVC48PO
+State: JJ7rc5AFCdPa6evwv  Name: full_81_num8
+Example:
+http://cwc-isi.org/annotate?taskId=TFJnhJQck49vXDuXn&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=TFJnhJQck49vXDuXn&hitId=3RWB1RTQDJ9NKLOID505XRGIVC48PO&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=TFJnhJQck49vXDuXn&hitId=3RWB1RTQDJ9NKLOID505XRGIVC48PO&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=TFJnhJQck49vXDuXn&hitId=3RWB1RTQDJ9NKLOID505XRGIVC48PO&workerId=A3SDFAOJW87FGP&report=1

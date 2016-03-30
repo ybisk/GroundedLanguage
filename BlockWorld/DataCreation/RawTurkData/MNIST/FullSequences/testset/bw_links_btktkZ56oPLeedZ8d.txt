@@ -1,0 +1,8 @@
+HIT: 3ODOP6T3AS6Q9D0AZ4ZGK2SKI7D243
+State: 67WPs8Yu2go95535A  Name: full_88_num8
+Example:
+http://cwc-isi.org/annotate?taskId=btktkZ56oPLeedZ8d&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=btktkZ56oPLeedZ8d&hitId=3ODOP6T3AS6Q9D0AZ4ZGK2SKI7D243&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=btktkZ56oPLeedZ8d&hitId=3ODOP6T3AS6Q9D0AZ4ZGK2SKI7D243&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=btktkZ56oPLeedZ8d&hitId=3ODOP6T3AS6Q9D0AZ4ZGK2SKI7D243&workerId=A2E3TO92MCQ9XU&report=1

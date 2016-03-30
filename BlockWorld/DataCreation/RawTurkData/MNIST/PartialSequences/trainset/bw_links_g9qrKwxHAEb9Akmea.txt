@@ -1,0 +1,8 @@
+HIT: 3IYI9285WSMTADBXZ4BQ2HQPC21CJC
+State: c8TLT7dX6ENGBvoTE  Name: 94_num9
+Example:
+http://cwc-isi.org/annotate?taskId=g9qrKwxHAEb9Akmea&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=g9qrKwxHAEb9Akmea&hitId=3IYI9285WSMTADBXZ4BQ2HQPC21CJC&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=g9qrKwxHAEb9Akmea&hitId=3IYI9285WSMTADBXZ4BQ2HQPC21CJC&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=g9qrKwxHAEb9Akmea&hitId=3IYI9285WSMTADBXZ4BQ2HQPC21CJC&workerId=A7R8P9XQ4Y9PA&report=1

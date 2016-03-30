@@ -1,0 +1,8 @@
+HIT: 34D9ZRXCYRGYG1XP2KODONRO8JLASI
+State: SFWizz29rX4TT22Sy  Name: full_34_num3
+Example:
+http://cwc-isi.org/annotate?taskId=XMNRFSpioPfy54EwE&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=XMNRFSpioPfy54EwE&hitId=34D9ZRXCYRGYG1XP2KODONRO8JLASI&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=XMNRFSpioPfy54EwE&hitId=34D9ZRXCYRGYG1XP2KODONRO8JLASI&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=XMNRFSpioPfy54EwE&hitId=34D9ZRXCYRGYG1XP2KODONRO8JLASI&workerId=A3SDFAOJW87FGP&report=1

@@ -1,0 +1,8 @@
+HIT: 3ZG552ORAMQP3QJPJ003TSSXVYKV2W
+State: Gp3yBLfS9f2Gy4xCA  Name: 70_num7
+Example:
+http://cwc-isi.org/annotate?taskId=wkawdwyW6q9LZy3wR&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=wkawdwyW6q9LZy3wR&hitId=3ZG552ORAMQP3QJPJ003TSSXVYKV2W&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=wkawdwyW6q9LZy3wR&hitId=3ZG552ORAMQP3QJPJ003TSSXVYKV2W&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=wkawdwyW6q9LZy3wR&hitId=3ZG552ORAMQP3QJPJ003TSSXVYKV2W&workerId=AR22D9E55HQBF&report=1

@@ -1,0 +1,8 @@
+HIT: 38Z7YZ2SB3O1931AM4RLAL0633AIQA
+State: FvEe82Zszm7WzpmPw  Name: full_64_num6
+Example:
+http://cwc-isi.org/annotate?taskId=Q6WScxduYAJbjfafA&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=Q6WScxduYAJbjfafA&hitId=38Z7YZ2SB3O1931AM4RLAL0633AIQA&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=Q6WScxduYAJbjfafA&hitId=38Z7YZ2SB3O1931AM4RLAL0633AIQA&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=Q6WScxduYAJbjfafA&hitId=38Z7YZ2SB3O1931AM4RLAL0633AIQA&workerId=A1IB8KMD74GSUT&report=1

@@ -1,0 +1,8 @@
+HIT: 386659BNTL32L40DXZC03GS29XK10M
+State: eFtb26tdnCXTZFzPG  Name: 8_num0
+Example:
+http://cwc-isi.org/annotate?taskId=RcmJBHPkb9pkeTZDg&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=RcmJBHPkb9pkeTZDg&hitId=386659BNTL32L40DXZC03GS29XK10M&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=RcmJBHPkb9pkeTZDg&hitId=386659BNTL32L40DXZC03GS29XK10M&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=RcmJBHPkb9pkeTZDg&hitId=386659BNTL32L40DXZC03GS29XK10M&workerId=A3SDFAOJW87FGP&report=1

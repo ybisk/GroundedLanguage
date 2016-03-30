@@ -1,0 +1,8 @@
+HIT: 33IXYHIZB5481FX3OABTTO4BUVN2EM
+State: obnjRrxry8BYM4dng  Name: 85_num8
+Example:
+http://cwc-isi.org/annotate?taskId=e5b96rxfwnyCZTW79&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=e5b96rxfwnyCZTW79&hitId=33IXYHIZB5481FX3OABTTO4BUVN2EM&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=e5b96rxfwnyCZTW79&hitId=33IXYHIZB5481FX3OABTTO4BUVN2EM&workerId=A3GQ6KDIZWCMW6&report=1
+http://cwc-isi.org/annotate?taskId=e5b96rxfwnyCZTW79&hitId=33IXYHIZB5481FX3OABTTO4BUVN2EM&workerId=A3PJSGAKNK63FH&report=1

@@ -1,0 +1,8 @@
+HIT: 3I01FDIL6MU399J3SF09N6MQVLRD2E
+State: 9ZTidiBGoa3PMEWp5  Name: 14_num1
+Example:
+http://cwc-isi.org/annotate?taskId=eDC2HtgJWEdkLDunX&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=eDC2HtgJWEdkLDunX&hitId=3I01FDIL6MU399J3SF09N6MQVLRD2E&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=eDC2HtgJWEdkLDunX&hitId=3I01FDIL6MU399J3SF09N6MQVLRD2E&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=eDC2HtgJWEdkLDunX&hitId=3I01FDIL6MU399J3SF09N6MQVLRD2E&workerId=AR22D9E55HQBF&report=1

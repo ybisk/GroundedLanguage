@@ -1,0 +1,8 @@
+HIT: 3QX22DUVOO3FAUNITIJN816V131MVE
+State: DE46WhHBEmQupC3bj  Name: 61_num6
+Example:
+http://cwc-isi.org/annotate?taskId=paW9hCh76LaJmW94a&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=paW9hCh76LaJmW94a&hitId=3QX22DUVOO3FAUNITIJN816V131MVE&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=paW9hCh76LaJmW94a&hitId=3QX22DUVOO3FAUNITIJN816V131MVE&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=paW9hCh76LaJmW94a&hitId=3QX22DUVOO3FAUNITIJN816V131MVE&workerId=A3SDFAOJW87FGP&report=1

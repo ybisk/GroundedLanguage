@@ -1,0 +1,8 @@
+HIT: 3HEADTGN2PE67A0AYQF4U0056EGRVY
+State: AiTanJkSmkS6N5y37  Name: 93_num9
+Example:
+http://cwc-isi.org/annotate?taskId=v3kGB9Sto8neNJ5fs&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=v3kGB9Sto8neNJ5fs&hitId=3HEADTGN2PE67A0AYQF4U0056EGRVY&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=v3kGB9Sto8neNJ5fs&hitId=3HEADTGN2PE67A0AYQF4U0056EGRVY&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=v3kGB9Sto8neNJ5fs&hitId=3HEADTGN2PE67A0AYQF4U0056EGRVY&workerId=A3GUQJST9XV5YR&report=1

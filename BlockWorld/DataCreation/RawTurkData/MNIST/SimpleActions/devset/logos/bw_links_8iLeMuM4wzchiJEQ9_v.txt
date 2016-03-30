@@ -1,0 +1,8 @@
+HIT: 3LG268AV38SP5ZEO30QUUWCJ479ERL
+State: S7dra5Bf2AzhbgKtB  Name: 17_num1
+Example:
+http://cwc-isi.org/annotate?taskId=8iLeMuM4wzchiJEQ9&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=8iLeMuM4wzchiJEQ9&hitId=3LG268AV38SP5ZEO30QUUWCJ479ERL&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=8iLeMuM4wzchiJEQ9&hitId=3LG268AV38SP5ZEO30QUUWCJ479ERL&workerId=A3SLXZURCF9O67&report=1
+http://cwc-isi.org/annotate?taskId=8iLeMuM4wzchiJEQ9&hitId=3LG268AV38SP5ZEO30QUUWCJ479ERL&workerId=A47UVNSR0PBHV&report=1

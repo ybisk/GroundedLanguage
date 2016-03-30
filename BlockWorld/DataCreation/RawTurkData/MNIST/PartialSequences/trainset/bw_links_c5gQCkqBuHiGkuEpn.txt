@@ -1,0 +1,8 @@
+HIT: 3I6NF2WGIGIYKQCHCO3FRYSZSNY5GH
+State: varNWRfZs4WJGwxAn  Name: 30_num3
+Example:
+http://cwc-isi.org/annotate?taskId=c5gQCkqBuHiGkuEpn&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=c5gQCkqBuHiGkuEpn&hitId=3I6NF2WGIGIYKQCHCO3FRYSZSNY5GH&workerId=AWSVI9UQZJNF4&report=1
+http://cwc-isi.org/annotate?taskId=c5gQCkqBuHiGkuEpn&hitId=3I6NF2WGIGIYKQCHCO3FRYSZSNY5GH&workerId=A2E3TO92MCQ9XU&report=1
+http://cwc-isi.org/annotate?taskId=c5gQCkqBuHiGkuEpn&hitId=3I6NF2WGIGIYKQCHCO3FRYSZSNY5GH&workerId=A21GYIDUNZ4BHE&report=1
