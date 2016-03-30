@@ -28,6 +28,7 @@ Evaluation: (dev/test)
 |  RNN         | Sxyz     |        |        |     |          |            |
 
 
+```
 ************
 Deniz notes:
 ************
@@ -93,3 +94,4 @@ Source id in [0,19].
 60 columns of Float xyz coordinates. -1.0 marks nonexistent blocks, but also sometimes a legitimate coordinate? Is the same block (e.g. coca-cola) always in the same columns?
 Variable number of columns for word ids. min=4, max=83.
 Word id in [1,658].  Again 1 is probably used for unk.  We should use 0 for padding.
+```

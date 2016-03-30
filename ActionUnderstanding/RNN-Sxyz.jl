@@ -19,26 +19,35 @@ function main(args)
         ("--loadfile"; help="initialize model from file")
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
-        ("--hidden"; arg_type=Int; default=256; help="hidden layer size") # DY: best 64 for 1, 128 for 2, 256 for 3.
-        ("--embedding"; arg_type=Int; default=0; help="word embedding size (default same as hidden)")
         ("--epochs"; arg_type=Int; default=40; help="number of epochs to train")
-        ("--batchsize"; arg_type=Int; default=10; help="minibatch size")
-        ("--lr"; arg_type=Float64; default=1.0; help="learning rate")
+
+        ("--hidden"; arg_type=Int; default=256; help="hidden layer size")
+        ("--embedding"; arg_type=Int; default=0; help="word embedding size (default same as hidden)")
+        ("--ndirs"; arg_type=Int; default=9; help="number of direction offsets to learn")
+
         ("--gclip"; arg_type=Float64; default=5.0; help="gradient clipping threshold")
         ("--dropout"; arg_type=Float64; default=0.5; help="dropout probability")
-        ("--decay"; arg_type=Float64; default=0.9; help="learning rate decay if deverr increases")
         ("--nogpu"; action = :store_true; help="do not use gpu, which is used by default if available")
         ("--seed"; arg_type=Int; default=20160427; help="random number seed")
-        ("--target"; arg_type=Int; default=1; help="which target to predict: 1:source,2:target,3:direction")
+
+        # DY: this is set to 9 because I can only minibatch with one world
+        # ("--batchsize"; arg_type=Int; default=10; help="minibatch size")
+        # DY: not sure if we need these with adam
+        # ("--lr"; arg_type=Float64; default=1.0; help="learning rate")
+        # ("--decay"; arg_type=Float64; default=0.9; help="learning rate decay if deverr increases")
+
+        # DY: only one target for now:
+        # ("--target"; arg_type=Int; default=1; help="which target to predict: 1:source,2:target,3:direction")
         # DY: this is read from the data now
         # ("--yvocab"; arg_type=Int; nargs='+'; default=[20,20,9]; help="vocab sizes for target columns (all columns assumed independent)")
-        ("--xsparse"; action = :store_true; help="use sparse inputs, dense arrays used by default")
-        ("--ftype"; default = "Float32"; help="floating point type to use: Float32 or Float64")
+        # DY: put these back later if we need them
+        # ("--xsparse"; action = :store_true; help="use sparse inputs, dense arrays used by default")
+        # ("--ftype"; default = "Float32"; help="floating point type to use: Float32 or Float64")
     end
     isa(args, AbstractString) && (args=split(args))
     o = parse_args(args, s; as_symbols=true); println(o)
     o[:seed] > 0 && setseed(o[:seed])
-    o[:ftype] = eval(parse(o[:ftype]))
+    # o[:ftype] = eval(parse(o[:ftype]))
     o[:embedding] == 0 && (o[:embedding] = o[:hidden])
     Knet.gpu(!o[:nogpu])
     global xvocab = 0
@@ -70,22 +79,23 @@ function main(args)
 
     info("Initializing model...")
     global net = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
-                  compile(:rnnxyz; hidden=o[:hidden], embedding=o[:embedding], pdrop=o[:dropout]))
-    setp(net, lr=o[:lr])
+                  compile(:rnnxyz; hidden=o[:hidden], embedding=o[:embedding], ndirs=o[:ndirs], pdrop=o[:dropout]))
+    # setp(net, lr=o[:lr])
+    setp(net, lr=0.001, adam=true)
     lastloss = bestloss = Inf
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
         trnloss = train(net, data[1], quadloss; gclip=o[:gclip], xvocab=xvocab)
         devloss = test(net, data[2], quadloss)
         tstloss = test(net, data[3], quadloss)
-        println((epoch, o[:lr], trnloss, devloss, tstloss))
+        println((epoch, trnloss, devloss, tstloss))
         if devloss < bestloss
             bestloss=devloss
             o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
         end
-        if devloss > lastloss
-            o[:lr] *= o[:decay]
-            setp(net, lr=o[:lr])
-        end
+        # if devloss > lastloss
+        #     o[:lr] *= o[:decay]
+        #     setp(net, lr=o[:lr])
+        # end
         lastloss = devloss
     end
     o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
@@ -96,9 +106,9 @@ end
     hvec = lstm(wvec; out=hidden)                    # TODO: try more layers
     if predict                                       # TODO: try dropout between wdot and lstm
         dvec = drop(hvec; pdrop=pdrop)
-        refblock = wbf(dvec; out=nblocks, f=:sigm) # TODO: try soft here?
+        refblock = wbf(dvec; out=nblocks, f=:soft73) # soft does much better than sigm here
         refxyz = coor * refblock
-        direction = wbf(dvec; out=ndirs, f=:sigm) # TODO: try more dirs?
+        direction = wbf(dvec; out=ndirs, f=:soft73) # TODO: try more dirs?
         offset = wdot(direction; out=ndims)
         return refxyz + offset
     end
