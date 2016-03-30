@@ -16,14 +16,14 @@ There are three paradigms presented here:
 File formats:  predictions first and then input.
 Source [Reference / Direction / XYZ ] [World] Utterance 
 
-Evaluation:
+Evaluation: (dev/test)
 
-| Architecture |  Model   | Source | Target | RP | Mean Err | Median Err |
+| Architecture |  Model   | Source | Ref | Dir | Mean Err | Median Err |
 | ------------ |  ------- |:------:|:------:|:---:|:--------:|:----------:|
 |  FFN         | SRD      |        |        |     |          |            |
 |  FFN         | SRxyz    |        |        |     |          |            |
 |  FFN         | Sxyz     |        |        |     |          |            |
-|  RNN         | SRD      |        |        |     |          |            |
+|  RNN         | SRD      | .0332/.0211 | .1332/.0822 | .3316/.2200 |          |            |
 |  RNN         | SRxyz    |        |        |     |          |            |
 |  RNN         | Sxyz     |        |        |     |          |            |
 
@@ -36,7 +36,7 @@ SRD File format:
 ----------------
 For example in JSONReader/data/2016-NAACL/SRD/Train.mat:
 Source/Reference are Int block ids (0-19).
-Direction is an Int (0-9).
+Direction is an Int (0-8).
 Utterance consists of 80 Int word ids (1-658).
 word=1 is used as padding at the end for short sentences.
 word=1 is also used for UNK inside a sentence?
@@ -79,13 +79,17 @@ target=1 .0320@13
 target=2 .1344@11
 target=3 .3188@27
 
+Getting rid of arbitrary sentence length restriction: (epoch,lr,trnloss,deverr,tsterr)
+target1: (15,0.5904900000000002,0.004885856288433999,0.03315881326352531,0.021089077746301543)
+target2: (21,0.47829690000000014,0.0003369556060988965,0.133216986620128,0.0821529745042493)
+target3: (47,0.13508517176729928,0.0004211945076236206,0.33158813263525305,0.22001888574126535)
+
 Sxyz File format:
 -----------------
 For example in JSONReader/data/2016-NAACL/Sxyz/Train.mat:
 147 columns.
 Source id in [0,19].
-63 columns of Float xyz coordinates. -1.0 marks nonexistent blocks, but also sometimes a legitimate coordinate? Is the same block (e.g. coca-cola) always in the same columns?
+3 columns of target xyz.
+60 columns of Float xyz coordinates. -1.0 marks nonexistent blocks, but also sometimes a legitimate coordinate? Is the same block (e.g. coca-cola) always in the same columns?
 Variable number of columns for word ids. min=4, max=83.
 Word id in [1,658].  Again 1 is probably used for unk.  We should use 0 for padding.
-
-
