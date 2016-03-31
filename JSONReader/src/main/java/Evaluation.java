@@ -9,11 +9,12 @@ public class Evaluation {
   public static strictfp void main(String[] args) throws Exception {
     Configuration.setConfiguration(args.length > 0 ? args[0] : "JSONReader/config.properties");
 
-
     ArrayList<Integer> pS = new ArrayList<>(), pR = new ArrayList<>(), pD = new ArrayList<>();
     ArrayList<double[]> pxyz = new ArrayList<>();
     ArrayList<Integer> gS = new ArrayList<>(), gR = new ArrayList<>(), gD = new ArrayList<>();
     ArrayList<double[]> gxyz = new ArrayList<>();
+    ArrayList<String> utterances = new ArrayList<>();
+    ArrayList<String> images = new ArrayList<>();
     ArrayList<double[][]> final_worlds = new ArrayList<>();
     ArrayList<double[][]> start_worlds = new ArrayList<>();
 
@@ -38,7 +39,6 @@ public class Evaluation {
           pS.add(rand.nextInt(20));
           pR.add(rand.nextInt(20));
           pD.add(rand.nextInt(9));
-          //pxyz.add(new double[] {rand.nextDouble()*2 - 1, rand.nextDouble()*2 - 1, rand.nextDouble()*2 - 1});
         }
         break;
       case Oracle:
@@ -50,12 +50,14 @@ public class Evaluation {
         System.err.println("Invalid baseline: " + Configuration.baseline);
     }
 
-    readWorlds(start_worlds, final_worlds, data);
+    readTaskData(start_worlds, final_worlds, utterances, images, data);
     computePredictedXYZ(final_worlds, pR, pD, pxyz);
     computeGoldXYZ(final_worlds, gS, gxyz);
     incorporateSourcePredictionErrors(gS, pS, pxyz, start_worlds);
 
-    evaluate(gS, pS, gR, pR, gD, pD, gxyz, pxyz);
+    ArrayList<Tuple<Integer>> errors = evaluate(gS, pS, gR, pR, gD, pD, gxyz, pxyz);
+
+    worstOffenders(errors, images, gS, pS, gR, pR, gD, pD, gxyz, pxyz, utterances);
   }
 
   public static void readValues(Double[][] Data, ArrayList<Integer> S, ArrayList<Integer> R, ArrayList<Integer> D,
@@ -93,7 +95,8 @@ public class Evaluation {
     }
   }
 
-  public static void readWorlds(ArrayList<double[][]> start_worlds, ArrayList<double[][]> final_worlds, ArrayList<Task> data) {
+  public static void readTaskData(ArrayList<double[][]> start_worlds, ArrayList<double[][]> final_worlds,
+                                  ArrayList<String> utterances, ArrayList<String> images, ArrayList<Task> data) {
     // Collect worlds
     for (Task task : data) {
       for (Note note : task.notes) {
@@ -101,6 +104,8 @@ public class Evaluation {
           for (String utterance : note.notes) {
             final_worlds.add(task.states[note.finish]);
             start_worlds.add(task.states[note.start]);
+            utterances.add(utterance);
+            images.add(task.images[note.start] + " - " + task.images[note.finish]);
           }
         }
       }
@@ -168,12 +173,13 @@ public class Evaluation {
     }
   }
 
-  public static void evaluate(ArrayList<Integer> gS, ArrayList<Integer> pS, ArrayList<Integer> gR,
+  public static ArrayList<Tuple<Integer>> evaluate(ArrayList<Integer> gS, ArrayList<Integer> pS, ArrayList<Integer> gR,
                               ArrayList<Integer> pR, ArrayList<Integer> gD, ArrayList<Integer> pD,
                               ArrayList<double[]> gxyz, ArrayList<double[]> pxyz) {
     // Evaluate
     int eS = 0, eR = 0, eD = 0;
     ArrayList<Double> errors = new ArrayList<>();
+    ArrayList<Tuple<Integer>> errorIDs = new ArrayList<>();
     for (int i = 0; i < gS.size(); ++i) {
       eS += gS.get(i) == pS.get(i) ? 1 : 0;
       if (!pR.isEmpty()) {
@@ -181,6 +187,7 @@ public class Evaluation {
         eD += gD.get(i) == pD.get(i) ? 1 : 0;
       }
       errors.add(Utils.distance(pxyz.get(i), gxyz.get(i)));
+      errorIDs.add(new Tuple<>(i,Utils.distance(pxyz.get(i), gxyz.get(i))));
     }
     System.out.println(String.format("Source %5.3f", 100.0*eS/gS.size()));
     if (!gR.isEmpty()) {
@@ -190,6 +197,31 @@ public class Evaluation {
     System.out.println(String.format("Mean Error: %5.3f", errors.stream().mapToDouble(j -> j).sum() / gS.size()));
     Collections.sort(errors);
     System.out.println(String.format("Median Error: %5.3f", errors.get(errors.size()/2)));
-
+    return errorIDs;
   }
+
+  private static void worstOffenders(ArrayList<Tuple<Integer>> errors, ArrayList<String> images,
+                                     ArrayList<Integer> gS, ArrayList<Integer> pS,
+                                     ArrayList<Integer> gR, ArrayList<Integer> pR,
+                                     ArrayList<Integer> gD, ArrayList<Integer> pD,
+                                     ArrayList<double[]> gxyz, ArrayList<double[]> pxyz, ArrayList<String> utterances) {
+    // Sort Errors
+    Collections.sort(errors);
+
+    System.out.println();
+    int idx;
+    double err;
+    for (int i = 0; i < 25; ++i) {
+      err = errors.get(i).value();
+      idx = errors.get(i).content();
+      if (gR.isEmpty())
+        System.out.println(String.format("%8.5f %s %s", errors.get(idx), images.get(idx), utterances.get(idx)));
+      else
+        System.out.println(String.format("%8.5f %s %5b %5b %5b %-14s %-14s %-2s %s", err,
+            images.get(idx), gS.get(idx) == pS.get(idx), gR.get(idx) == pR.get(idx),
+            gD.get(idx) == pD.get(idx), CreateTrainingData.brands[gS.get(idx)], CreateTrainingData.brands[gR.get(idx)],
+            CreateTrainingData.cardinal[gD.get(idx)],  utterances.get(idx)));
+    }
+  }
+
 }
