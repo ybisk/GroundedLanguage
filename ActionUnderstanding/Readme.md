@@ -26,7 +26,26 @@ Evaluation: (dev/test)
 |  RNN         | SRD      | .0332/.0211 | .1332/.0822 | .3316/.2200 |          |            |
 |  RNN         | SRxyz    |        |        |     |          |            |
 |  RNN         | Sxyz     |        |        |     |          |            |
+|  RNN         | Txyz     |        |        |     |          |            |
 
+
+```
+Deniz results:
+
+RNN-SRD zeroone loss dev/test:
+RNN-SRD/S: .0332/.0211
+RNN-SRD/R: .1332/.0822
+RNN-SRD/D: .3316/.2200
+
+RNN-STxyz quadloss dev/test:
+RNN-STxyz/S: .0140/.0112
+RNN-STxyz/T: .0412/.0343
+
+FFN-SRDxyz quadloss dev/test: (using gold SRD)
+FFN-SRDxyz/S: .0025/.0038
+FFN-SRDxyz/T: .0235/.0268
+
+```
 
 ```
 ************
