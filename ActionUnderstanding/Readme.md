@@ -37,14 +37,26 @@ RNN-SRD/S: .0332/.0211
 RNN-SRD/R: .1332/.0822
 RNN-SRD/D: .3316/.2200
 
+RNN-SRD zeroone loss dev/test on blank data:
+RNN-SRD/S: .8944/.9000
+RNN-SRD/R: .9278/.9097
+RNN-SRD/D: .5917/.5403
+
 RNN-STxyz quadloss dev/test:
 RNN-STxyz/S: .0140/.0112
 RNN-STxyz/T: .0412/.0343
+
+RNN-STxyz quadloss dev/test on blank data:
+RNN-STxyz/S: .1767/.1739
+RNN-STxyz/T: .2056/.1980
 
 FFN-SRDxyz quadloss dev/test: (using gold SRD)
 FFN-SRDxyz/S: .0025/.0038
 FFN-SRDxyz/T: .0235/.0268
 
+FFN-SRDxyz quadloss dev/test: (using gold SRD on blank data)
+FFN-SRDxyz/S: .0013/.0020
+FFN-SRDxyz/T: .0570/.0398
 ```
 
 ```
