@@ -84,8 +84,8 @@ function main(args)
     lastloss = bestloss = Inf
     for epoch=1:o[:epochs]      # TODO: experiment with pretraining
         trnloss = train(net, data[1], quadloss; gclip=o[:gclip], xvocab=xvocab)
-        devloss = test(net, data[2], quadloss)
-        tstloss = test(net, data[3], quadloss)
+        devloss = test(net, data[2], quadloss; xvocab=xvocab)
+        tstloss = test(net, data[3], quadloss; xvocab=xvocab)
         println((epoch, trnloss, devloss, tstloss)); flush(STDOUT)
         if devloss < bestloss
             bestloss=devloss
@@ -151,5 +151,7 @@ function test(f, data, loss; o...)
     train(f, data, loss; o..., update=false)
 end
 
+# temp workaround: prevents error in running finalizer: ErrorException("auto_unbox: unable to determine argument type")
+@gpu atexit(()->(for r in net.reg; r.out0!=nothing && Main.CUDArt.free(r.out0); end))
 #!isinteractive() && main(ARGS)
 main(ARGS)
