@@ -28,6 +28,7 @@ end
 ## Load Data, compute vocabulary and matrix dimensions ##
 # Cut off words from long sentences > 80
 longest_sentence = 80
+#traindir = "JSONReader/data/2016-NAACL/SRD_Blank/Train.mat"
 traindir = "JSONReader/data/2016-NAACL/SRD/Train.mat"
 data     = readdlm(traindir)[:,1:83];
 data[data.==""]=1
@@ -40,9 +41,14 @@ S  = sparsify(data[:,1] + 1, outdim);
 R  = sparsify(data[:,2] + 1, outdim);
 D = sparsify(data[:,3] + 1, Doutdim);
 
+#testdir = "JSONReader/data/2016-NAACL/SRD_Blank/Test.mat"
 testdir = "JSONReader/data/2016-NAACL/SRD/Dev.mat"
-test_data = readdlm(testdir)[:,1:83];
+test_data = readdlm(testdir);
 test_data[test_data.==""]=1
+if size(test_data,2) < 83
+  test_data = hcat(test_data, ones(Int,size(test_data,1),83 - size(test_data,2)))
+end
+test_data = test_data[:,1:83]
 V        = maximum(data[:,4:end])
 X_t  = sparsify(test_data[:,4:end], V);
 S_t  = sparsify(test_data[:,1] + 1, outdim);
@@ -58,11 +64,11 @@ function train(f, data, loss)
     end
 end
 
-function trainloop(net, epochs, lrate, decay, X, Y, X_t, Y_t)
+function trainloop(net, epochs, lrate, X, Y, X_t, Y_t)
   batchsize=100;
   lasterr = 1.0;
 
-  setp(net; lr=lrate)
+  setp(net; lr=0.001, adam=true)
   trn = minibatch(X,Y,batchsize)
   tst = minibatch(X_t,Y_t,batchsize)
   for epoch=1:epochs
@@ -71,10 +77,6 @@ function trainloop(net, epochs, lrate, decay, X, Y, X_t, Y_t)
       tsterr = test(net, tst, zeroone)
 
       println((epoch, lrate, trnerr, tsterr))
-      if tsterr > lasterr
-          lrate = decay*lrate
-          setp(net; lr=lrate)
-      end
       lasterr = tsterr
   end
 end
@@ -99,8 +101,8 @@ function predict(f, data)
   println(P)
 end
 
-@knet function SM(x; dropout=0.5, outdim=20)
-  h = wbf(x; out=100, f=:relu)
+@knet function SM(x; dropout=0.5, outdim=20, hidden=128)
+  h = wbf(x; out=hidden, f=:relu)
   hdrop = drop(h, pdrop=dropout)      ## Prob of dropping
   return wbf(hdrop; out=outdim, f=:soft)
 end
@@ -108,11 +110,11 @@ end
 function main(args=ARGS)
   s = ArgParseSettings()
     @add_arg_table s begin
-        ("--lrate"; arg_type=Float64; default=0.1)
-        ("--decay"; arg_type=Float64; default=0.9)
+        ("--lrate"; arg_type=Float64; default=0.001)
         ("--dropout"; arg_type=Float64; default=0.5)
         ("--seed"; arg_type=Int; default=20160326)
         ("--epochs"; arg_type=Int; default=10)
+        ("--hidden"; arg_type=Int; default=128)
         ("--task"; arg_type=Int; default=1)
   end
   isa(args, AbstractString) && (args=split(args))
@@ -120,29 +122,29 @@ function main(args=ARGS)
   o[:seed] > 0 && setseed(o[:seed])
 
   lrate = o[:lrate]
-  decay = o[:decay]
   dropout = o[:dropout]
   epochs = o[:epochs]
+  hidden = o[:hidden]
 
   ### Train Source ###
   if o[:task] == 1
-    Snet = compile(:SM, dropout=dropout, outdim=outdim)
-    trainloop(Snet, epochs, lrate, decay, X, S, X_t, S_t)
+    Snet = compile(:SM, dropout=dropout, outdim=outdim, hidden=hidden)
+    trainloop(Snet, epochs, lrate, X, S, X_t, S_t)
     predict(Snet, X_t)
   end
   if o[:task] == 2
-    Rnet = compile(:SM, dropout=dropout, outdim=outdim)
-    trainloop(Rnet, epochs, lrate, decay, X, R, X_t, R_t)
+    Rnet = compile(:SM, dropout=dropout, outdim=outdim, hidden=hidden)
+    trainloop(Rnet, epochs, lrate, X, R, X_t, R_t)
     predict(Rnet, X_t)
   end
   if o[:task] == 3
-    Dnet = compile(:SM, dropout=dropout, outdim=Doutdim)
-    trainloop(Dnet, epochs, lrate, decay, X, D, X_t, D_t)
+    Dnet = compile(:SM, dropout=dropout, outdim=Doutdim, hidden=hidden)
+    trainloop(Dnet, epochs, lrate, X, D, X_t, D_t)
     predict(Dnet, X_t)
   end
 
   # Save net and parameterize
-  #JLD.save("Models/ModelA-$lrate-$decay-$dropout-$epochs.jld", "model", clean(Snet));
+  #JLD.save("Models/ModelA-$lrate-$dropout-$epochs.jld", "model", clean(Snet));
   # net = JLD.load("ModelA.jld", "model")
 end
 

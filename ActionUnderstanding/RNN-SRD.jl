@@ -72,26 +72,30 @@ function main(args)
     # Load or create the model:
     global net = (o[:loadfile]!=nothing ? load(o[:loadfile], "net") :
                   compile(:rnnmodel; hidden=o[:hidden], embedding=o[:embedding], output=tvocab, pdrop=o[:dropout]))
-    setp(net, lr=o[:lr])
-    lasterr = besterr = 1.0
-    for epoch=1:o[:epochs]      # TODO: experiment with pretraining
-        trnloss = train(net, data[1], softloss; gclip=o[:gclip])
-        deverr = test(net, data[2], zeroone)
-        tsterr = test(net, data[3], zeroone)
-        println((epoch, o[:lr], trnloss, deverr, tsterr)); flush(STDOUT)
-        if deverr < besterr
-            besterr=deverr
-            o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
-        end
-        if deverr > lasterr
-            o[:lr] *= o[:decay]
-            setp(net, lr=o[:lr])
-        end
-        lasterr = deverr
+    if o[:loadfile] != nothing
+      println(predict(net, rawdata[3]; xvocab=xvocab, ftype=o[:ftype], xsparse=o[:xsparse]))
+    else
+      setp(net, lr=o[:lr])
+      lasterr = besterr = 1.0
+      for epoch=1:o[:epochs]      # TODO: experiment with pretraining
+          trnloss = train(net, data[1], softloss; gclip=o[:gclip])
+          deverr = test(net, data[2], zeroone)
+          tsterr = test(net, data[3], zeroone)
+          println((epoch, o[:lr], trnloss, deverr, tsterr)); flush(STDOUT)
+          if deverr < besterr
+              besterr=deverr
+              o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
+          end
+          if deverr > lasterr
+              o[:lr] *= o[:decay]
+              setp(net, lr=o[:lr])
+          end
+          lasterr = deverr
+      end
+      o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
+      @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=xvocab, ftype=o[:ftype], xsparse=o[:xsparse])
+      println(devpred)
     end
-    o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
-    @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=xvocab, ftype=o[:ftype], xsparse=o[:xsparse])
-    println(devpred)
 end
 
 @knet function rnnmodel(word; hidden=100, embedding=hidden, output=20, pdrop=0.5)
@@ -141,7 +145,8 @@ function test(f, data, loss)
     sumloss / numloss
 end
 
-function predict(f, data; xrange=4:83, padding=0, xvocab=326, ftype=Float32, xsparse=false)
+function predict(f, data; xrange=4:82, padding=0, xvocab=326, ftype=Float32, xsparse=false)
+
     reset!(f)
     sentences = extract(data, xrange; padding=padding)	# sentences[i][j] = j'th word of i'th sentence
     ypred = Any[]
