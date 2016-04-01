@@ -17,7 +17,7 @@ function main(args)
         ("--savefile"; help="save final model to file")
         ("--bestfile"; help="save best model to file")
         ("--epochs"; arg_type=Int; default=40; help="number of epochs to train")
-        ("--target"; arg_type=Int; default=2; help="which location to predict: 1:source,2:target")
+        ("--target"; arg_type=Int; default=1; help="which location to predict: 1:source,2:target")
         # DY: this is set to 9 because I can only minibatch with one world
         ("--batchsize"; arg_type=Int; default=9; help="minibatch size, all instances in a minibatch must share the same world")
 
