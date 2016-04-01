@@ -130,7 +130,7 @@ function train(f, data, loss; gclip=0, xvocab=658, batchsize=9, update=true)
                     mask[j] = 1
                 end
             end
-            ypred = sforw(f, x, world, predict=(t==T), dropout=true)
+            ypred = sforw(f, x, world, predict=(t==T), dropout=update)
             if t == T
                 y[:] = 0
                 y .+= target
