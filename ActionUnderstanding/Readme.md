@@ -43,12 +43,20 @@ RNN-SRD/R: .9278/.9097
 RNN-SRD/D: .5917/.5403
 
 RNN-STxyz quadloss dev/test:
-RNN-STxyz/S: .0140/.0112
-RNN-STxyz/T: .0412/.0343
+RNN-STxyz/S: .0140/.0112  (1.33/1.19 blocks) (alt result w/o test dropout: .0146/.0128)
+RNN-STxyz/T: .0412/.0343  (2.29/2.09 blocks) (alt result w/o test dropout: .0411/.0333)
+
+FFN-STxyz quadloss dev/test:
+FFN-STxyz/S: .0285/.0280  (1.90/1.89 blocks)
+FFN-STxyz/T: .0954/.0799  (3.48/3.19 blocks)
 
 RNN-STxyz quadloss dev/test on blank data:
-RNN-STxyz/S: .1767/.1739
-RNN-STxyz/T: .2056/.1980
+RNN-STxyz/S: .1767/.1739  (4.74/4.70 blocks) (alt result w/o test dropout: .1840/.1815)
+RNN-STxyz/T: .2056/.1980  (5.11/5.02 blocks) (alt result w/o test dropout: .2004/.1854)
+
+FFN-STxyz quadloss dev/test on blank data:
+FFN-STxyz/S: .1902/.1751  (4.92/4.72 blocks)
+FFN-STxyz/T: .2317/.2201  (5.43/5.29 blocks)
 
 FFN-SRDxyz quadloss dev/test: (using gold SRD)
 FFN-SRDxyz/S: .0025/.0038
@@ -63,6 +71,9 @@ FFN-SRDxyz/T: .0570/.0398
 ************
 Deniz notes:
 ************
+
+Board dimensions: [-1,1]
+Block dimensions: .1254
 
 SRD File format:
 ----------------
