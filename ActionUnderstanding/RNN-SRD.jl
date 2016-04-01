@@ -51,6 +51,10 @@ function main(args)
 
     for i=1:length(rawdata)
         rawdata[i][rawdata[i].==""]=0 # DY: use word=0 for padding, word=1 for unk.
+        if size(rawdata[i],2) < 82
+          rawdata[i] = hcat(rawdata[i], zeros(Int,size(rawdata[i],1),82-size(rawdata[i],2)))
+        end
+
         rawdata[i] = convert(Array{Int,2},rawdata[i]);
         rawdata[i][:,yrange] += 1   # DY: converting from 0-based to 1-based, better to fix the data and remove this hack.
         xranges[i] = (1+maximum(yrange)):size(rawdata[i],2)
@@ -93,7 +97,7 @@ function main(args)
           lasterr = deverr
       end
       o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))
-      @date devpred = predict(net, rawdata[2]; xrange=xrange, xvocab=xvocab, ftype=o[:ftype], xsparse=o[:xsparse])
+      @date devpred = predict(net, rawdata[2]; xvocab=xvocab, ftype=o[:ftype], xsparse=o[:xsparse])
       println(devpred)
     end
 end
@@ -146,7 +150,6 @@ function test(f, data, loss)
 end
 
 function predict(f, data; xrange=4:82, padding=0, xvocab=326, ftype=Float32, xsparse=false)
-
     reset!(f)
     sentences = extract(data, xrange; padding=padding)	# sentences[i][j] = j'th word of i'th sentence
     ypred = Any[]

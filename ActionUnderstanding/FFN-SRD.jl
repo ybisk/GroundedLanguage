@@ -28,7 +28,6 @@ end
 ## Load Data, compute vocabulary and matrix dimensions ##
 # Cut off words from long sentences > 80
 longest_sentence = 80
-#traindir = "JSONReader/data/2016-NAACL/SRD_Blank/Train.mat"
 traindir = "JSONReader/data/2016-NAACL/SRD/Train.mat"
 data     = readdlm(traindir)[:,1:83];
 data[data.==""]=1
@@ -41,8 +40,7 @@ S  = sparsify(data[:,1] + 1, outdim);
 R  = sparsify(data[:,2] + 1, outdim);
 D = sparsify(data[:,3] + 1, Doutdim);
 
-#testdir = "JSONReader/data/2016-NAACL/SRD_Blank/Test.mat"
-testdir = "JSONReader/data/2016-NAACL/SRD/Dev.mat"
+testdir = "JSONReader/data/2016-NAACL/SRD/Train.mat"
 test_data = readdlm(testdir);
 test_data[test_data.==""]=1
 if size(test_data,2) < 83
@@ -64,11 +62,11 @@ function train(f, data, loss)
     end
 end
 
-function trainloop(net, epochs, lrate, X, Y, X_t, Y_t)
+function trainloop(net, epochs, lrate, decay, X, Y, X_t, Y_t)
   batchsize=100;
   lasterr = 1.0;
 
-  setp(net; lr=0.001, adam=true)
+  setp(net; lr=lrate)
   trn = minibatch(X,Y,batchsize)
   tst = minibatch(X_t,Y_t,batchsize)
   for epoch=1:epochs
@@ -77,6 +75,10 @@ function trainloop(net, epochs, lrate, X, Y, X_t, Y_t)
       tsterr = test(net, tst, zeroone)
 
       println((epoch, lrate, trnerr, tsterr))
+      if tsterr > lasterr
+        lrate = decay*lrate
+        setp(net; lr=lrate)
+      end
       lasterr = tsterr
   end
 end
@@ -111,6 +113,7 @@ function main(args=ARGS)
   s = ArgParseSettings()
     @add_arg_table s begin
         ("--lrate"; arg_type=Float64; default=0.001)
+        ("--decay"; arg_type=Float64; default=0.9)
         ("--dropout"; arg_type=Float64; default=0.5)
         ("--seed"; arg_type=Int; default=20160326)
         ("--epochs"; arg_type=Int; default=10)
@@ -122,6 +125,7 @@ function main(args=ARGS)
   o[:seed] > 0 && setseed(o[:seed])
 
   lrate = o[:lrate]
+  decay = o[:decay]
   dropout = o[:dropout]
   epochs = o[:epochs]
   hidden = o[:hidden]
@@ -129,17 +133,17 @@ function main(args=ARGS)
   ### Train Source ###
   if o[:task] == 1
     Snet = compile(:SM, dropout=dropout, outdim=outdim, hidden=hidden)
-    trainloop(Snet, epochs, lrate, X, S, X_t, S_t)
+    trainloop(Snet, epochs, lrate, decay, X, S, X_t, S_t)
     predict(Snet, X_t)
   end
   if o[:task] == 2
     Rnet = compile(:SM, dropout=dropout, outdim=outdim, hidden=hidden)
-    trainloop(Rnet, epochs, lrate, X, R, X_t, R_t)
+    trainloop(Rnet, epochs, lrate, decay, X, R, X_t, R_t)
     predict(Rnet, X_t)
   end
   if o[:task] == 3
     Dnet = compile(:SM, dropout=dropout, outdim=Doutdim, hidden=hidden)
-    trainloop(Dnet, epochs, lrate, X, D, X_t, D_t)
+    trainloop(Dnet, epochs, lrate, decay, X, D, X_t, D_t)
     predict(Dnet, X_t)
   end
 
