@@ -31,7 +31,7 @@ public class LoadJSON {
   /**
    * Compute most frequent words by POS tag
    */
-  public static void statistics(ArrayList<Task> tasks) throws IOException {
+  public static void POSStatistics(ArrayList<Task> tasks) throws IOException {
     BufferedWriter Sents = new BufferedWriter(new OutputStreamWriter(new GZIPOutputStream(
         new FileOutputStream(new File("Sentences.txt.gz"))), "UTF-8"));
     HashMap<String,HashMap<String,Integer>> tagTokenMap = new HashMap<>();
@@ -88,6 +88,58 @@ public class LoadJSON {
     BW.close();
   }
 
+  private static int binLength(int length) {
+    if (length <= 5)
+      return 5;
+    if (length <= 10)
+      return 10;
+    if (length <= 20)
+      return 20;
+    if (length <= 40)
+      return 40;
+    if (length <= 80)
+      return 80;
+    return -1;
+  }
+  /**
+   * Compute Type and Token counts.
+   * Compute length distribution
+   */
+  public static void CorpusStatistics(ArrayList<Task> tasks) throws IOException {
+    HashSet<String> tokenSet = new HashSet<>();
+    int tokenCount = 0;
+    int bin;
+    HashMap<Integer,Integer> Lengths = new HashMap<>();
+    String taggedString;
+    String[] tokens;
+    String[] taggedTokens;
+    for (Task task : tasks) {
+      for (Note note : task.notes) {
+        if (note.type.equals("A0")) {
+          for (String utterance : note.notes) {
+            taggedString = CreateTrainingData.tagger.tagString(utterance.replace(","," , "));
+            tokens = taggedString.split("\\s+");
+            for (String tok : tokens) {
+              taggedTokens = tok.split("_");
+              String word = taggedTokens[0].toLowerCase();
+              tokenSet.add(word);
+              tokenCount += 1;
+            }
+            bin = binLength(tokens.length);
+            if (!Lengths.containsKey(bin))
+              Lengths.put(bin, 0);
+            Lengths.put(bin, Lengths.get(bin) + 1);
+          }
+        }
+      }
+    }
+    System.out.println("Types: " + tokenSet.size());
+    System.out.println("Tokens: " + tokenCount);
+    for (int i : Lengths.keySet())
+      System.out.println(i + "\t" + Lengths.get(i));
+  }
+
+
   /**
    * Compute percentage of dataset written by any given person
    */
@@ -120,9 +172,17 @@ public class LoadJSON {
   public static strictfp void main(String[] args) throws Exception {
     Configuration.setConfiguration(args.length > 0 ? args[0] : "JSONReader/config.properties");
 
-    ArrayList<Task> Train = readJSON(Configuration.training);
+    System.out.println("Train");
+    CorpusStatistics(readJSON(Configuration.training));
+    System.out.println("Test");
+    CorpusStatistics(readJSON(Configuration.testing));
+    System.out.println("Dev");
+    CorpusStatistics(readJSON(Configuration.development));
 
-    statistics(Train);
-    authorStatistics(Train);
+    System.out.println("All");
+    ArrayList<Task> all = readJSON(Configuration.training);
+    all.addAll(readJSON(Configuration.testing));
+    all.addAll(readJSON(Configuration.development));
+    CorpusStatistics(all);
   }
 }
