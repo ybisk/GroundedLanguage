@@ -6,3 +6,4 @@ setup.sh
 *.jld
 *.out
 *.pbs
+.idea
