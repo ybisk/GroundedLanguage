@@ -32,6 +32,10 @@ Evaluation: (dev/test)
 ```
 Deniz results:
 
+I used .1254 for block size and the quadloss to block length
+conversion is done as sqrt(2*qloss)/.1254.  Note that this is
+different from the average distance.
+
 RNN-SRD zeroone loss dev/test:
 RNN-SRD/S: .0332/.0211
 RNN-SRD/R: .1332/.0822
@@ -43,12 +47,20 @@ RNN-SRD/R: .9278/.9097
 RNN-SRD/D: .5917/.5403
 
 RNN-STxyz quadloss dev/test:
-RNN-STxyz/S: .0140/.0112
-RNN-STxyz/T: .0412/.0343
+RNN-STxyz/S: .0140/.0112  (1.10/0.98 blocks) (alt result w/o test dropout: .0146/.0128)
+RNN-STxyz/T: .0412/.0343  (1.88/1.72 blocks) (alt result w/o test dropout: .0411/.0333)
+
+FFN-STxyz quadloss dev/test:
+FFN-STxyz/S: .0285/.0280  (1.57/1.55 blocks)
+FFN-STxyz/T: .0954/.0799  (2.87/2.62 blocks)
 
 RNN-STxyz quadloss dev/test on blank data:
-RNN-STxyz/S: .1767/.1739
-RNN-STxyz/T: .2056/.1980
+RNN-STxyz/S: .1767/.1739  (3.90/3.87 blocks) (alt result w/o test dropout: .1840/.1815)
+RNN-STxyz/T: .2056/.1980  (4.21/4.13 blocks) (alt result w/o test dropout: .2004/.1854)
+
+FFN-STxyz quadloss dev/test on blank data:
+FFN-STxyz/S: .1902/.1751  (4.05/3.88 blocks)
+FFN-STxyz/T: .2317/.2201  (4.47/4.35 blocks)
 
 FFN-SRDxyz quadloss dev/test: (using gold SRD)
 FFN-SRDxyz/S: .0025/.0038
@@ -63,6 +75,9 @@ FFN-SRDxyz/T: .0570/.0398
 ************
 Deniz notes:
 ************
+
+Board dimensions: [-1,1]
+Block dimensions: .1524
 
 SRD File format:
 ----------------
