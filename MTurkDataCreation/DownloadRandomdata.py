@@ -124,13 +124,13 @@ for file in JSON:
   for idx in range(len(file.states)):
     # Get image and create normal name
     screencapid = file.images[idx]
-    #cmd = "https://cwc-isi.org/api/screencap/%s" % (screencapid)
-    #r = requests.get(cmd)
+    cmd = "https://cwc-isi.org/api/screencap/%s" % (screencapid)
+    r = requests.get(cmd)
     imagename = "%s_%s.png" % (file.filename, str(idx) if idx > 9 else ('0' + str(idx)))
-    #print imagename
-    #fh = open("%s/%s" % (directory + "_random", imagename), "wb")
-    #fh.write(r.text.split(",",1)[1].decode('base64'))
-    #fh.close()
+    print imagename
+    fh = open("%s/%s" % (directory + "_random", imagename), "wb")
+    fh.write(r.text.split(",",1)[1].decode('base64'))
+    fh.close()
     file.images[idx] = imagename
 
 

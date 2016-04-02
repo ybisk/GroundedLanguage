@@ -20,7 +20,7 @@ public class Evaluation {
     ArrayList<double[][]> final_worlds = new ArrayList<>();
     ArrayList<double[][]> start_worlds = new ArrayList<>();
 
-    ArrayList<Task> data = LoadJSON.readJSON(Configuration.testing);
+    ArrayList<Task> data = LoadJSON.readJSON(Configuration.development);
     Double[][] Gold = Utils.readMatrix(TextFile.Read(Configuration.GoldData));
     readValues(Gold, gS, gR, gD, gTxyz, gSxyz, false);
 
@@ -238,6 +238,7 @@ public class Evaluation {
                                      ArrayList<double[]> gxyz, ArrayList<double[]> pxyz, ArrayList<String> utterances) {
     // Sort Errors
     Collections.sort(errors);
+    Collections.reverse(errors);
 
     System.out.println();
     int idx;
@@ -246,7 +247,7 @@ public class Evaluation {
       err = errors.get(i).value();
       idx = errors.get(i).content();
       if (gR.isEmpty())
-        System.out.println(String.format("%8.5f %s %s", errors.get(idx), images.get(idx), utterances.get(idx)));
+        System.out.println(String.format("%8.5f %s %s", err, images.get(idx), utterances.get(idx)));
       else
         System.out.println(String.format("%8.5f %s %5b %5b %5b %-14s %-14s %-2s %s", err,
             images.get(idx), gS.get(idx) == pS.get(idx), gR.get(idx) == pR.get(idx),

@@ -108,6 +108,7 @@ public class LoadJSON {
   public static void CorpusStatistics(ArrayList<Task> tasks) throws IOException {
     HashSet<String> tokenSet = new HashSet<>();
     int tokenCount = 0;
+    ArrayList<Integer> tokenCounts = new ArrayList<>();
     int utterances = 0;
     int bin;
     HashMap<Integer,Integer> Lengths = new HashMap<>();
@@ -131,6 +132,7 @@ public class LoadJSON {
               Lengths.put(bin, 0);
             Lengths.put(bin, Lengths.get(bin) + 1);
             ++utterances;
+            tokenCounts.add(tokens.length);
           }
         }
       }
@@ -140,6 +142,12 @@ public class LoadJSON {
     for (int i : Lengths.keySet())
       System.out.println(i + "\t" + Lengths.get(i));
     System.out.println("Utterances: " + utterances);
+    double mean = 1.0*tokenCount/utterances;
+    System.out.println("Average Length: " + mean);
+    double std = 0.0;
+    for (Integer length : tokenCounts)
+      std += Math.pow(length - mean, 2);
+    System.out.println("Std Dev: " + Math.sqrt(std/utterances));
   }
 
 
