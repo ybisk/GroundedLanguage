@@ -1,3 +1,20 @@
+#=
+Predicting the block that moved
+World Representation:
+- Coordinates
+- x,y,z coordinates of each block
+- both before & after world states
+
+Models:
+Input: W = 120x1
+Output: ID(20), Grid Coordinate(18*18), Actual Coordinate(x,y,z)
+
+Feed forward:
+- relu layers
+- dropout layers exist between hidden layers
+=#
+
+
 using ArgParse
 using JLD
 using CUDArt
@@ -24,6 +41,7 @@ end
 	return generic_layer(x; f1=:dot, f2=:soft, wdims=(output,input), bdims=(output,1))
 end
 
+#get the model
 function get_worldf(predtype, o)
 	if predtype == "id" || predtype == "grid"
 		@knet function output_layer(x; output=20)
@@ -110,6 +128,7 @@ function predict(worldf, worlddata; ftype=Float32, xsparse=false)
 end
 
 #predtype = id | grid | loc
+#get the world
 function get_worlds(rawdata; batchsize=100, predtype = "id", target=2, ftype=Float32)
 	#data = map(x -> (rawdata[x,1:end-64], rawdata[x,end-63:end]),1:size(rawdata,1));
 	worlds = zeros(ftype, 120, size(rawdata, 1))

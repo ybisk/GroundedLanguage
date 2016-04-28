@@ -1,3 +1,21 @@
+#=
+Predicting the reference blocks
+
+World Representation:
+- Coordinates
+- x,y,z coordinates of each block
+  
+Models:
+Input:
+- W = 60x1 before state
+- X = 3x1 target location
+  
+Output: ID(20x19) - unique id for the two reference blocks
+  
+Feed forward:
+- a relu layer
+=#
+
 using ArgParse
 using JLD
 using CUDArt
@@ -46,9 +64,9 @@ function validate(r1, r2, t, threshold=2*0.1254)
 	distance <= threshold
 end
 
-function pretraining(f; N=2^13, dims=(16, 1, 16), nblocks=20, lr=0.001, adam=true, nbatch=128, winit=Gaussian(0,0.05))
+function pretraining(f; N=2^15, dims=(16, 1, 16), nblocks=20, lr=0.001, adam=true, nbatch=128, winit=Gaussian(0,0.05))
 	sloss = zloss = 0
-	nextn = 1
+	nextn = 2500
 	ncells = prod(dims)
 	global world = zeros(Float32, length(dims), nblocks)
 	global target = zeros(Float32, length(dims), 1)
@@ -96,7 +114,7 @@ function pretraining(f; N=2^13, dims=(16, 1, 16), nblocks=20, lr=0.001, adam=tru
 		
 		sl = softloss(ypred,ygold2); sloss = (n==1 ? sl : 0.99 * sloss + 0.01 * sl)
 		zl = zeroone(ypred,ygold2);  zloss = (n==1 ? zl : 0.99 * zloss + 0.01 * zl)
-		n==nextn && (println((n,sloss,1-zloss)); nextn*=2)
+		n==nextn && (println((n,sloss,1-zloss)); nextn+=2500)
 		back(f, ygold2, softloss)
 		update!(f)
 		reset!(f)
@@ -218,7 +236,7 @@ function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
 	@add_arg_table s begin
-		("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/Scene_Data/scene_data/Combined/Multi.train", "../../BlockWorld/Scene_Data/scene_data/GoldDigitAll/Multi.dev"])
+		("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/Scene_Data/scene_data/Combined/Multi.train", "../../BlockWorld/Scene_Data/scene_data/Combined/Multi.dev"])
 		("--loadfile"; help="initialize model from file")
 		("--savefile"; help="save final model to file")
 		("--bestfile"; help="save best model to file")

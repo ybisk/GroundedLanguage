@@ -1,3 +1,34 @@
+#=
+Predicting the block that moved
+World Representation:
+- Grid
+- 18 x 18 x 22 x 2
+- First two dimensions represent world coordinates
+- Third dimension stand for representing the cell
+- One hot representation
+	- 20 for each block
+	- 1 for emptiness
+	- 1 for border
+- 4th dimension stands for the time: before & after world states
+
+Models:
+Input: W = 18x18x22x2
+Output: ID(20), Grid Coordinate(18*18), Actual Coordinate(x,y,z)
+
+Convolutional Neural Networks
+cnn1:
+Apply conv operation with a filter bank: (w,h,22,2,#filters)
+The result of conv is fed into the output layer
+
+cnn2:
+A relu layer follows the conv layer
+
+cnn3:
+There are two relu layers after the conv layer
+a dropout layer exists between two relu layers
+
+=#
+
 using ArgParse
 using JLD
 using CUDArt
@@ -129,13 +160,13 @@ function predict(worldf, worlddata; ftype=Float32, xsparse=false)
 end
 
 #predtype = id | grid | loc
-function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
+function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, target=1)
 	#data = map(x -> (rawdata[x,1:end-64], rawdata[x,end-63:end]),1:size(rawdata,1));
 	worlds = zeros(ftype, 18, 18, 22, 2, size(rawdata, 1))
 
 	ydim = 0
 	if predtype == "id"
-		ydim = 20
+		ydim = target == 3 ? 8 : 20
 	elseif predtype == "loc"
 		ydim = 3
 	else
@@ -158,13 +189,13 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 		alocs = map(x -> (data[1, x], data[1, x+1], data[1, x+2]), 61:3:120)
 		
 		if predtype == "id"
-			source = round(Int, data[1, 222])
+			source = round(Int, data[1, 222+target-1])
 			y[source, indx] = 1
 		elseif predtype == "loc"
 			source = round(Int, data[1, 222])
 			y[:, indx] = data[1, (source*3 - 2):(source*3)]
 		else
-			source = round(Int, data[1, 222])
+			source = round(Int, data[1, 222+target-1])
 			x = round(Int, data[1, (source*3 - 2)] / 0.1524) + 10
 			z = round(Int, data[1, (source*3)] / 0.1524) + 10
 			source = (z-1)*18 + x
@@ -248,7 +279,7 @@ function main(args)
 	rawworlddata = map(f->readdlm(f,Float32), o[:worlddatafiles])
 
 	global worlddata = map(rawworlddata) do d
-		get_worlds(d, batchsize=o[:batchsize], predtype=o[:predtype])
+		get_worlds(d, batchsize=o[:batchsize], predtype=o[:predtype], target=o[:target])
 	end
 	
 	worldf = get_worldf(o[:predtype], o)

@@ -1,3 +1,16 @@
+#=Pipeline for the final model
+Predicts 
+ -the id of the block that moved
+ -the id of the reference block(s)
+ -relative position
+
+Pipeline:
+Get before & after world states -> predict the id of the source block
+Get before & after world states -> predict the target location for the predicted source block
+Get after world state & target location -> predict the reference block & relative position
+or predict two reference blocks
+=#
+
 using ArgParse
 using JLD
 using CUDArt
@@ -17,7 +30,7 @@ A+B -> S
 	return wbf(h; out=output, f=:soft)
 end
 
-A+B ->
+A+B -> T
 @knet function model_abT(x, xb; cwin1=1, cout1=1)
 	w = par(init=Xavier(), dims=(2, cwin1, 3, cout1))
 	c = conv(w, x)
@@ -32,6 +45,12 @@ A+T -> N+R
 	h = wbf2(w, x; out=hidden, f=:relu, winit=winit)
 	return wbf(h; out=output, f=:soft, winit=winit)
 end
+
+A+T -> N1+N2
+@knet function fnn(w, x; hidden=800, output=190, winit=Gaussian(0,0.05))
+	h = wbf2(w, x; out=hidden, f=:relu, winit=winit)
+	return wbf(h; out=output, f=:soft, winit=winit)
+        end
 ======================================================#
 
 function testS(worldf, worlddata, loss, loc=false)
@@ -271,32 +290,52 @@ function main(args)
 
 	isa(args, AbstractString) && (args=split(args))
 	o = parse_args(args, s; as_symbols=true); println(o)
-
+	
+	#load trained models
 	net1 = load(o[:modelABS], "net")
 	net2 = load(o[:modelABT], "net")
 	net3 = load(o[:modelATNR], "net")
 
 	rawdata = readdlm(o[:file],Float32)
+	#get data in the necessary format
 	worlddata = get_worlds(rawdata, batchsize=1, predtype="id", target=1, oldstyle=false)
 
+	#get the score for the prediction of the id of the block that moved
 	testerr = testS(net1, worlddata, zeroone)
 	println("\n****RESULTS****")
 	println("Accuracy of predicting the source block id: $(1-testerr)")
 
+	#get ids
 	preds = predictS(net1, worlddata)
+
+	#set predicted ids
 	rawdata[:,121] = preds
 	
+	#prepare data for the next model
 	worlddata = get_worldsT(rawdata, batchsize=1, oldstyle=false)
 
+	#get scores
 	testerr = testT(net2, worlddata, quadloss)
 	println("Error of predicting the target loc (in terms of average block sizes): $(sqrt(2*testerr)/0.1254)")
+
+	#obtain target positions
 	preds = predictT(net2, worlddata)
 
+
+	#at this point there are two branches
+	#one for the prediction of the reference block and the relative position
+	#one for the prediction of two referebce blocks
 	if o[:multi]
+		#load trained model
 		net4 = load(o[:modelMulti], "net")
+		#same functions can be used(since models have same architecture)
 		testMulti = testNRP
 		predictMulti = predictNRP
+
+		#prepare the data with the predicted target locations
 		worlddata = get_worldsMulti(rawdata, preds, batchsize=1)
+
+		#get test score
 		testerr = testMulti(net4, worlddata, zeroone)
 		println("Accuracy of predicting the R1+R2: $(1-testerr)")
 		
@@ -316,6 +355,7 @@ function main(args)
 			rawdata[i, 123] = r2
 		end
 
+		#Predictions with their probabilities
 		if o[:probs]
 			println("\n**** Examples ****")
 
@@ -334,8 +374,10 @@ function main(args)
 
 
 	else	
+		#prepare the data with the predicted target locations
 		worlddata = get_worldsNRP(rawdata, preds, batchsize=1, oldstyle=false)
 	
+		#get test score
 		testerr = testNRP(net3, worlddata, zeroone)
 		println("Accuracy of predicting the N+RP: $(1-testerr)")
 
@@ -345,6 +387,8 @@ function main(args)
 			rawdata[i, 122] = round(Int, t)
 			rawdata[i, 123] = round(Int, rp)
 		end
+
+		#Predictions with their probabilities
 		if o[:probs]
 			println("\n**** Examples ****")
 
@@ -363,8 +407,7 @@ function main(args)
 
 	end
 
+	#write the final predictions to a file
 	o[:writefile] && writedlm("$(o[:file]).predicted", rawdata, ' ')
-
-		
 end
 !isinteractive() && main(ARGS)

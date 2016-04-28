@@ -32,6 +32,12 @@ A+T -> N+R
 	h = wbf2(w, x; out=hidden, f=:relu, winit=winit)
 	return wbf(h; out=output, f=:soft, winit=winit)
 end
+
+A+T -> N1+N2
+@knet function fnn(w, x; hidden=800, output=190, winit=Gaussian(0,0.05))
+         h = wbf2(w, x; out=hidden, f=:relu, winit=winit)
+         return wbf(h; out=output, f=:soft, winit=winit)
+         end
 ======================================================#
 
 function testS(worldf, worlddata, loss, loc=false)
@@ -258,16 +264,20 @@ function main(args)
 	net4 = load(o[:modelMulti], "net")
 
 	rawdata = readdlm(o[:file],Float32)
+
+	#predict ids of the source block
 	worlddata = get_worlds(rawdata, batchsize=1, predtype="id", target=1, oldstyle=false)
 	predSource = predictS(net1, worlddata)
-	rawdata[:,121] = predSource
+	rawdata[:,121] = predSource#set ids
 
 	#write source predictions
 	writedlm("$(o[:file]).CNN.source.pred", rawdata[:, 121], ' ')
 	
+	#predict target locations
 	worlddata = get_worldsT(rawdata, batchsize=1, oldstyle=false)
 	predsTarget = predictT(net2, worlddata)
 	
+	#predict the reference block and the relative position using predicted source ids and target locations
 	worlddata = get_worldsNRP(rawdata, predsTarget, batchsize=1, oldstyle=false)	
 	predsNRP = predictNRP(net3, worlddata)
 
@@ -275,6 +285,7 @@ function main(args)
 	for i=1:length(predsNRP); write(f, "$(predsNRP[i])\n"); end
 	close(f)
 	
+	#predict reference blocks and the relative position using predicted source ids and target locations
 	worlddata = get_worldsMulti(rawdata, predsTarget, batchsize=1)
 	predsMulti = predictMulti(net4, worlddata)
 	

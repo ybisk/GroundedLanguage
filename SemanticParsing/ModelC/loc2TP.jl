@@ -1,3 +1,22 @@
+#=
+Predicting the reference block and the relative position together
+ 
+World Representation:
+ - Coordinates
+ - x,y,z coordinates of each block
+ 
+Models:
+Input:
+ - W = 60x1 before state
+ - X = 3x1 target location
+ 
+Output: ID(20x9) - combination of the reference block and the relative position
+ 
+Feed forward:
+ - relu layers
+ - dropout layers exist between hidden layers (if more than one hidden layers are used)
+=#
+
 using ArgParse
 using JLD
 using CUDArt
@@ -220,7 +239,7 @@ function predict(worldf, worlddata; ftype=Float32, xsparse=false)
 end
 
 #predtype = id | grid | loc
-function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, target=2)
+function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, target=2, oldstyle=true)
 	worlds = zeros(ftype, 60, size(rawdata, 1))
 
 	ydim = 0
@@ -248,18 +267,20 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, targ
 		===========#
 		data = rawdata[indx, :]
 		
-		s = round(Int, data[1, 222])
+		s = oldstyle ? round(Int, data[1, 222]) : round(Int, data[1, 121])
 
 		worlds[:, indx] = data[1, 1:60]'
-		targpos[:, indx] = data[1, 225:227]'
+
+		strt = (s-1)*3 + 61
+		targpos[:, indx] = oldstyle ? data[1, 225:227]' : data[1, strt:(strt+2)]
 		_y = zeros(Float32, 9, 20)
 
 		if predtype == "id"
 			source = 0
 			if target == 3
 
-				t = round(Int, data[1, 223])
-				rp = round(Int, data[1, 224])
+				t = oldstyle ? round(Int, data[1, 223]) : round(Int, data[122])
+				rp = oldstyle ? round(Int, data[1, 224]) : round(Int, data[123])
 				#======debug============
 				if indx == rinstance
 					println("Data:\n$(data[1, 1:60])\n")
@@ -296,7 +317,8 @@ function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
 	@add_arg_table s begin
-		("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/SimpleCombined/Train.WWT-STRPLocGrid.data", "../../BlockWorld/SimpleCombined/Dev.WWT-STRPLocGrid.data"])
+		#("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/SimpleCombined/Train.WWT-STRPLocGrid.data", "../../BlockWorld/SimpleCombined/Dev.WWT-STRPLocGrid.data"])
+		("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/Scene_Data/scene_data/Combined/STRP.train", "../../BlockWorld/Scene_Data/scene_data/Combined/STRP.dev"])
 		("--loadfile"; help="initialize model from file")
 		("--savefile"; help="save final model to file")
 		("--bestfile"; help="save best model to file")
@@ -328,6 +350,7 @@ function main(args)
 		("--predict"; action = :store_true; help="load net and give predictions")
 		("--pretrain"; action = :store_true; help="pretraining")
 		("--predtype"; default = "id"; help="prediction type: id, loc, grid")
+		("--oldstyle"; action = :store_true; help="pretraining")
 	end
 
 	isa(args, AbstractString) && (args=split(args))
@@ -346,7 +369,7 @@ function main(args)
 
 	global worlddata = map(rawworlddata) do d
 		r = randperm(size(d,1))
-		get_worlds(d[r,:], batchsize=o[:batchsize], predtype=o[:predtype], target=o[:target])
+		get_worlds(d[r,:], batchsize=o[:batchsize], predtype=o[:predtype], target=o[:target], oldstyle=o[:oldstyle])
 	end
 	
 	worldf = get_worldf(o[:predtype], o)
@@ -382,7 +405,7 @@ function main(args)
 		if deverr < besterr
 			besterr=deverr
 			best_epoch = epoch
-			o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
+			o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(worldf))
 			anger = 0
 		else
 			anger += 1

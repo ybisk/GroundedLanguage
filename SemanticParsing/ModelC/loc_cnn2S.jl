@@ -1,3 +1,40 @@
+#=
+Predicting the block that moved
+World Representation:
+- Coordinates
+- x,y,z coordinates of each block
+- both before & after world states
+
+Models:
+Input: W = 2x20x3
+- First dimension stands for the time: before & after states
+- Second dimension specifies the block
+- Third dimension stands for x,y,x coordinates
+
+Output: ID(20), Grid Coordinate(18*18), Actual Coordinate(x,y,z)
+
+    
+Convolutional Neural Networks
+cnn1:
+Apply conv operation with a filter bank: (2,cwin,3,#filters)
+The result of conv is fed into the output layer
+
+*: 
+- one filter works for the problem and the filter learns to subtract xyz coordinates of the block for the two time steps
+- before state: x1, y1, z1, corresponding weights: w1, w2, w3
+- after state: x2, y2, z2, corresponding weights: w4, w5, w6
+- conv op: w1x1 + w2y1 + w3y1 + w4x2 + w5y2 + w6y3
+- if w1 = -w4 & w2 = -w5 & w3 = -w6, then conv operation indicates the block that moved with a non zero value
+
+cnn2:
+A relu layer follows the conv layer
+
+cnn3:
+There are two relu layers after the conv layer
+a dropout layer exists between two relu layers
+
+=#
+
 using ArgParse
 using JLD
 using CUDArt

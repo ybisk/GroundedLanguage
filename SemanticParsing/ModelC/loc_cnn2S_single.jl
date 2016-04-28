@@ -1,3 +1,35 @@
+#=
+Predicting the position that source block moved
+
+World Representation:
+- Coordinates
+- x,y,z coordinates of each block
+- both before & after world states
+
+Models:
+Input: W = 2x20x3
+- First dimension stands for the time: before & after states
+- Second dimension specifies the block
+- Third dimension stands for x,y,x coordinates
+
+Output: ID(20)
+
+Convolutional Neural Networks
+Apply conv operation with a filter bank: (2,cwin,3,#filters)
+The result of conv is fed into the output layer
+
+*: 
+- one filter works for the problem and the filter learns to subtract xyz coordinates of the block for the two time steps
+- before state: x1, y1, z1, corresponding weights: w1, w2, w3
+- after state: x2, y2, z2, corresponding weights: w4, w5, w6
+- conv op: w1x1 + w2y1 + w3y1 + w4x2 + w5y2 + w6y3
+- if w1 = -w4 & w2 = -w5 & w3 = -w6, then conv operation indicates the block that moved with a non zero value
+
+A relu layer follows the conv to get the absolute value of the indicator vector
+A sigmoid layer follows the relu layer to get one hot representation of the indicator vector
+Finally dot product of after world state(20x3) and produced one hot vector results the target position
+=#
+
 using ArgParse
 using JLD
 using CUDArt
@@ -18,7 +50,7 @@ h400, tanh, 524288,0.32
 
 function get_worldf(predtype, o)
 	@knet function cnn(x, xb; cwin1=1, cout1=1)
-		w = par(init=Xavier(), dims=(2, cwin1, 3, cout1))
+		w = par(init=winit=Gaussian(0,0.001), dims=(2, cwin1, 3, cout1))
 		c = conv(w, x)
 		t1 = wbf(c, out=200, f=:relu)
 		t2 = wbf(t1, out=20, f=:sigm)
@@ -32,23 +64,31 @@ end
 
 function pretrain(f; N=2^19, dims=(16, 1, 16), nblocks=20, ndims=length(dims), nbatch=128)
 	sloss = zloss = 0
-	nextn = 50000
+	nextn = 25000
 	ncells = prod(dims)
 	global worlds = zeros(Float32, 2, nblocks, ndims)
 	global ygold = zeros(Float32, 3, 1)
 	for n=1:N
 		locations = randperm(ncells)
+		#rnumblocks = rand(10:20)
+		rnumblocks = 20
 		for b=1:nblocks
-			worlds[1, b, :] = worlds[2, b, :] = 2*([ind2sub(dims, locations[b])...] / 16 - 0.5) # fill blocks with random locations
+			#if b <= rnumblocks
+				worlds[1, b, :] = worlds[2, b, :] = 2*([ind2sub(dims, locations[b])...] / 16 - 0.5) # fill blocks with random locations
+				#worlds[:, b, 2] = 0.1
+			#else
+				#worlds[:,b,:] = -1
+			#end
 		end
-		mblock = rand(1:nblocks)
+		mblock = rand(1:rnumblocks)
 		worlds[2, mblock, :] = 2*([ind2sub(dims, locations[nblocks+1])...] / 16 - 0.5) # move block to an empty location
-		ygold[:] = worlds[1, mblock, :]
+		#worlds[2, mblock, 2] = 0.1
+		ygold[:] = worlds[2, mblock, :]
 		
-		global ypred = forw(f, reshape(worlds, 2, 20, 3, 1), transpose(reshape(worlds[1,:,:], 20, 3)))
+		global ypred = forw(f, reshape(worlds, 2, 20, 3, 1), transpose(reshape(worlds[2,:,:], 20, 3)))
 
 		sl = quadloss(ypred,ygold); sloss = (n==1 ? sl : 0.99 * sloss + 0.01 * sl)
-		n==nextn && (println((n,sloss)); nextn += 50000)
+		n==nextn && (println((n,sloss)); nextn += 25000)
 		back(f, ygold, quadloss)
 		update!(f, gclip=5.0)
 	end
@@ -96,7 +136,7 @@ function predict(worldf, worlddata; ftype=Float32, xsparse=false)
 end
 
 #predtype = id | grid | loc
-function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
+function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32, oldstyle=true)
 	#data = map(x -> (rawdata[x,1:end-64], rawdata[x,end-63:end]),1:size(rawdata,1));
 	instances = Any[]
 
@@ -114,22 +154,18 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 		worlds = zeros(ftype, 2, 20, 3)
 		y = zeros(ftype, ydim, 1)
 		for i=1:20
-			if !(data[1, (i-1)*3 + 1] == -1 && data[1, (i-1)*3 + 2] == -1 && data[1, (i-1)*3 + 3] == -1)
-				for j=1:3
-					worlds[1, i, j] = data[1, (i-1)*3 + j]
-					worlds[2, i, j] = data[1, (i+19)*3 + j]
-				end
-			else
-				count += 1
+			for j=1:3
+				worlds[1, i, j] = data[1, (i-1)*3 + j]
+				worlds[2, i, j] = data[1, (i+19)*3 + j]
 			end
 		end
 		
 		if predtype == "id"
-			source = round(Int, data[1, 222])
+			source = oldstyle ? round(Int, data[1, 222]) : round(Int, data[1, 121])
 			y[source, 1] = 1
 		elseif predtype == "loc"
-			source = round(Int, data[1, 222])
-			y[:, 1] = data[1, (source*3 - 2):(source*3)]
+			source = oldstyle ? round(Int, data[1, 222]) : round(Int, data[1, 121])
+			y[:, 1] = data[1, (61+(source-1)*3):(63+(source-1)*3)]
 		else
 			source = round(Int, data[1, 222])
 			x = round(Int, data[1, (source*3 - 2)] / 0.1524) + 10
@@ -139,7 +175,7 @@ function get_worlds(rawdata; batchsize=100, predtype = "id", ftype=Float32)
 		end
 
 		#push!(instances, (reshape(worlds, 2, 20, 3, 1), y, reshape(worlds[1,:,:], 1, 20, 3, 1)))
-		push!(instances, (reshape(worlds, 2, 20, 3, 1), y, transpose(reshape(worlds[1,:,:], 20, 3))))
+		push!(instances, (reshape(worlds, 2, 20, 3, 1), y, transpose(reshape(worlds[2,:,:], 20, 3))))
 	end
 
 	return instances
@@ -152,7 +188,8 @@ function main(args)
 	s = ArgParseSettings()
 	s.exc_handler=ArgParse.debug_handler
 	@add_arg_table s begin
-		("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/SimpleCombined/Train.WWT-STRPLocGrid.data", "../../BlockWorld/SimpleCombined/Dev.WWT-STRPLocGrid.data"])
+		#("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/SimpleCombined/Train.WWT-STRPLocGrid.data", "../../BlockWorld/SimpleCombined/Dev.WWT-STRPLocGrid.data"])
+		("--worlddatafiles"; nargs='+'; default=["../../BlockWorld/Scene_Data/scene_data/Combined/STRP.train", "../../BlockWorld/Scene_Data/scene_data/Combined/STRP.dev"])
 		("--loadfile"; help="initialize model from file")
 		("--savefile"; help="save final model to file")
 		("--bestfile"; help="save best model to file")
@@ -184,6 +221,7 @@ function main(args)
 		("--predict"; action = :store_true; help="load net and give predictions")
 		("--predtype"; default = "id"; help="prediction type: id, loc, grid")
 		("--pretrain"; action = :store_true; help="pretraining")
+		("--oldstyle"; action = :store_true; help="old or new data format")
 	end
 
 	isa(args, AbstractString) && (args=split(args))
@@ -202,7 +240,7 @@ function main(args)
 
 	global worlddata = map(rawworlddata) do d
 		r = randperm(size(d, 1))
-		get_worlds(d[r, :], batchsize=o[:batchsize], predtype=o[:predtype])
+		get_worlds(d[r, :], batchsize=o[:batchsize], predtype=o[:predtype], oldstyle=o[:oldstyle])
 	end
 	
 	worldf = get_worldf(o[:predtype], o)
@@ -230,7 +268,7 @@ function main(args)
 		if deverr < besterr
 			besterr=deverr
 			best_epoch = epoch
-			o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(net))
+			o[:bestfile]!=nothing && save(o[:bestfile], "net", clean(worldf))
 			anger = 0
 		else
 			anger += 1
@@ -250,11 +288,11 @@ function main(args)
 		lasterr = deverr
 	end
 
-	Knet.netprint(worldf)
-	println("")
+	#Knet.netprint(worldf)
+	#println("")
 	
-	println("Filter:")
-	println(to_host(worldf.reg[3].out0))
+	#println("Filter:")
+	#println(to_host(worldf.reg[3].out0))
 
 
 	#o[:savefile]!=nothing && save(o[:savefile], "net", clean(net))

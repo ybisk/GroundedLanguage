@@ -1,3 +1,22 @@
+#=
+Predicting the reference block
+
+World Representation:
+- Coordinates
+- x,y,z coordinates of each block
+
+Models:
+Input:
+- W = 60x1 before state
+- X = 3x1 target location
+
+Output: ID(20)
+
+Feed forward:
+- relu layers
+- dropout layers exist between hidden layers (if more than one hidden layers are used)
+=#
+
 using ArgParse
 using JLD
 using CUDArt
