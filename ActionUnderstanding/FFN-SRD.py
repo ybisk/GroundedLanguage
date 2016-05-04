@@ -40,7 +40,7 @@ batch_size = 128
 hiddendim = 100
 embeddingdim = 100
 graph = tf.Graph()
-onehot = False
+onehot = True
 inputdim = maxlength*vocabsize if onehot else maxlength*embeddingdim
 
 # Define embeddings matrix
