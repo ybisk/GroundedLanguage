@@ -53,7 +53,6 @@ embeddings = Embedding(vocabsize, one_hot=onehot, embedding_size=embeddingdim)
 
 # Input -> LSTM -> Outstate
 inputs = tf.placeholder(tf.int32, [batch_size, maxlength])
-                                     #vocabsize if onehot else embeddingdim])
 labels = tf.placeholder(tf.float32, [batch_size, labelspace])
 lengths = tf.placeholder(tf.int32, [batch_size])
 
