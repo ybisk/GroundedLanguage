@@ -1,7 +1,8 @@
 import numpy as np
 class Training:
 
-  def __init__(self, sess, correct_prediction, optimizer, loss, dataset, labels, lengths, batch_size=128):
+  def __init__(self, sess, correct_prediction, optimizer, loss, dataset, 
+               labels, lengths, batch_size):
     self.sess = sess
     self.correct_prediction = correct_prediction
     self.batch_size = batch_size
@@ -22,7 +23,7 @@ class Training:
     return 100.0*sum(predictions)/len(predictions)
 
   def train(self, train, train_labels, dev, dev_labels, generate_batch, train_lens=None, dev_lens=None):
-    num_epochs = 100
+    num_epochs = 25
     print('Initialized')
     total_loss = 0.0
     for epoch in range(num_epochs):
