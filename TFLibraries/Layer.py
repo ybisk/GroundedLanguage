@@ -9,34 +9,39 @@ class Layers:
 
   def W(self, input_dim=100, output_dim=100, name='W', init='Xavier'):
     if init == 'Normal':
-      return self.normal_W(input_dim, output_dim, name)
+      return self.normal([input_dim, output_dim], name)
     elif init == 'Uniform':
-      return self.uniform_W(input_dim, output_dim, name)
+      return self.uniform([input_dim, output_dim], name)
     else:
-      return self.xavier_W(input_dim, output_dim, name)
+      return self.xavier([input_dim, output_dim], name)
 
   def b(self, dim=100, name='B', init='Xavier'):
     if init == 'Normal':
-      return self.normal_b(dim, name)
-    elif init == 'Uniform':
-      return self.uniform_b(dim, name)
-    else:
-      return self.xavier_b(dim, name)
+      return self.normal([dim], name)
+    if init == 'Uniform':
+      return self.uniform([dim], name)
+    if init == 'Xavier':
+      return self.xavier([dim], name)
+    if init == 'Zero':
+      return self.zero([dim], name)
 
+  def convW(self, shape, name='Conv', init='Xavier'):
+    """
+    Convolution weights
+    """
+    if init == 'Xavier':
+      return self.xavier(shape, name)
+    if init == 'Normal':
+      return self.normal(shape, name)
+    if init == 'Uniform':
+      return self.uniform(shape, name)
 
-  def normal_W(self, input_dim=100, output_dim=100, name='W'):
-    return tf.Variable(tf.random_normal([input_dim, output_dim], stddev=1.0 / math.sqrt(input_dim), seed=12132015), name=name)
-  def normal_b(self, dim=100, name='B'):
-    return tf.Variable(tf.random_normal([dim], stddev=1.0 / math.sqrt(dim), seed=12132015), name=name)
-
-  def xavier_W(self, input_dim=100, output_dim=100, name='W'):
-    init_range = math.sqrt(6.0 / (input_dim + output_dim))
-    return tf.Variable(tf.random_uniform([input_dim, output_dim], minval=-init_range, maxval=init_range, seed=20160429), name)
-  def xavier_b(self, dim=100, name='B'):
-    init_range = math.sqrt(6.0 / dim)
-    return tf.Variable(tf.random_uniform([dim], minval=-init_range, maxval=init_range, seed=20160429), name)
-
-  def uniform_W(self, input_dim=100, output_dim=100, name="W"):
-    return tf.Variable(tf.random_uniform([input_dim, output_dim], minval=-0.05, maxval=0.05, seed=12132015), name=name)
-  def uniform_b(self, dim=100, name="B"):
-    return tf.Variable(tf.random_uniform([dim], minval=-0.05, maxval=0.05, seed=12132015), name=name)
+  def normal(self, shape, name):
+    return tf.Variable(tf.random_normal(shape, stddev=1.0 / math.sqrt(shape[0]), seed=12132015), name=name)
+  def xavier(self, shape, name):
+    init_range = math.sqrt(6.0 / sum(shape))
+    return tf.Variable(tf.random_uniform(shape, minval=-init_range, maxval=init_range, seed=20160429), name)
+  def uniform(self, shape, name):
+    return tf.Variable(tf.random_uniform(shape, minval=-0.05, maxval=0.05, seed=12132015), name=name)
+  def zero(self, shape, name):
+    return tf.zeros(shape, name=name)
