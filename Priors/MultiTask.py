@@ -71,7 +71,6 @@ def eval(sess, DWi, DU, Dlens, DWj, keep_predictions=False):
     wj = DWj[batch_range]
     U = DU[batch_range]
     lens = Dlens[batch_range]
-    #feed_dict = {cur_world: wi, next_world: wj, inputs: U}
     feed_dict = {cur_world: wi, next_world: wj, inputs: U, lengths: lens}
     if keep_predictions:
       predictions.extend(sess.run(tf.argmax(logits,1), feed_dict))
@@ -297,7 +296,7 @@ feed_dict = {cur_world: DWi[s], next_world: DWj[s],
 final = sess.run(logits, feed_dict)
 for i in range(batch_size):
   # Show the final prediction confidences
-  create("P_%d_%d.bmp" % (epoch, i),
+  create("images/P_%d_%d.bmp" % (epoch, i),
       collapse(DWi[s][i]),
       np.reshape(DWj[s], (batch_size,18,18))[i],
       np.reshape(final, (batch_size,18,18))[i], 18)

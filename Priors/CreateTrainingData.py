@@ -42,7 +42,7 @@ def coordToGrid(X, Y=None):
       G[Y[i][0]][Y[i][2]][i] += 0.5
   return G
 
-def create1Hot(X, Y):
+def getCoordinates(X, Y):
   X = preprocess(X)
   Y = preprocess(Y)
   G = np.zeros(shape=[18,18,1], dtype=np.int32)
@@ -56,7 +56,10 @@ def create1Hot(X, Y):
   index = d.index(max(d))
   idx = index/18
   idy = index%18
+  return [idx, idy]
 
+def create1Hot(X, Y):
+  [idx, idy] = getCoordinates(X, Y)
   # Add an L-1 component to H
   H = np.zeros(shape=[18,18,1], dtype=np.float32)
   for i in range(18):
