@@ -24,3 +24,6 @@ def pearson(X,Y):
   num = sum([(X[i] - mu_x)*(Y[i] - mu_y) for i in range(len(X))])
   den = math.sqrt(sum([(x - mu_x)**2 for x in X]))*math.sqrt(sum([(y - mu_y)**2 for y in Y]))
   return num/den
+
+def block_distance(X,Y):
+  return math.sqrt(sum([(X[i] - Y[i])**2 for i in range(3)]))/0.1524

@@ -1,5 +1,6 @@
 import numpy as np
-import os,gzip
+from PIL import Image
+import os,gzip,math,sys
 
 ## Read Worlds  a = numpy.loadtxt('data.txt')
 def read(s):
@@ -52,17 +53,33 @@ def create1Hot(X, Y):
   cur_world = np.reshape(G, [324])
   next_world = np.reshape(H, [324])
   d = [a_i - b_i for a_i, b_i in zip(next_world, cur_world)]
-  return d.index(max(d))
+  index = d.index(max(d))
+  idx = index/18
+  idy = index%18
+
+  # Add an L-1 component to H
+  H = np.zeros(shape=[18,18,1], dtype=np.float32)
+  for i in range(18):
+    for j in range(18):
+      if i == idx and j == idy:
+        H[i][j] = 1.0
+      else:
+        L1 = (abs(i - idx) + abs(j - idy))
+        if L1 <= 2:
+          H[i][j] = 1.0/math.exp(2*L1) # 1/exp(L1)
+  H = H/(1.0*np.sum(H))
+  H = np.reshape(H, [324])
+  return H
 
 def grid(X):
   Wi = np.zeros(shape=[len(X), 18, 18, 20], dtype=np.int32)
   U = []
-  Wj = np.zeros(shape=[len(X), 324], dtype=np.int32)
+  Wj = np.zeros(shape=[len(X), 324], dtype=np.float32)
   for j in range(len(X)):
     World_i, Utterance, World_j = X[j]
     # Grid worlds
     Wi[j] = coordToGrid(World_i)
-    Wj[j][create1Hot(World_i, World_j)] = 1
+    Wj[j] = create1Hot(World_i, World_j)
     U.append(Utterance)
   print "Converted to grids"
   return Wi, U, Wj
@@ -72,16 +89,13 @@ def grid(X):
 os.chdir('/home/ybisk/GroundedLanguage')
 print("Running from ", os.getcwd())
 
-Train = False
-if Train:
-  Blank = read("Priors/extra.next.current.20.mat.gz")
-  Lang = read("Priors/WithText/Train.mat.gz")
+Blank = read("Priors/extra.next.current.20.mat.gz")
+Lang = read("Priors/WithText/Train.mat.gz")
 
-  Wi, U, Wj = grid(Lang)
-  BWi, BU, BWj = grid(Blank)
-  np.savez("Train.LangAndBlank.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U,
-                                  Blank_Wi=BWi, Blank_Wj=BWj, Blank_U=BU)
-else:
-  Lang = read("Priors/WithText/Dev.mat.gz")
-  Wi, U, Wj = grid(Lang)
-  np.savez("Eval.Lang.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U)
+Wi, U, Wj = grid(Lang)
+BWi, BU, BWj = grid(Blank)
+np.savez("Train.expL1.2.LangAndBlank.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U,
+                                Blank_Wi=BWi, Blank_Wj=BWj, Blank_U=BU)
+Lang = read("Priors/WithText/Dev.mat.gz")
+Wi, U, Wj = grid(Lang)
+np.savez("Dev.expL1.2.Lang.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U)
