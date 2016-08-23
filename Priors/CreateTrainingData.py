@@ -2,6 +2,12 @@ import numpy as np
 from PIL import Image
 import os,gzip,math,sys
 
+dimensions = 18
+offset = dimensions/2 - 1
+block_size = 0.1528
+space_size = 3.0
+unit_size = space_size / dimensions
+
 ## Read Worlds  a = numpy.loadtxt('data.txt')
 def read(s):
   D = []
@@ -22,10 +28,20 @@ def preprocess(X):
   while X[len(X)-1] == -1 and X[len(X)-2] == -1 and X[len(X)-3] == -1:
     X = X[:len(X)-3]
   X = np.reshape(X, (len(X)/3,3))
-  X /= [0.1528,1,-0.1528]
-  X += 8
-  X = [[int(round(v)) for v in row] for row in X]
-  return X
+  X /= [1,1,-1]
+  X += space_size/2
+  ## This block covers which pixels
+  Labels = []
+  for i in range(len(X)):
+    row = X[i]
+    LL = (int(math.floor((row[0] - block_size/2)/unit_size)),
+          int(math.ceil((row[2] - block_size/2)/unit_size)))
+    UR = (int(math.floor((row[0] + block_size/2)/unit_size)),
+          int(math.ceil((row[2] + block_size/2)/unit_size)))
+    for r in range(LL[0], UR[0] + 1):
+      for c in range(LL[1], UR[1] + 1):
+        Labels.append((i, r,c))
+  return Labels
 
 # Convert to filter grid
 def coordToGrid(X, Y=None):
@@ -34,50 +50,37 @@ def coordToGrid(X, Y=None):
   # Preprocess Y
   if Y != None:
     Y = preprocess(Y)
-
-  G = np.zeros(shape=[18,18,20], dtype=np.float32)
-  for i in range(len(X)):
-    G[X[i][0]][X[i][2]][i] = 1
+  G = np.zeros(shape=[dimensions,dimensions,20], dtype=np.float32)
+  for (idx, row, col) in X:
+    G[row][col][idx] = 1
     if Y != None:
-      G[Y[i][0]][Y[i][2]][i] += 0.5
+      G[row][col][idx] += 0.5
   return G
 
-def getCoordinates(X, Y):
+def create1Hot(X, Y):
   X = preprocess(X)
   Y = preprocess(Y)
-  G = np.zeros(shape=[18,18,1], dtype=np.int32)
-  H = np.zeros(shape=[18,18,1], dtype=np.int32)
-  for i in range(len(Y)):
-    G[X[i][0]][X[i][2]] = 1
-    H[Y[i][0]][Y[i][2]] = 1
-  cur_world = np.reshape(G, [324])
-  next_world = np.reshape(H, [324])
-  d = [a_i - b_i for a_i, b_i in zip(next_world, cur_world)]
-  index = d.index(max(d))
-  idx = index/18
-  idy = index%18
-  return [idx, idy]
-
-def create1Hot(X, Y):
-  [idx, idy] = getCoordinates(X, Y)
-  # Add an L-1 component to H
-  H = np.zeros(shape=[18,18,1], dtype=np.float32)
-  for i in range(18):
-    for j in range(18):
-      if i == idx and j == idy:
-        H[i][j] = 1.0
-      else:
-        L1 = (abs(i - idx) + abs(j - idy))
-        if L1 <= 2:
-          H[i][j] = 1.0/math.exp(2*L1) # 1/exp(L1)
+  G = np.zeros(shape=[dimensions,dimensions,1], dtype=np.int32)
+  H = np.zeros(shape=[dimensions,dimensions,1], dtype=np.int32)
+  for (idx, row, col) in X:
+    G[row][col] += 1
+  for (idx, row, col) in Y:
+    H[row][col] += 1
+  cur_world = np.reshape(G, [dimensions*dimensions])
+  next_world = np.reshape(H, [dimensions*dimensions])
+  # Drop < 0 [leaving only new positions]
+  d = [a_i - b_i if a_i - b_i > 0 else 0 for a_i, b_i in zip(next_world, cur_world)]
+  H = np.array(d)
+  if np.sum(H) == 0.0:
+    print "Error", X == Y, d
+    sys.exit()
   H = H/(1.0*np.sum(H))
-  H = np.reshape(H, [324])
   return H
 
 def grid(X):
-  Wi = np.zeros(shape=[len(X), 18, 18, 20], dtype=np.int32)
+  Wi = np.zeros(shape=[len(X), dimensions, dimensions, 20], dtype=np.int32)
   U = []
-  Wj = np.zeros(shape=[len(X), 324], dtype=np.float32)
+  Wj = np.zeros(shape=[len(X), dimensions*dimensions], dtype=np.float32)
   for j in range(len(X)):
     World_i, Utterance, World_j = X[j]
     # Grid worlds
@@ -97,8 +100,8 @@ Lang = read("Priors/WithText/Train.mat.gz")
 
 Wi, U, Wj = grid(Lang)
 BWi, BU, BWj = grid(Blank)
-np.savez("Train.expL1.2.LangAndBlank.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U,
+np.savez("Train.18.LangAndBlank.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U,
                                 Blank_Wi=BWi, Blank_Wj=BWj, Blank_U=BU)
 Lang = read("Priors/WithText/Dev.mat.gz")
 Wi, U, Wj = grid(Lang)
-np.savez("Dev.expL1.2.Lang.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U)
+np.savez("Dev.18.Lang.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U)

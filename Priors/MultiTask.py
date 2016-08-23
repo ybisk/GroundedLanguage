@@ -18,6 +18,19 @@ filters = int(sys.argv[1])
 hiddendim = 100
 num_epochs = 12
 
+rep_dim = 18
+offset = rep_dim/2 -1
+block_size = 0.1528
+space_size = 3.0
+unit_size = space_size / rep_dim
+
+Directory = '/home/ybisk/GroundedLanguage'
+TrainData = 'Priors/Train.18.LangAndBlank.20.npz'
+EvalData = 'Priors/Dev.18.Lang.20.npz'
+RawEval = 'Priors/WithText/Dev.mat.gz'
+#EvalData = 'Priors/Test.Lang.20.npz'
+#RawEval = 'Priors/WithText/Test.mat.gz'
+
 
 """ Helper Functions """
 
@@ -93,17 +106,24 @@ def eval(sess, DWi, DU, Dlens, DWj, keep_predictions=False):
     return 100.0*sum(predictions)/len(predictions)
 
 
+def convertToReals(x,y):
+  x *= unit_size
+  y *= unit_size
+  x -= space_size/2
+  y -= space_size/2
+  y *= -1
+  return (x,y)
+
 def real_eval(sess, DWi, DU, Dlens, DWj):
   global real_dev_id, real_dev
   # These are 1-hot representations
   predictions = eval(sess, DWi, DU, Dlens, DWj, keep_predictions=True)
   # convert predictions to (idx,idy)
-  idx_idy_pairs = [(p/18, p%18) for p in predictions]
-  gold_idx_idy_pairs = [(p/18, p%18) for p in np.argmax(DWj, axis=1)]
+  idx_idy_pairs = [(p/rep_dim, p%rep_dim) for p in predictions]
+  gold_idx_idy_pairs = [(p/rep_dim, p%rep_dim) for p in np.argmax(DWj, axis=1)] ## This returns the first (lower corner? not center?)
   # convert to real values
-  xy_pairs = [((x - 8)*0.1528, (y - 8)*-0.1528) for (x,y) in idx_idy_pairs]
-  gold_xy_pairs = [((x - 8)*0.1528, (y - 8)*-0.1528) for (x,y) in gold_idx_idy_pairs]
-
+  xy_pairs = [convertToReals(x,y) for (x,y) in idx_idy_pairs]
+  gold_xy_pairs = [convertToReals(x,y) for (x,y) in gold_idx_idy_pairs]
   # Evaluate
   Gold_locs = []
   P = []
@@ -159,13 +179,6 @@ def process(U, maxlength=40, vocabsize=10000):
 
 """ Read Data """
 
-Directory = '/home/ybisk/GroundedLanguage'
-TrainData = 'Priors/Train.expL1.2.LangAndBlank.20.npz'
-EvalData = 'Priors/Dev.expL1.2.Lang.20.npz'
-RawEval = 'Priors/WithText/Dev.mat.gz'
-#EvalData = 'Priors/Test.Lang.20.npz'
-#RawEval = 'Priors/WithText/Test.mat.gz'
-
 os.chdir(Directory)
 print("Running from ", os.getcwd())
 ## Regular + Blank (B)
@@ -188,25 +201,30 @@ real_dev_id = np.argmax(np.abs(real_dev[:,:60] - real_dev[:,60:]), axis=1)/3
 """ Model Definition """
 
 ## Inputs        #[batch, height, width, depth]
-cur_world = tf.placeholder(tf.float32, [batch_size, 18, 18, 20], name="CurWorld")
-next_world = tf.placeholder(tf.float32, [batch_size, 324], name="NextWorld")
+cur_world = tf.placeholder(tf.float32, [batch_size, rep_dim, rep_dim, 20], name="CurWorld")
+next_world = tf.placeholder(tf.float32, [batch_size, rep_dim*rep_dim], name="NextWorld")
 ## Language
 inputs = tf.placeholder(tf.int32, [batch_size, maxlength], name="Utterance")
 lengths = tf.placeholder(tf.int32, [batch_size], name="Lengths")
 
+final_size = 8
 ## weights && Convolutions
 W = {
   'cl1': Layer.convW([3, 3, 20, filters]),
   'cl2': Layer.convW([3, 3, filters, filters]),
   'cl3': Layer.convW([3, 3, filters, filters]),
-  'out': Layer.W(12*12*filters + 2*hiddendim, 324)
+  'cl4': Layer.convW([3, 3, filters, filters]),
+  'cl5': Layer.convW([3, 3, filters, filters]),
+  'out': Layer.W(final_size*final_size*filters + 2*hiddendim, rep_dim*rep_dim)
 }
 
 B = {
   'cb1': Layer.b(filters, init='Normal'),
   'cb2': Layer.b(filters, init='Normal'),
   'cb3': Layer.b(filters, init='Normal'),
-  'out': Layer.b(324)
+  'cb4': Layer.b(filters, init='Normal'),
+  'cb5': Layer.b(filters, init='Normal'),
+  'out': Layer.b(rep_dim*rep_dim)
 }
 
 # Define embeddings matrix
@@ -219,9 +237,11 @@ lstm = tf.nn.rnn_cell.LSTMCell(hiddendim,
 lstm = tf.nn.rnn_cell.DropoutWrapper(lstm, output_keep_prob=dropout)
 
 # Encode from 18x18 to 12x12
-l1 = conv2d('l1', cur_world, W['cl1'], B['cb1'], padding='VALID') # -> 16x16
-l2 = conv2d('l2', l1, W['cl2'], B['cb2'], padding='VALID')        # -> 14x14
-l3 = conv2d('l3', l2, W['cl3'], B['cb3'], padding='VALID')        # -> 12x12
+l1 = conv2d('l1', cur_world, W['cl1'], B['cb1'], padding='VALID') # -> 32->30  18->16
+l2 = conv2d('l2', l1, W['cl2'], B['cb2'], padding='VALID')        # -> 30-28   16->14
+l3 = conv2d('l3', l2, W['cl3'], B['cb3'], padding='VALID')        # -> 28->26  14->12
+l4 = conv2d('l4', l3, W['cl4'], B['cb4'], padding='VALID')        # -> 26->24  12->10
+l5 = conv2d('l5', l4, W['cl5'], B['cb5'], padding='VALID')        # -> 24->22  10->8
 
 outputs, fstate = tf.nn.dynamic_rnn(lstm, embeddings.lookup(inputs), 
                                     sequence_length=lengths,
@@ -230,7 +250,7 @@ outputs, fstate = tf.nn.dynamic_rnn(lstm, embeddings.lookup(inputs),
 # Concatenate RNN output to CNN representation
 logits = tf.matmul(
           tf.concat(1, [fstate,
-            tf.reshape(l3, [batch_size,12*12*filters])]),
+            tf.reshape(l5, [batch_size,final_size*final_size*filters])]),
         W['out']) + B['out']
 correct_prediction = tf.equal(tf.argmax(logits,1), tf.argmax(next_world,1))
 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits,next_world))
@@ -283,9 +303,9 @@ print "Grid v XYZ correlation: %5.3f %5.3f" % (
 """
 
 def collapse(F):
-  M = np.zeros((18,18))
-  for i in range(18):
-    for j in range(18):
+  M = np.zeros((rep_dim, rep_dim))
+  for i in range(rep_dim):
+    for j in range(rep_dim):
       if np.amax(F[i][j]) > 0:
           M[i][j] = 1
   return M
@@ -298,7 +318,7 @@ for i in range(batch_size):
   # Show the final prediction confidences
   create("images/P_%d_%d.bmp" % (epoch, i),
       collapse(DWi[s][i]),
-      np.reshape(DWj[s], (batch_size,18,18))[i],
-      np.reshape(final, (batch_size,18,18))[i], 18)
+      np.reshape(DWj[s], (batch_size,rep_dim,rep_dim))[i],
+      np.reshape(final, (batch_size,rep_dim,rep_dim))[i], rep_dim)
 
 
