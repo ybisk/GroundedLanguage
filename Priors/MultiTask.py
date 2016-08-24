@@ -18,15 +18,15 @@ filters = int(sys.argv[1])
 hiddendim = 100
 num_epochs = 12
 
-rep_dim = 18
+rep_dim = 32
 offset = rep_dim/2 -1
 block_size = 0.1528
 space_size = 3.0
 unit_size = space_size / rep_dim
 
 Directory = '/home/ybisk/GroundedLanguage'
-TrainData = 'Priors/Train.18.LangAndBlank.20.npz'
-EvalData = 'Priors/Dev.18.Lang.20.npz'
+TrainData = 'Priors/Train.%d.L1.LangAndBlank.20.npz' % rep_dim
+EvalData = 'Priors/Dev.%d.L1.Lang.20.npz' % rep_dim
 RawEval = 'Priors/WithText/Dev.mat.gz'
 #EvalData = 'Priors/Test.Lang.20.npz'
 #RawEval = 'Priors/WithText/Test.mat.gz'
@@ -207,7 +207,7 @@ next_world = tf.placeholder(tf.float32, [batch_size, rep_dim*rep_dim], name="Nex
 inputs = tf.placeholder(tf.int32, [batch_size, maxlength], name="Utterance")
 lengths = tf.placeholder(tf.int32, [batch_size], name="Lengths")
 
-final_size = 8
+final_size = rep_dim - 5*2
 ## weights && Convolutions
 W = {
   'cl1': Layer.convW([3, 3, 20, filters]),

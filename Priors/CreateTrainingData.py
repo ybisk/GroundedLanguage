@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image
 import os,gzip,math,sys
 
-dimensions = 18
+dimensions = 64
 offset = dimensions/2 - 1
 block_size = 0.1528
 space_size = 3.0
@@ -32,24 +32,26 @@ def preprocess(X):
   X += space_size/2
   ## This block covers which pixels
   Labels = []
+  MidPoints = []
   for i in range(len(X)):
     row = X[i]
     LL = (int(math.floor((row[0] - block_size/2)/unit_size)),
           int(math.ceil((row[2] - block_size/2)/unit_size)))
     UR = (int(math.floor((row[0] + block_size/2)/unit_size)),
           int(math.ceil((row[2] + block_size/2)/unit_size)))
+    MidPoints.append((int(row[0]/unit_size), int(row[2]/unit_size)))
     for r in range(LL[0], UR[0] + 1):
       for c in range(LL[1], UR[1] + 1):
         Labels.append((i, r,c))
-  return Labels
+  return Labels, MidPoints
 
 # Convert to filter grid
 def coordToGrid(X, Y=None):
   # Preprocess X
-  X = preprocess(X)
+  X, _ = preprocess(X)
   # Preprocess Y
   if Y != None:
-    Y = preprocess(Y)
+    Y, _ = preprocess(Y)
   G = np.zeros(shape=[dimensions,dimensions,20], dtype=np.float32)
   for (idx, row, col) in X:
     G[row][col][idx] = 1
@@ -58,19 +60,22 @@ def coordToGrid(X, Y=None):
   return G
 
 def create1Hot(X, Y):
-  X = preprocess(X)
-  Y = preprocess(Y)
-  G = np.zeros(shape=[dimensions,dimensions,1], dtype=np.int32)
-  H = np.zeros(shape=[dimensions,dimensions,1], dtype=np.int32)
-  for (idx, row, col) in X:
-    G[row][col] += 1
-  for (idx, row, col) in Y:
+  X, _ = preprocess(X)
+  Y, My = preprocess(Y)
+  H = np.zeros(shape=[dimensions,dimensions,1], dtype=np.float64)
+  block_id = -1
+  for (idx, row, col) in set(Y).difference(set(X)):
     H[row][col] += 1
-  cur_world = np.reshape(G, [dimensions*dimensions])
-  next_world = np.reshape(H, [dimensions*dimensions])
-  # Drop < 0 [leaving only new positions]
-  d = [a_i - b_i if a_i - b_i > 0 else 0 for a_i, b_i in zip(next_world, cur_world)]
-  H = np.array(d)
+    block_id = idx
+  if block_id == -1:
+    print "Houston, we have a problem"
+  (idx, idy) = My[block_id]
+  for i in range(dimensions):
+    for j in range(dimensions):
+      L1 = abs(i-idx) + abs(j - idy)
+      if L1 < dimensions/10:
+        H[i][j] += 1.0/math.exp(L1)
+  H = np.reshape(H, [dimensions*dimensions])
   if np.sum(H) == 0.0:
     print "Error", X == Y, d
     sys.exit()
@@ -100,8 +105,8 @@ Lang = read("Priors/WithText/Train.mat.gz")
 
 Wi, U, Wj = grid(Lang)
 BWi, BU, BWj = grid(Blank)
-np.savez("Train.18.LangAndBlank.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U,
+np.savez("Train.%d.L1.LangAndBlank.20" % dimensions, Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U,
                                 Blank_Wi=BWi, Blank_Wj=BWj, Blank_U=BU)
 Lang = read("Priors/WithText/Dev.mat.gz")
 Wi, U, Wj = grid(Lang)
-np.savez("Dev.18.Lang.20", Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U)
+np.savez("Dev.%d.L1.Lang.20" % dimensions, Lang_Wi=Wi, Lang_Wj=Wj, Lang_U=U)
