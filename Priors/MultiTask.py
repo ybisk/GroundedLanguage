@@ -1,5 +1,4 @@
 import os,random,sys,gzip
-from PIL import Image
 sys.path.append(".")
 
 from TFLibraries.Embeddings import Embedding
@@ -70,91 +69,6 @@ def gen_batch_B(size, Wi, U, L, Wj):
   r = Bindices[:size]
   Bindices = Bindices[size:]
   return Wi[r], Wj[r], U[r], L[r]
-
-""" Evaluation Functions """
-def eval(sess, DWi, DU, Dlens, DWj, keep_predictions=False):
-  """
-  Runs eval on dev/test data with the option to return predictions or performance
-  """
-  global batch_size
-  predictions = []
-  for i in range(len(DWi)/batch_size):
-    batch_range = range(batch_size*i,batch_size*(i+1))
-    wi = DWi[batch_range]
-    wj = DWj[batch_range]
-    U = DU[batch_range]
-    lens = Dlens[batch_range]
-    feed_dict = {cur_world: wi, next_world: wj, inputs: U, lengths: lens}
-    if keep_predictions:
-      predictions.extend(sess.run(tf.argmax(logits,1), feed_dict))
-    else:
-      predictions.extend(sess.run(correct_prediction, feed_dict))
-
-  ## Grab the extras
-  last_chunk = batch_size*(i+1)
-  gap = batch_size - (len(DWi) - last_chunk)
-  wi = np.pad(DWi[last_chunk:], ((0,gap),(0,0), (0,0), (0,0)), mode='constant', constant_values=0)
-  wj = np.pad(DWj[last_chunk:], ((0,gap),(0,0)), mode='constant', constant_values=0)
-  U = np.pad(DU[last_chunk:], ((0,gap),(0,0)), mode='constant', constant_values=0)
-  lens = np.pad(Dlens[last_chunk:], ((0,gap)), mode='constant', constant_values=0)
-  feed_dict = {cur_world: wi, next_world: wj, inputs: U, lengths: lens}
-  if keep_predictions:
-    predictions.extend(sess.run(tf.argmax(logits,1), feed_dict)[:batch_size - gap])
-    return predictions
-  else:
-    predictions.extend(sess.run(correct_prediction, feed_dict)[:batch_size - gap])
-    return 100.0*sum(predictions)/len(predictions)
-
-
-def convertToReals(x,y):
-  x *= unit_size
-  y *= unit_size
-  x -= space_size/2
-  y -= space_size/2
-  y *= -1
-  return (x,y)
-
-def real_eval(sess, DWi, DU, Dlens, DWj):
-  global real_dev_id, real_dev
-  # These are 1-hot representations
-  predictions = eval(sess, DWi, DU, Dlens, DWj, keep_predictions=True)
-  # convert predictions to (idx,idy)
-  idx_idy_pairs = [(p/rep_dim, p%rep_dim) for p in predictions]
-  gold_idx_idy_pairs = [(p/rep_dim, p%rep_dim) for p in np.argmax(DWj, axis=1)] ## This returns the first (lower corner? not center?)
-  # convert to real values
-  xy_pairs = [convertToReals(x,y) for (x,y) in idx_idy_pairs]
-  gold_xy_pairs = [convertToReals(x,y) for (x,y) in gold_idx_idy_pairs]
-  # Evaluate
-  Gold_locs = []
-  P = []
-  for i in range(len(real_dev_id)):
-    P.append(block_distance([xy_pairs[i][0], 0.1, xy_pairs[i][1]],
-                            real_dev[i][3*real_dev_id[i]:3*(real_dev_id[i]+1)]))
-    Gold_locs.append(real_dev[i][3*real_dev_id[i]:3*(real_dev_id[i]+1)])
-  P.sort()
-  G = []
-  for i in range(len(real_dev_id)):
-    G.append(block_distance([gold_xy_pairs[i][0], 0.1, gold_xy_pairs[i][1]],
-                            real_dev[i][3*real_dev_id[i]:3*(real_dev_id[i]+1)]))
-  G.sort()
-  #print gold_xy_pairs
-  #print Gold_locs
-  return (sum(P)/len(P), P[len(P)/2], sum(G)/len(G), G[len(G)/2])
-
-
-def create(name, before, after, matrix, dim):
-  """
-    Creates an image of the confidences
-  """
-  img = Image.new('RGB', (dim,dim), "black")
-  pixels = img.load()
-  for i in range(matrix.shape[0]):
-    for j in range(matrix.shape[1]):
-      pixels[i,j] = (int(255*before[i][j]),
-                     int(255*matrix[i][j]),
-                     int(255*after[i][j]))
-  img.save(name)
-  #img.show()
 
 """ Data processing """
 
@@ -264,6 +178,9 @@ total_loss = 0.0
 
 ratio = 1.0
 
+eval = Eval(sess, rep_dim, unit_size, space_size, cur_world, next_world, inputs,
+            lengths, logits, correct_prediction)
+
 def run_step((batch_Wi, batch_Wj, batch_U, batch_L)):
   feed_dict = {cur_world: batch_Wi, next_world: batch_Wj,
                inputs: batch_U, lengths: batch_L}
@@ -276,8 +193,8 @@ real = []
 for epoch in range(num_epochs):
   for step in range(BWi.shape[0]/batch_size):    ## Does not make use of full prior data this way
     total_loss += run_step(gen_batch_B(batch_size, BWi, BU, Blens, BWj))
-  discrete.append(eval(sess, DWi, DU, Dlens, DWj))
-  real.append(real_eval(sess, DWi, DU, Dlens, DWj))
+  discrete.append(eval.SMeval(DWi, DU, Dlens, DWj))
+  real.append(eval.real_eval(DWi, DU, Dlens, DWj))
   print("Iter %3d  Ratio %-6.4f  Loss %-10f   Eval  %-6.3f  %5.3f  %5.3f  G: %5.3f %5.3f" %
        (epoch, ratio, total_loss, discrete[-1], real[-1][0], real[-1][1], real[-1][2], real[-1][3]))
   total_loss = 0
@@ -288,8 +205,8 @@ print "Convereged on Priors"
 for epoch in range(num_epochs):
   for step in range(Wi.shape[0]/batch_size):
     total_loss += run_step(gen_batch_L(batch_size, Wi, U, lens, Wj))
-  discrete.append(eval(sess, DWi, DU, Dlens, DWj))
-  real.append(real_eval(sess, DWi, DU, Dlens, DWj))
+  discrete.append(eval.SMeval(DWi, DU, Dlens, DWj))
+  real.append(eval.real_eval(DWi, DU, Dlens, DWj))
   print("Iter %3d  Ratio %-6.4f  Loss %-10f   Eval  %-6.3f  %5.3f  %5.3f  G: %5.3f %5.3f" %
         (epoch, ratio, total_loss, discrete[-1], real[-1][0], real[-1][1], real[-1][2], real[-1][3]))
   total_loss = 0
@@ -316,7 +233,7 @@ feed_dict = {cur_world: DWi[s], next_world: DWj[s],
 final = sess.run(logits, feed_dict)
 for i in range(batch_size):
   # Show the final prediction confidences
-  create("images/P_%d_%d.bmp" % (epoch, i),
+  eval.createImage("images/P_%d_%d.bmp" % (epoch, i),
       collapse(DWi[s][i]),
       np.reshape(DWj[s], (batch_size,rep_dim,rep_dim))[i],
       np.reshape(final, (batch_size,rep_dim,rep_dim))[i], rep_dim)
