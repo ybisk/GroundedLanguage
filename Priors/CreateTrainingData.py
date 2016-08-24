@@ -77,7 +77,7 @@ def create1Hot(X, Y):
         H[i][j] += 1.0/math.exp(L1)
   H = np.reshape(H, [dimensions*dimensions])
   if np.sum(H) == 0.0:
-    print "Error", X == Y, d
+    print "Error", X == Y
     sys.exit()
   H = H/(1.0*np.sum(H))
   return H
