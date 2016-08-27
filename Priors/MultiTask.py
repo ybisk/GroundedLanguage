@@ -4,6 +4,7 @@ sys.path.append(".")
 from TFLibraries.Embeddings import Embedding
 from TFLibraries.Layer import Layers
 from TFLibraries.Ops import *
+from Priors.Evaluation import Eval
 import tensorflow as tf
 import numpy as np
 np.set_printoptions(threshold=np.nan)
@@ -102,8 +103,8 @@ BWi, BU, BWj = Data["Blank_Wi"], Data["Blank_U"], Data["Blank_Wj"]
 U, lens, vocabsize = process(U, maxlength)
 BU, Blens, Bvocabsize = process(BU, maxlength)
 ## Labeled
-Eval = np.load(EvalData)
-DWi, DU, DWj = Eval["Lang_Wi"], Eval["Lang_U"], Eval["Lang_Wj"]
+Eval_Data = np.load(EvalData)
+DWi, DU, DWj = Eval_Data["Lang_Wi"], Eval_Data["Lang_U"], Eval_Data["Lang_Wj"]
 DU, Dlens, vocabsize = process(DU, maxlength, vocabsize)
 
 # Read in the actual eval (x,y,z) data
@@ -178,8 +179,8 @@ total_loss = 0.0
 
 ratio = 1.0
 
-eval = Eval(sess, rep_dim, unit_size, space_size, cur_world, next_world, inputs,
-            lengths, logits, correct_prediction)
+eval = Eval(sess, rep_dim, unit_size, space_size, batch_size, cur_world,
+            next_world, inputs, lengths, logits, correct_prediction)
 
 def run_step((batch_Wi, batch_Wj, batch_U, batch_L)):
   feed_dict = {cur_world: batch_Wi, next_world: batch_Wj,
@@ -194,8 +195,8 @@ for epoch in range(num_epochs):
   for step in range(BWi.shape[0]/batch_size):    ## Does not make use of full prior data this way
     total_loss += run_step(gen_batch_B(batch_size, BWi, BU, Blens, BWj))
   discrete.append(eval.SMeval(DWi, DU, Dlens, DWj))
-  real.append(eval.real_eval(DWi, DU, Dlens, DWj))
-  print("Iter %3d  Ratio %-6.4f  Loss %-10f   Eval  %-6.3f  %5.3f  %5.3f  G: %5.3f %5.3f" %
+  real.append(eval.real_eval(DWi, DU, Dlens, DWj, real_dev, real_dev_id))
+  print("Iter %3d  Ratio %-6.4f  Loss %-8.3f   Eval  %-6.3f  %5.3f  %5.3f  G: %5.3f %5.3f" %
        (epoch, ratio, total_loss, discrete[-1], real[-1][0], real[-1][1], real[-1][2], real[-1][3]))
   total_loss = 0
     #ratio = 1.0 - epoch/25.0
@@ -206,7 +207,7 @@ for epoch in range(num_epochs):
   for step in range(Wi.shape[0]/batch_size):
     total_loss += run_step(gen_batch_L(batch_size, Wi, U, lens, Wj))
   discrete.append(eval.SMeval(DWi, DU, Dlens, DWj))
-  real.append(eval.real_eval(DWi, DU, Dlens, DWj))
+  real.append(eval.real_eval(DWi, DU, Dlens, DWj, real_dev, real_dev_id))
   print("Iter %3d  Ratio %-6.4f  Loss %-10f   Eval  %-6.3f  %5.3f  %5.3f  G: %5.3f %5.3f" %
         (epoch, ratio, total_loss, discrete[-1], real[-1][0], real[-1][1], real[-1][2], real[-1][3]))
   total_loss = 0

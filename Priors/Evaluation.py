@@ -2,8 +2,10 @@ import numpy as np
 from PIL import Image
 from TFLibraries.Ops import *
 
+
 class Eval:
-  def __init__(self, session, rep_dim, unit_size, space_size,
+
+  def __init__(self, session, rep_dim, unit_size, space_size, batch_size,
                current_world, next_world, utterance, utterance_length,
                logits, correct_prediction):
     self.cur_world = current_world
@@ -12,6 +14,7 @@ class Eval:
     self.lengths = utterance_length
     self.sess = session
 
+    self.batch_size = batch_size
     self.rep_dim = rep_dim
     self.unit_size = unit_size
     self.space_size = space_size
@@ -24,10 +27,9 @@ class Eval:
     """
     Runs eval on dev/test data with the option to return predictions or performance
     """
-    global batch_size
     predictions = []
-    for i in range(len(DWi)/batch_size):
-      batch_range = range(batch_size*i,batch_size*(i+1))
+    for i in range(len(DWi)/self.batch_size):
+      batch_range = range(self.batch_size*i,self.batch_size*(i+1))
       wi = DWi[batch_range]
       wj = DWj[batch_range]
       U = DU[batch_range]
@@ -39,18 +41,18 @@ class Eval:
         predictions.extend(self.sess.run(self.correct_prediction, feed_dict))
 
     ## Grab the extras
-    last_chunk = batch_size*(i+1)
-    gap = batch_size - (len(DWi) - last_chunk)
+    last_chunk = self.batch_size*(i+1)
+    gap = self.batch_size - (len(DWi) - last_chunk)
     wi = np.pad(DWi[last_chunk:], ((0,gap),(0,0), (0,0), (0,0)), mode='constant', constant_values=0)
     wj = np.pad(DWj[last_chunk:], ((0,gap),(0,0)), mode='constant', constant_values=0)
     U = np.pad(DU[last_chunk:], ((0,gap),(0,0)), mode='constant', constant_values=0)
     lens = np.pad(Dlens[last_chunk:], ((0,gap)), mode='constant', constant_values=0)
     feed_dict = {self.cur_world: wi, self.next_world: wj, self.inputs: U, self.lengths: lens}
     if keep_predictions:
-      predictions.extend(self.sess.run(tf.argmax(self.logits,1), feed_dict)[:batch_size - gap])
+      predictions.extend(self.sess.run(tf.argmax(self.logits,1), feed_dict)[:self.batch_size - gap])
       return predictions
     else:
-      predictions.extend(self.sess.run(self.correct_prediction, feed_dict)[:batch_size - gap])
+      predictions.extend(self.sess.run(self.correct_prediction, feed_dict)[:self.batch_size - gap])
       return 100.0*sum(predictions)/len(predictions)
 
 
@@ -62,10 +64,9 @@ class Eval:
     y *= -1
     return (x,y)
 
-  def real_eval(self, DWi, DU, Dlens, DWj):
-    global real_dev_id, real_dev
+  def real_eval(self, DWi, DU, Dlens, DWj, real_dev, real_dev_id):
     # These are 1-hot representations
-    predictions = eval(self.sess, DWi, DU, Dlens, DWj, keep_predictions=True)
+    predictions = self.SMeval(DWi, DU, Dlens, DWj, keep_predictions=True)
     # convert predictions to (idx,idy)
     idx_idy_pairs = [(p/self.rep_dim, p%self.rep_dim) for p in predictions]
     gold_idx_idy_pairs = [(p/self.rep_dim, p%self.rep_dim) for p in np.argmax(DWj, axis=1)] ## This returns the first (lower corner? not center?)
