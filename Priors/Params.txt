@@ -1,0 +1,15 @@
+batch_size = 512
+maxlength = 40
+filters = 4
+hiddendim = 100
+num_epochs = 12
+
+rep_dim = 32
+
+Directory = /home/ybisk/GroundedLanguage
+TrainData = Priors/Train.32.L1.LangAndBlank.20.npz
+EvalData = Priors/Dev.32.L1.Lang.20.npz
+RawEval = Priors/WithText/Dev.mat.gz
+#EvalData = Priors/Test.Lang.20.npz
+#RawEval = Priors/WithText/Test.mat.gz
+

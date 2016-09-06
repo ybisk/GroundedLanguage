@@ -26,7 +26,7 @@ class Training:
     return 100.0*sum(predictions)/len(predictions)
 
   def train(self, train, train_labels, dev, dev_labels, generate_batch, train_lens=None, dev_lens=None):
-    num_epochs = 25
+    num_epochs = 10
     print('Initialized')
     total_loss = 0.0
     for epoch in range(num_epochs):

@@ -1,4 +1,5 @@
 import tensorflow as tf
+tf.set_random_seed(20160905)
 import math
 
 

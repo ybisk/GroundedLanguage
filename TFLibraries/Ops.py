@@ -1,4 +1,5 @@
 import tensorflow as tf
+tf.set_random_seed(20160905)
 import math
 
 
@@ -7,7 +8,6 @@ def conv2d(name, l_input, w, b, strides=[1, 1, 1, 1], padding='SAME'):
             tf.nn.bias_add(
               tf.nn.conv2d(l_input, w, strides=strides, padding=padding),
               b), name=name)
-    print v
     return v
 
 def conv2d_trans(name, l_input, shape, w, b, strides=[1, 1, 1, 1], padding='SAME'):

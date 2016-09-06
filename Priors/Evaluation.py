@@ -1,23 +1,23 @@
 import numpy as np
 from PIL import Image
 from TFLibraries.Ops import *
+from TFLibraries.Params import Param
 
 
 class Eval:
 
-  def __init__(self, session, rep_dim, unit_size, space_size, batch_size,
-               current_world, next_world, utterance, utterance_length,
-               logits, correct_prediction):
+  def __init__(self, session, P, current_world, next_world, utterance, 
+               utterance_length, logits, correct_prediction):
     self.cur_world = current_world
     self.next_world = next_world
     self.inputs = utterance
     self.lengths = utterance_length
     self.sess = session
 
-    self.batch_size = batch_size
-    self.rep_dim = rep_dim
-    self.unit_size = unit_size
-    self.space_size = space_size
+    self.batch_size = P.batch_size
+    self.rep_dim = P.rep_dim
+    self.unit_size = P.unit_size
+    self.space_size = P.space_size
 
     self.logits = logits
     self.correct_prediction = correct_prediction
