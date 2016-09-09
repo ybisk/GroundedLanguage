@@ -7,10 +7,16 @@ public class Utils {
   public static final Pattern dash_pattern = Pattern.compile("_");
 
   /**
-   * Euclidean Distance (in block-lengths)
+   * Euclidean Distance (in block-lengths) if (x,y,z)
+   * Quaternion Distance if (a,b,c,d) [norm of difference]
    */
   public static double distance(double[] A, double[] B) {
-    return Math.sqrt(Math.pow(A[0] - B[0], 2) + Math.pow(A[1] - B[1], 2) + Math.pow(A[2] - B[2], 2)) / 0.1524;
+    double v = 0;
+    for (int i = 0; i < A.length; ++i)
+      v += Math.pow(A[i] - B[i], 2);
+    v = Math.sqrt(v);
+    if (A.length == 3) return v / 0.1524;
+    else return v;
   }
 
   public static Double[][] readMatrix(List<String> matrix) {

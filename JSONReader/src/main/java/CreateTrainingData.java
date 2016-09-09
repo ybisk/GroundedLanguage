@@ -24,6 +24,9 @@ public class CreateTrainingData {
   // cardinal directions
   static String[] cardinal = {"NW", "N", "NE", "W", "TOP", "E", "SW", "S", "SE"};
 
+  // Generation types
+  static String[] generationTypes = {"Solo", "SRD", "Line", "Axes"};
+
   /**
    * Map every word which occurs at least twice to an integer
    */
@@ -53,13 +56,39 @@ public class CreateTrainingData {
    * Extract the block-id that moved
    * @param world_t
    * @param world_tp1
-   * @return
+   * @param orientation_tp
+   *@param orientation_tp1 @return
    */
-  public static int getSource(double[][] world_t, double[][] world_tp1) {
+  public static int getSource(double[][] world_t, double[][] world_tp1,
+                              double[][] orientation_tp, double[][] orientation_tp1) {
+    int id = -1;
+    double dist;
+    double max_dist = 0;
+    // Who physically moved furthest
     for (int i = 0; i < world_t.length; ++i) {
-      if (world_t[i][0] != world_tp1[i][0] || world_t[i][1] != world_tp1[i][1] || world_t[i][2] != world_tp1[i][2])
-        return i;
+      dist = Utils.distance(world_t[i], world_tp1[i]);
+      if (dist > max_dist) {
+        max_dist = dist;
+        id = i;
+      }
     }
+
+    if (id != -1)
+      return id;
+
+    // Who rotated the most?!?
+    max_dist = 0;
+    for (int i = 0; i < orientation_tp.length; ++i) {
+      dist = Utils.distance(orientation_tp[i], orientation_tp1[i]);
+      if (dist > max_dist) {
+        max_dist = dist;
+        id = i;
+      }
+    }
+
+    if (id != -1)
+      return id;
+
     System.err.println("We did not find a source block");
     return -1;
   }
@@ -158,6 +187,8 @@ public class CreateTrainingData {
     //  1 2 3
     //  4 5 6
     //  7 8 9
+    if (Math.abs(source[1] - reference[1]) > Math.max(Math.abs(source[0] - reference[0]),Math.abs(source[2] - reference[2])))
+      return 4;
     int dx = (int)Math.signum(source[0] - reference[0]);
     int dz = (int)Math.signum(source[2] - reference[2]);
     switch (dx) {
@@ -220,6 +251,31 @@ public class CreateTrainingData {
   }
 
   /**
+   * Use the language of the utterance to determine if the annotator is using one of four descriptions:
+   * 1) Source, Reference, Direction
+   * 2) Direction + Distance
+   * 3) Lines
+   * 4) Axes
+   */
+  public static int generationType(int source, String[] utterance, String decoration) {
+    Set<Integer> blocks = getPossibleReferences(source, utterance, decoration);
+    HashSet<String> words = new HashSet<>();
+    words.addAll(Arrays.asList(utterance));
+    // If there are no references, it is solo
+    if (blocks.size() == 0)       // 0: Solo
+      return 0;
+    else if (blocks.size() == 1)  // 1: SRD
+      return 1;
+    else {
+      if (words.contains("line") || words.contains("between"))
+        return 2;                 // 2: Line
+      else {
+        return 3;                 // 3: Axes
+      }
+    }
+  }
+
+  /**
    * Convert utterance to a sparse vector.  Words are UNKed according to Vocab dictionary
    */
   public static String unkUtterance(String[] tokenized) {
@@ -238,8 +294,12 @@ public class CreateTrainingData {
     // Several pieces require knowledge of the source and reference
     int source = -1;
     if (info == Information.Source || info == Information.Reference || info == Information.Direction ||
-        info == Information.tXYZ   || info == Information.sXYZ)
-       source = getSource(task.states[note.start], task.states[note.finish]);
+        info == Information.tXYZ   || info == Information.sXYZ || info == Information.GenerationType) {
+      if (note.finish == task.states.length)
+        System.err.println("Well well well..." + note.finish + " \t" + task.states.length);
+      source = getSource(task.states[note.start], task.states[note.finish],
+          task.orientations[note.start], task.orientations[note.finish]);
+    }
     int reference = -1;
     if (info == Information.Reference || info == Information.Direction)
       reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
@@ -286,6 +346,11 @@ public class CreateTrainingData {
       case Utterance:
         BW.write(unkUtterance(tokenize(utterance)));
         Human.write("    " + utterance);
+        break;
+      case GenerationType:
+        int g = generationType(source, tokenize(utterance), task.decoration);
+        BW.write(String.format(" %d ", g));
+        Human.write(String.format(" %s ", generationTypes[g]));
         break;
       default:
         System.err.println("We don't handle " + info);
@@ -340,7 +405,7 @@ public class CreateTrainingData {
             }
             for (int i = 0; i < note.notes.length; ++i) {
               utterance = tokens[i];
-              int source = getSource(task.states[note.start], task.states[note.finish]);
+              int source = getSource(task.states[note.start], task.states[note.finish], task.orientations[note.start], task.orientations[note.finish]);
               int reference = getReference(source, utterance, task.states[note.finish], task.decoration);
               int Dir;
               if (reference != -1)
