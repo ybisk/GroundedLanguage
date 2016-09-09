@@ -32,5 +32,10 @@ public class Tuple<T> implements Comparable<Object> {
   public int compareTo(Object arg0) {
     return (int) Math.signum(((Tuple<T>) arg0).value - value);
   }
+
+  @Override
+  public String toString() {
+    return "( " + contents.toString() + " , " + String.valueOf(this.value) + " ) ";
+  }
 }
 

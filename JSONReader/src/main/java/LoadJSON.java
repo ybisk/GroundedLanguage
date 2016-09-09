@@ -105,10 +105,11 @@ public class LoadJSON {
    * Compute Type and Token counts.
    * Compute length distribution
    */
-  public static void CorpusStatistics(ArrayList<Task> tasks) throws IOException {
+  public static HashMap<String,Integer> CorpusStatistics(ArrayList<Task> tasks, String type) throws IOException {
     HashSet<String> tokenSet = new HashSet<>();
     int tokenCount = 0;
     ArrayList<Integer> tokenCounts = new ArrayList<>();
+    HashMap<String,Integer> counts = new HashMap<>();
     int utterances = 0;
     int bin;
     HashMap<Integer,Integer> Lengths = new HashMap<>();
@@ -117,14 +118,17 @@ public class LoadJSON {
     String[] taggedTokens;
     for (Task task : tasks) {
       for (Note note : task.notes) {
-        if (note.type.equals("A0")) {
+        if (note.type.equals(type)) {
           for (String utterance : note.notes) {
-            taggedString = CreateTrainingData.tagger.tagString(utterance.replace(","," , "));
+            taggedString = CreateTrainingData.tagger.tagString(utterance.replace(","," , ").replace("-"," - ").replace("/"," / "));
             tokens = taggedString.split("\\s+");
             for (String tok : tokens) {
               taggedTokens = tok.split("_");
               String word = taggedTokens[0].toLowerCase();
               tokenSet.add(word);
+              if (!counts.containsKey(word))
+                counts.put(word, 0);
+              counts.put(word, counts.get(word) + 1);
               tokenCount += 1;
             }
             bin = binLength(tokens.length);
@@ -137,10 +141,14 @@ public class LoadJSON {
         }
       }
     }
+    System.out.println("Type: " + type);
     System.out.println("Types: " + tokenSet.size());
     System.out.println("Tokens: " + tokenCount);
-    for (int i : Lengths.keySet())
-      System.out.println(i + "\t" + Lengths.get(i));
+    ArrayList<Integer> keys = new ArrayList<>(Lengths.keySet());
+    Collections.sort(keys);
+    System.out.println("Lengths:");
+    for (int i : keys)
+      System.out.println(String.format("    %-2d  %-6d", i,  Lengths.get(i)));
     System.out.println("Utterances: " + utterances);
     double mean = 1.0*tokenCount/utterances;
     System.out.println("Average Length: " + mean);
@@ -148,6 +156,7 @@ public class LoadJSON {
     for (Integer length : tokenCounts)
       std += Math.pow(length - mean, 2);
     System.out.println("Std Dev: " + Math.sqrt(std/utterances));
+    return counts;
   }
 
 
@@ -183,17 +192,109 @@ public class LoadJSON {
   public static strictfp void main(String[] args) throws Exception {
     Configuration.setConfiguration(args.length > 0 ? args[0] : "JSONReader/config.properties");
 
-    System.out.println("Train");
-    CorpusStatistics(readJSON(Configuration.training));
-    System.out.println("Test");
-    CorpusStatistics(readJSON(Configuration.testing));
-    System.out.println("Dev");
-    CorpusStatistics(readJSON(Configuration.development));
+    //System.out.println("Train");
+    //CorpusStatistics(readJSON(Configuration.training), "A0");
+    //System.out.println("Test");
+    //CorpusStatistics(readJSON(Configuration.testing), "A0");
+    //System.out.println("Dev");
+    //CorpusStatistics(readJSON(Configuration.development), "A0");
 
     System.out.println("All");
     ArrayList<Task> all = readJSON(Configuration.training);
-    all.addAll(readJSON(Configuration.testing));
+    //all.addAll(readJSON(Configuration.testing));
     all.addAll(readJSON(Configuration.development));
-    CorpusStatistics(all);
+    HashMap<String,Integer> A0 = CorpusStatistics(all, "A0");
+    HashMap<String,Integer> A1 = CorpusStatistics(all, "A1");
+    HashMap<String,Integer> A2 = CorpusStatistics(all, "A2");
+
+    String setting = "Blank";
+    BufferedWriter writer = TextFile.Writer(setting + ".A0.freq");
+    ArrayList<Tuple> tuples = new ArrayList<>();
+    for (String word : A0.keySet())
+      tuples.add(new Tuple(word, A0.get(word)));
+    Collections.sort(tuples);
+    for (Tuple T : tuples)
+      writer.write(String.format("%-30s %d\n", T.content(), (int) T.value()));
+    writer.close();
+
+    writer = TextFile.Writer(setting + ".A1.freq");
+    tuples = new ArrayList<>();
+    for (String word : A1.keySet())
+      tuples.add(new Tuple(word, A1.get(word)));
+    Collections.sort(tuples);
+    for (Tuple T : tuples)
+      writer.write(String.format("%-30s %d\n", T.content(), (int) T.value()));
+    writer.close();
+
+    writer = TextFile.Writer(setting + ".A2.freq");
+    tuples = new ArrayList<>();
+    for (String word : A2.keySet())
+      tuples.add(new Tuple(word, A2.get(word)));
+    Collections.sort(tuples);
+    for (Tuple T : tuples)
+      writer.write(String.format("%-30s %d\n", T.content(), (int) T.value()));
+    writer.close();
+
+
+
+    writer = TextFile.Writer(setting + ".A0.txt");
+    for (Task task : all) {
+      for (Note note : task.notes) {
+        if (note.type.equals("A0")) {
+          for (String utter : note.notes)
+            writer.write(utter + "\n");
+        }
+      }
+    }
+    writer.close();
+    writer = TextFile.Writer(setting + ".A1.txt");
+    for (Task task : all) {
+      for (Note note : task.notes) {
+        if (note.type.equals("A1")) {
+          for (String utter : note.notes)
+            writer.write(utter + "\n");
+        }
+      }
+    }
+    writer.close();
+    writer = TextFile.Writer(setting + ".A2.txt");
+    for (Task task : all) {
+      for (Note note : task.notes) {
+        if (note.type.equals("A2")) {
+          for (String utter : note.notes)
+            writer.write(utter + "\n");
+        }
+      }
+    }
+    writer.close();
+
+
+
+    //Set<String> Keys = new HashSet<>(A0.keySet());
+    //tuples = new ArrayList<>();
+    //for (String word : Keys)
+    //  tuples.add(new Tuple(word, A0.get(word)));
+    //Collections.sort(tuples);
+    //System.out.println(tuples);
+
+    //Keys.clear();
+    //tuples.clear();
+    //Keys = new HashSet<>(A1.keySet());
+    //Keys.removeAll(A0.keySet());
+    //tuples = new ArrayList<>();
+    //for (String word : Keys)
+    //  tuples.add(new Tuple(word, A1.get(word)));
+    //Collections.sort(tuples);
+    //System.out.println(tuples);
+
+    //Keys.clear();
+    //tuples.clear();
+    //Keys = new HashSet<>(A2.keySet());
+    //Keys.removeAll(A1.keySet());
+    //Keys.removeAll(A0.keySet());
+    //for (String word : Keys)
+    //  tuples.add(new Tuple(word, A2.get(word)));
+    //Collections.sort(tuples);
+    //System.out.println(tuples);
   }
 }
