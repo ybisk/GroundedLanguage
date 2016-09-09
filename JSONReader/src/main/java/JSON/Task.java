@@ -9,6 +9,7 @@ public class Task {
     public Note[] notes;
     public String filename;
     public double[][][] states;
+    public double[][][] orientations;
     public String[] images;
     public double side_length;
 }

@@ -40,16 +40,24 @@ public class Configuration {
             break;
           case "condition":
             split = Utils.whitespace_pattern.split(split[1].trim());
-            condition = new Information[split.length];
-            for (int i = 0; i < split.length; ++i) {
-              condition[i] = Information.valueOf(split[i].trim());
+            if (split[0].equals("None"))
+              condition = new Information[0];
+            else {
+              condition = new Information[split.length];
+              for (int i = 0; i < split.length; ++i) {
+                condition[i] = Information.valueOf(split[i].trim());
+              }
             }
             break;
           case "predict":
             split = Utils.whitespace_pattern.split(split[1].trim());
-            predict = new Information[split.length];
-            for (int i = 0; i < split.length; ++i) {
-              predict[i] = Information.valueOf(split[i].trim());
+            if (split[0].equals("None"))
+              predict = new Information[0];
+            else {
+              predict = new Information[split.length];
+              for (int i = 0; i < split.length; ++i) {
+                predict[i] = Information.valueOf(split[i].trim());
+              }
             }
             break;
           case "output":
