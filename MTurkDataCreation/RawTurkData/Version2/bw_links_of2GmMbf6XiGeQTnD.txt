@@ -1,0 +1,8 @@
+HIT: 3V7ICJJAZA2KXQ06IXSRLVVOGCEB44
+State: AxTCGn4h3FmvyWa5B  Name: Bottom.face2
+Example:
+http://cwc-isi.org/annotate?taskId=of2GmMbf6XiGeQTnD&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=of2GmMbf6XiGeQTnD&hitId=3V7ICJJAZA2KXQ06IXSRLVVOGCEB44&workerId=A1O0QLF543UTYK&report=1
+http://cwc-isi.org/annotate?taskId=of2GmMbf6XiGeQTnD&hitId=3V7ICJJAZA2KXQ06IXSRLVVOGCEB44&workerId=A3LNCW69ZHDP6O&report=1
+http://cwc-isi.org/annotate?taskId=of2GmMbf6XiGeQTnD&hitId=3V7ICJJAZA2KXQ06IXSRLVVOGCEB44&workerId=A11QDNT3W7DT7K&report=1

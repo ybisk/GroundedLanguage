@@ -1,0 +1,8 @@
+HIT: 3BPP3MA3TC6E21JBYGTY8K3K56FELF
+State: 5sA2LwYimFceYjYns  Name: Ang.4verticalZigZags-Y
+Example:
+http://cwc-isi.org/annotate?taskId=jcpstvvoKNCSRmrao&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=jcpstvvoKNCSRmrao&hitId=3BPP3MA3TC6E21JBYGTY8K3K56FELF&workerId=A1GMJZUQ8Q7053&report=1
+http://cwc-isi.org/annotate?taskId=jcpstvvoKNCSRmrao&hitId=3BPP3MA3TC6E21JBYGTY8K3K56FELF&workerId=A2AMC558YZRXHQ&report=1
+http://cwc-isi.org/annotate?taskId=jcpstvvoKNCSRmrao&hitId=3BPP3MA3TC6E21JBYGTY8K3K56FELF&workerId=A1IMXNDHFHG2IE&report=1

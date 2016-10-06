@@ -1,0 +1,8 @@
+HIT: 3HKIF5DF6YJHLDETFEGW3EX1IHKG9M
+State: i3gauMzC6gbSGb3S8  Name: Ang.spaceship.w
+Example:
+http://cwc-isi.org/annotate?taskId=qh8xCrz3w9JjmkhCL&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=qh8xCrz3w9JjmkhCL&hitId=3HKIF5DF6YJHLDETFEGW3EX1IHKG9M&workerId=A2ULFQIDMMWNC6&report=1
+http://cwc-isi.org/annotate?taskId=qh8xCrz3w9JjmkhCL&hitId=3HKIF5DF6YJHLDETFEGW3EX1IHKG9M&workerId=A173LLFXO0SKGG&report=1
+http://cwc-isi.org/annotate?taskId=qh8xCrz3w9JjmkhCL&hitId=3HKIF5DF6YJHLDETFEGW3EX1IHKG9M&workerId=A13ORLC5Y2LJL2&report=1

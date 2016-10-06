@@ -1,0 +1,8 @@
+HIT: 3BO3NEOQM039MNUTX8UZKLL13F2IA9
+State: bDYZmzk2J7tzcSkSY  Name: bot.livelong
+Example:
+http://cwc-isi.org/annotate?taskId=EW8wmrzWfh9CW3aB4&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=EW8wmrzWfh9CW3aB4&hitId=3BO3NEOQM039MNUTX8UZKLL13F2IA9&workerId=A1BF7DK6RJHQA1&report=1
+http://cwc-isi.org/annotate?taskId=EW8wmrzWfh9CW3aB4&hitId=3BO3NEOQM039MNUTX8UZKLL13F2IA9&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=EW8wmrzWfh9CW3aB4&hitId=3BO3NEOQM039MNUTX8UZKLL13F2IA9&workerId=A65H69CCG9STF&report=1

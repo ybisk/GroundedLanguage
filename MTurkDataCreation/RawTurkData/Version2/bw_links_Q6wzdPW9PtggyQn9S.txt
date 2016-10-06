@@ -1,0 +1,9 @@
+HIT: 3LN3BXKGC0HSX9R18PQOHY5CGI5GWC
+State: HLyhd6bEY4qLXynym  Name: Ang.ChristmasTree-Y
+Example:
+http://cwc-isi.org/annotate?taskId=Q6wzdPW9PtggyQn9S&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=Q6wzdPW9PtggyQn9S&hitId=3LN3BXKGC0HSX9R18PQOHY5CGI5GWC&workerId=A2P8D05NW0B873&report=1
+http://cwc-isi.org/annotate?taskId=Q6wzdPW9PtggyQn9S&hitId=3LN3BXKGC0HSX9R18PQOHY5CGI5GWC&workerId=A3DNZIZRJ847AR&report=1
+http://cwc-isi.org/annotate?taskId=Q6wzdPW9PtggyQn9S&hitId=3LN3BXKGC0HSX9R18PQOHY5CGI5GWC&workerId=A15RJPRX0KVUFS&report=1
+http://cwc-isi.org/annotate?taskId=Q6wzdPW9PtggyQn9S&hitId=3LN3BXKGC0HSX9R18PQOHY5CGI5GWC&workerId=A1ZB2NY0F9QNP0&report=1

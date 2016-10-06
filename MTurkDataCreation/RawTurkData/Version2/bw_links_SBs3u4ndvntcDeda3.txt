@@ -1,0 +1,8 @@
+HIT: 3AA88CN98PP1O0IKDHTR0NILX96YKJ
+State: Q3TPbjMBMJb8kGrCL  Name: clean.ID009_59
+Example:
+http://cwc-isi.org/annotate?taskId=SBs3u4ndvntcDeda3&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=SBs3u4ndvntcDeda3&hitId=3AA88CN98PP1O0IKDHTR0NILX96YKJ&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=SBs3u4ndvntcDeda3&hitId=3AA88CN98PP1O0IKDHTR0NILX96YKJ&workerId=A15JMZLKAF6FG5&report=1
+http://cwc-isi.org/annotate?taskId=SBs3u4ndvntcDeda3&hitId=3AA88CN98PP1O0IKDHTR0NILX96YKJ&workerId=A3IB7YJHP04OHI&report=1

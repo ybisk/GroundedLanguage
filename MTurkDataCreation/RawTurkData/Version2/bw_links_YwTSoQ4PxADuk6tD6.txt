@@ -1,0 +1,9 @@
+HIT: 3UQ1LLR26AUBCO2ZIBRCC1DTKGOAL1
+State: PLtnyS4G6bsN8Bd3u  Name: Ang.diverging.w
+Example:
+http://cwc-isi.org/annotate?taskId=YwTSoQ4PxADuk6tD6&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=YwTSoQ4PxADuk6tD6&hitId=3UQ1LLR26AUBCO2ZIBRCC1DTKGOAL1&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=YwTSoQ4PxADuk6tD6&hitId=3UQ1LLR26AUBCO2ZIBRCC1DTKGOAL1&workerId=ADK2TN9GGY5CI&report=1
+http://cwc-isi.org/annotate?taskId=YwTSoQ4PxADuk6tD6&hitId=3UQ1LLR26AUBCO2ZIBRCC1DTKGOAL1&workerId=A3M4C5VPP7M4T1&report=1
+http://cwc-isi.org/annotate?taskId=YwTSoQ4PxADuk6tD6&hitId=3UQ1LLR26AUBCO2ZIBRCC1DTKGOAL1&workerId=ANI98EM130CXL&report=1

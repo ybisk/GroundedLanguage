@@ -1,0 +1,8 @@
+HIT: 3HFWPF5AK95YWGY4T5931FDI6GV3SZ
+State: tuf8MrS9pzNHNLLTr  Name: Ang.Arrow-Y
+Example:
+http://cwc-isi.org/annotate?taskId=GCrs5aqd6gigQDy3F&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=GCrs5aqd6gigQDy3F&hitId=3HFWPF5AK95YWGY4T5931FDI6GV3SZ&workerId=A1NP2XGDX58PSH&report=1
+http://cwc-isi.org/annotate?taskId=GCrs5aqd6gigQDy3F&hitId=3HFWPF5AK95YWGY4T5931FDI6GV3SZ&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=GCrs5aqd6gigQDy3F&hitId=3HFWPF5AK95YWGY4T5931FDI6GV3SZ&workerId=AU2C0Q45DVGJO&report=1

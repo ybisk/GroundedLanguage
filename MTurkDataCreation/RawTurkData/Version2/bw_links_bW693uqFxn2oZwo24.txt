@@ -1,0 +1,8 @@
+HIT: 31ANT7FQN8OCKM7SWULXCY40BJQ5HR
+State: Qn2v5k5BQoy6yt9Gc  Name: Ang.3Pyramid
+Example:
+http://cwc-isi.org/annotate?taskId=bW693uqFxn2oZwo24&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=bW693uqFxn2oZwo24&hitId=31ANT7FQN8OCKM7SWULXCY40BJQ5HR&workerId=A16G6PPH1INQL8&report=1
+http://cwc-isi.org/annotate?taskId=bW693uqFxn2oZwo24&hitId=31ANT7FQN8OCKM7SWULXCY40BJQ5HR&workerId=A2EYI58ZSLEOBB&report=1
+http://cwc-isi.org/annotate?taskId=bW693uqFxn2oZwo24&hitId=31ANT7FQN8OCKM7SWULXCY40BJQ5HR&workerId=A6ORRFI3XOACA&report=1

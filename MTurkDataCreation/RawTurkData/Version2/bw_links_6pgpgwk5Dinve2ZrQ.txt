@@ -1,0 +1,8 @@
+HIT: 3BFNCI9LYKCCDIEC52BS6OHMJK337X
+State: 7krrnnZ4WjpxbL8q9  Name: Ang.00
+Example:
+http://cwc-isi.org/annotate?taskId=6pgpgwk5Dinve2ZrQ&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=6pgpgwk5Dinve2ZrQ&hitId=3BFNCI9LYKCCDIEC52BS6OHMJK337X&workerId=A163260EZ4LM7U&report=1
+http://cwc-isi.org/annotate?taskId=6pgpgwk5Dinve2ZrQ&hitId=3BFNCI9LYKCCDIEC52BS6OHMJK337X&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=6pgpgwk5Dinve2ZrQ&hitId=3BFNCI9LYKCCDIEC52BS6OHMJK337X&workerId=A6ORRFI3XOACA&report=1

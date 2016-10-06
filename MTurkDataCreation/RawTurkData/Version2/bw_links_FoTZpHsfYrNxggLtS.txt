@@ -1,0 +1,8 @@
+HIT: 3NSCTNUR2Z9XAZZEQOB5VCHWY3UA59
+State: 5MeWMEHHtrTGeEHHn  Name: Bottom.smile-Y
+Example:
+http://cwc-isi.org/annotate?taskId=FoTZpHsfYrNxggLtS&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=FoTZpHsfYrNxggLtS&hitId=3NSCTNUR2Z9XAZZEQOB5VCHWY3UA59&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=FoTZpHsfYrNxggLtS&hitId=3NSCTNUR2Z9XAZZEQOB5VCHWY3UA59&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=FoTZpHsfYrNxggLtS&hitId=3NSCTNUR2Z9XAZZEQOB5VCHWY3UA59&workerId=AOBTFLJU2BEPR&report=1

@@ -1,0 +1,8 @@
+HIT: 3SD15I2WD2GT9I07MS600AHQO9J36Y
+State: kuspFCEgRxaSXoxQM  Name: Ang.101
+Example:
+http://cwc-isi.org/annotate?taskId=ZiKa5JSNaxze66QBG&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=ZiKa5JSNaxze66QBG&hitId=3SD15I2WD2GT9I07MS600AHQO9J36Y&workerId=A163260EZ4LM7U&report=1
+http://cwc-isi.org/annotate?taskId=ZiKa5JSNaxze66QBG&hitId=3SD15I2WD2GT9I07MS600AHQO9J36Y&workerId=A2AMC558YZRXHQ&report=1
+http://cwc-isi.org/annotate?taskId=ZiKa5JSNaxze66QBG&hitId=3SD15I2WD2GT9I07MS600AHQO9J36Y&workerId=A2POACRR0JSC1N&report=1

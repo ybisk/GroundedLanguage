@@ -1,0 +1,8 @@
+HIT: 3XABXM4AJ1R8KXPXDIFUXW6S4YB8QK
+State: Q77wJmoaqQuY5GSqD  Name: bot.giraffe.w
+Example:
+http://cwc-isi.org/annotate?taskId=oehgtkC7oPH3hzSpw&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=oehgtkC7oPH3hzSpw&hitId=3XABXM4AJ1R8KXPXDIFUXW6S4YB8QK&workerId=A36YZCJV91T1EX&report=1
+http://cwc-isi.org/annotate?taskId=oehgtkC7oPH3hzSpw&hitId=3XABXM4AJ1R8KXPXDIFUXW6S4YB8QK&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=oehgtkC7oPH3hzSpw&hitId=3XABXM4AJ1R8KXPXDIFUXW6S4YB8QK&workerId=A26UJELT0E2A4E&report=1

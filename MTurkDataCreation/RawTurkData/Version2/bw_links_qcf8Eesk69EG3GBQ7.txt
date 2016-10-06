@@ -1,0 +1,8 @@
+HIT: 3QI9WAYOGQXXTZLMC7718IP2GR7S68
+State: NLuHTPWp57CdSsn8J  Name: bottcac.
+Example:
+http://cwc-isi.org/annotate?taskId=qcf8Eesk69EG3GBQ7&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=qcf8Eesk69EG3GBQ7&hitId=3QI9WAYOGQXXTZLMC7718IP2GR7S68&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=qcf8Eesk69EG3GBQ7&hitId=3QI9WAYOGQXXTZLMC7718IP2GR7S68&workerId=AU2C0Q45DVGJO&report=1
+http://cwc-isi.org/annotate?taskId=qcf8Eesk69EG3GBQ7&hitId=3QI9WAYOGQXXTZLMC7718IP2GR7S68&workerId=A1E34X8U0MMNSM&report=1

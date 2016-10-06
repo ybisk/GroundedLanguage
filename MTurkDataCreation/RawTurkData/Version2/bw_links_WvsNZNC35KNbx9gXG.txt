@@ -1,0 +1,8 @@
+HIT: 3LN50BUKPVXIZS817U992W2OJ2OPLW
+State: MPCxKAWvMocq96M8x  Name: Ang.upsidedowntable.w
+Example:
+http://cwc-isi.org/annotate?taskId=WvsNZNC35KNbx9gXG&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=WvsNZNC35KNbx9gXG&hitId=3LN50BUKPVXIZS817U992W2OJ2OPLW&workerId=A1X0H6VAK3AQE9&report=1
+http://cwc-isi.org/annotate?taskId=WvsNZNC35KNbx9gXG&hitId=3LN50BUKPVXIZS817U992W2OJ2OPLW&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=WvsNZNC35KNbx9gXG&hitId=3LN50BUKPVXIZS817U992W2OJ2OPLW&workerId=A2P8D05NW0B873&report=1

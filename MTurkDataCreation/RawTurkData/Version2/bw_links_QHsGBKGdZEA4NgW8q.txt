@@ -1,0 +1,8 @@
+HIT: 3I6NF2WGIGIYKQCHCO3FRYSZWL15GK
+State: ruY4ewqfnZquEDsSD  Name: Ang.deepflippedt.w
+Example:
+http://cwc-isi.org/annotate?taskId=QHsGBKGdZEA4NgW8q&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=QHsGBKGdZEA4NgW8q&hitId=3I6NF2WGIGIYKQCHCO3FRYSZWL15GK&workerId=AA0QKSSEQ0B6Q&report=1
+http://cwc-isi.org/annotate?taskId=QHsGBKGdZEA4NgW8q&hitId=3I6NF2WGIGIYKQCHCO3FRYSZWL15GK&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=QHsGBKGdZEA4NgW8q&hitId=3I6NF2WGIGIYKQCHCO3FRYSZWL15GK&workerId=A3SDFAOJW87FGP&report=1

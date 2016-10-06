@@ -1,0 +1,9 @@
+HIT: 382GHPVPHSDFUVWT34DL3CXCSK1345
+State: 6y5X4MKstxvRHm2gr  Name: Ang.giraffe.w
+Example:
+http://cwc-isi.org/annotate?taskId=86o98A8Bg98odeaN5&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=86o98A8Bg98odeaN5&hitId=382GHPVPHSDFUVWT34DL3CXCSK1345&workerId=AMTJPX8YLKTB5&report=1
+http://cwc-isi.org/annotate?taskId=86o98A8Bg98odeaN5&hitId=382GHPVPHSDFUVWT34DL3CXCSK1345&workerId=A34AYHJ38J3EAC&report=1
+http://cwc-isi.org/annotate?taskId=86o98A8Bg98odeaN5&hitId=382GHPVPHSDFUVWT34DL3CXCSK1345&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=86o98A8Bg98odeaN5&hitId=382GHPVPHSDFUVWT34DL3CXCSK1345&workerId=ARN7Y59KKKYVL&report=1

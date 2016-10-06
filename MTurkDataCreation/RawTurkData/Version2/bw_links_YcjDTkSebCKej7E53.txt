@@ -1,0 +1,8 @@
+HIT: 3Q9SPIIRWJ8RNIEYMPYELCU9INSAWU
+State: Zv5QzzQxf5o2QnZEs  Name: Bottom.FiveInsideFive-Y
+Example:
+http://cwc-isi.org/annotate?taskId=YcjDTkSebCKej7E53&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=YcjDTkSebCKej7E53&hitId=3Q9SPIIRWJ8RNIEYMPYELCU9INSAWU&workerId=A3BOY7SUI425MK&report=1
+http://cwc-isi.org/annotate?taskId=YcjDTkSebCKej7E53&hitId=3Q9SPIIRWJ8RNIEYMPYELCU9INSAWU&workerId=A6ORRFI3XOACA&report=1
+http://cwc-isi.org/annotate?taskId=YcjDTkSebCKej7E53&hitId=3Q9SPIIRWJ8RNIEYMPYELCU9INSAWU&workerId=AU2C0Q45DVGJO&report=1

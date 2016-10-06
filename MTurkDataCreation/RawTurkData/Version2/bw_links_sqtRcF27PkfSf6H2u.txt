@@ -1,0 +1,8 @@
+HIT: 3XD2A6FGFNGKBINKAEADSSG46379SE
+State: FGujvoXCy9qmEzWNR  Name: Bottom.OvalFilledWith4blockDiagonal.G
+Example:
+http://cwc-isi.org/annotate?taskId=sqtRcF27PkfSf6H2u&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=sqtRcF27PkfSf6H2u&hitId=3XD2A6FGFNGKBINKAEADSSG46379SE&workerId=AMY8VS15H1123&report=1
+http://cwc-isi.org/annotate?taskId=sqtRcF27PkfSf6H2u&hitId=3XD2A6FGFNGKBINKAEADSSG46379SE&workerId=A1IB8KMD74GSUT&report=1
+http://cwc-isi.org/annotate?taskId=sqtRcF27PkfSf6H2u&hitId=3XD2A6FGFNGKBINKAEADSSG46379SE&workerId=A3SDFAOJW87FGP&report=1

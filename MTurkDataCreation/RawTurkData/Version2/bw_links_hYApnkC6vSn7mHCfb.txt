@@ -1,0 +1,9 @@
+HIT: 3SMIWMMK61RB2RSWSUF5LD63P1DWU7
+State: ZosidFSwBbR9W9rq7  Name: Ang.M-Y
+Example:
+http://cwc-isi.org/annotate?taskId=hYApnkC6vSn7mHCfb&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=hYApnkC6vSn7mHCfb&hitId=3SMIWMMK61RB2RSWSUF5LD63P1DWU7&workerId=A16SAB417Y96G4&report=1
+http://cwc-isi.org/annotate?taskId=hYApnkC6vSn7mHCfb&hitId=3SMIWMMK61RB2RSWSUF5LD63P1DWU7&workerId=A3LNCW69ZHDP6O&report=1
+http://cwc-isi.org/annotate?taskId=hYApnkC6vSn7mHCfb&hitId=3SMIWMMK61RB2RSWSUF5LD63P1DWU7&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=hYApnkC6vSn7mHCfb&hitId=3SMIWMMK61RB2RSWSUF5LD63P1DWU7&workerId=A2EYI58ZSLEOBB&report=1

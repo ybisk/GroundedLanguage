@@ -1,0 +1,8 @@
+HIT: 3P7RGTLO6EZ0SIKHXBFBX10EVGKKA9
+State: sw9LnLmDCNh9cCeYN  Name: bottomarrow
+Example:
+http://cwc-isi.org/annotate?taskId=fRG6bHGZetbosHXS9&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=fRG6bHGZetbosHXS9&hitId=3P7RGTLO6EZ0SIKHXBFBX10EVGKKA9&workerId=A1NP2XGDX58PSH&report=1
+http://cwc-isi.org/annotate?taskId=fRG6bHGZetbosHXS9&hitId=3P7RGTLO6EZ0SIKHXBFBX10EVGKKA9&workerId=A3OSGGY6DR0N72&report=1
+http://cwc-isi.org/annotate?taskId=fRG6bHGZetbosHXS9&hitId=3P7RGTLO6EZ0SIKHXBFBX10EVGKKA9&workerId=A2DN1X8OLF5SST&report=1

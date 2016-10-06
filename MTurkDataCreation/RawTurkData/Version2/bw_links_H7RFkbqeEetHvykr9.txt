@@ -1,0 +1,9 @@
+HIT: 3D1UCPY6GGVGDWJVF73YKODHU6X38C
+State: xuNbYLw5kcMuPcLYJ  Name: Ang.deepl.w
+Example:
+http://cwc-isi.org/annotate?taskId=H7RFkbqeEetHvykr9&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=H7RFkbqeEetHvykr9&hitId=3D1UCPY6GGVGDWJVF73YKODHU6X38C&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=H7RFkbqeEetHvykr9&hitId=3D1UCPY6GGVGDWJVF73YKODHU6X38C&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=H7RFkbqeEetHvykr9&hitId=3D1UCPY6GGVGDWJVF73YKODHU6X38C&workerId=A3MELYYGRJ61SX&report=1
+http://cwc-isi.org/annotate?taskId=H7RFkbqeEetHvykr9&hitId=3D1UCPY6GGVGDWJVF73YKODHU6X38C&workerId=A2T321GO5NUCQY&report=1

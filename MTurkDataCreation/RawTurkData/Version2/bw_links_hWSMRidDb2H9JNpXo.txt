@@ -1,0 +1,8 @@
+HIT: 39TX062QX1A6SXK3NFFQ0NUAKJYX3D
+State: 6ZaiTyWnpZ6x3LHmh  Name: clean.ID061_71
+Example:
+http://cwc-isi.org/annotate?taskId=hWSMRidDb2H9JNpXo&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=hWSMRidDb2H9JNpXo&hitId=39TX062QX1A6SXK3NFFQ0NUAKJYX3D&workerId=AT3S0S6E0M19G&report=1
+http://cwc-isi.org/annotate?taskId=hWSMRidDb2H9JNpXo&hitId=39TX062QX1A6SXK3NFFQ0NUAKJYX3D&workerId=AU2C0Q45DVGJO&report=1
+http://cwc-isi.org/annotate?taskId=hWSMRidDb2H9JNpXo&hitId=39TX062QX1A6SXK3NFFQ0NUAKJYX3D&workerId=AR22D9E55HQBF&report=1

@@ -1,0 +1,8 @@
+HIT: 3QD8LUVX4XK96C771Y3JFKSUZ995XK
+State: qLcC9JpcaXZ5EiPFd  Name: clean.ID043_36
+Example:
+http://cwc-isi.org/annotate?taskId=BYfXtTYwNYTgf4NuA&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=BYfXtTYwNYTgf4NuA&hitId=3QD8LUVX4XK96C771Y3JFKSUZ995XK&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=BYfXtTYwNYTgf4NuA&hitId=3QD8LUVX4XK96C771Y3JFKSUZ995XK&workerId=A16G6PPH1INQL8&report=1
+http://cwc-isi.org/annotate?taskId=BYfXtTYwNYTgf4NuA&hitId=3QD8LUVX4XK96C771Y3JFKSUZ995XK&workerId=A2AMC558YZRXHQ&report=1

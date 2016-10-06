@@ -1,0 +1,8 @@
+HIT: 3W5PY7V3UPT6DGC2VWTFZ8I8JTFJYX
+State: 4mo4gqnYvJSzhALBc  Name: Ang.88.w
+Example:
+http://cwc-isi.org/annotate?taskId=tmuRSRhzxqgpqWqM9&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=tmuRSRhzxqgpqWqM9&hitId=3W5PY7V3UPT6DGC2VWTFZ8I8JTFJYX&workerId=A4W9APAHFWVLO&report=1
+http://cwc-isi.org/annotate?taskId=tmuRSRhzxqgpqWqM9&hitId=3W5PY7V3UPT6DGC2VWTFZ8I8JTFJYX&workerId=A65H69CCG9STF&report=1
+http://cwc-isi.org/annotate?taskId=tmuRSRhzxqgpqWqM9&hitId=3W5PY7V3UPT6DGC2VWTFZ8I8JTFJYX&workerId=AT3S0S6E0M19G&report=1

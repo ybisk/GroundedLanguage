@@ -1,0 +1,8 @@
+HIT: 3HRWUH63QUO4UIT3ZSGAHI1WXXNN5A
+State: Xuc7dKW9FAGRTXiTR  Name: bottom.slynew
+Example:
+http://cwc-isi.org/annotate?taskId=PcC9jsCRdY4h5s2mM&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=PcC9jsCRdY4h5s2mM&hitId=3HRWUH63QUO4UIT3ZSGAHI1WXXNN5A&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=PcC9jsCRdY4h5s2mM&hitId=3HRWUH63QUO4UIT3ZSGAHI1WXXNN5A&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=PcC9jsCRdY4h5s2mM&hitId=3HRWUH63QUO4UIT3ZSGAHI1WXXNN5A&workerId=A65H69CCG9STF&report=1
