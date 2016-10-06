@@ -1,0 +1,8 @@
+HIT: 36JW4WBR0664MJ0H26Y6YAVD0FTFHD
+State: G6jeSsd2GJHmK8Fcn  Name: Bot.house
+Example:
+http://cwc-isi.org/annotate?taskId=ARKWhHGbQzPFmbeQn&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=ARKWhHGbQzPFmbeQn&hitId=36JW4WBR0664MJ0H26Y6YAVD0FTFHD&workerId=AA0QKSSEQ0B6Q&report=1
+http://cwc-isi.org/annotate?taskId=ARKWhHGbQzPFmbeQn&hitId=36JW4WBR0664MJ0H26Y6YAVD0FTFHD&workerId=A16G6PPH1INQL8&report=1
+http://cwc-isi.org/annotate?taskId=ARKWhHGbQzPFmbeQn&hitId=36JW4WBR0664MJ0H26Y6YAVD0FTFHD&workerId=A11QDNT3W7DT7K&report=1

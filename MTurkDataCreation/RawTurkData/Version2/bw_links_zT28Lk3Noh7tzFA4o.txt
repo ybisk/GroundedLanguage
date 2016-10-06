@@ -1,0 +1,8 @@
+HIT: 3UV0D2KX1M5AA7CMNZEN4LM9VLZ4FU
+State: Gmc2SE7Hr5zTNtqMw  Name: Bottom.Heart.G
+Example:
+http://cwc-isi.org/annotate?taskId=zT28Lk3Noh7tzFA4o&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=zT28Lk3Noh7tzFA4o&hitId=3UV0D2KX1M5AA7CMNZEN4LM9VLZ4FU&workerId=A195MOXRMNHRVT&report=1
+http://cwc-isi.org/annotate?taskId=zT28Lk3Noh7tzFA4o&hitId=3UV0D2KX1M5AA7CMNZEN4LM9VLZ4FU&workerId=AT3S0S6E0M19G&report=1
+http://cwc-isi.org/annotate?taskId=zT28Lk3Noh7tzFA4o&hitId=3UV0D2KX1M5AA7CMNZEN4LM9VLZ4FU&workerId=A1IB8KMD74GSUT&report=1

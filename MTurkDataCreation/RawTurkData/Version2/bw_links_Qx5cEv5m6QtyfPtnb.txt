@@ -1,0 +1,8 @@
+HIT: 3EPG8DX9LKC4X35GF7T2L76RXCO5PO
+State: tgnYvvjSs75YF5FaQ  Name: Bottom.parallelDiagonals2
+Example:
+http://cwc-isi.org/annotate?taskId=Qx5cEv5m6QtyfPtnb&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=Qx5cEv5m6QtyfPtnb&hitId=3EPG8DX9LKC4X35GF7T2L76RXCO5PO&workerId=A1GBOH6P5JZ681&report=1
+http://cwc-isi.org/annotate?taskId=Qx5cEv5m6QtyfPtnb&hitId=3EPG8DX9LKC4X35GF7T2L76RXCO5PO&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=Qx5cEv5m6QtyfPtnb&hitId=3EPG8DX9LKC4X35GF7T2L76RXCO5PO&workerId=A14UV8XLRVGXAY&report=1

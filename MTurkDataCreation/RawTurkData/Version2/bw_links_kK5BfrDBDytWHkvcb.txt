@@ -1,0 +1,8 @@
+HIT: 3S8A4GJRD3PDLR2Q62C6J599FAS6VC
+State: u8tDPeJaQgnYotFKd  Name: Ang.Boat.G3
+Example:
+http://cwc-isi.org/annotate?taskId=kK5BfrDBDytWHkvcb&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=kK5BfrDBDytWHkvcb&hitId=3S8A4GJRD3PDLR2Q62C6J599FAS6VC&workerId=A3UE459HVZC0FF&report=1
+http://cwc-isi.org/annotate?taskId=kK5BfrDBDytWHkvcb&hitId=3S8A4GJRD3PDLR2Q62C6J599FAS6VC&workerId=A11B8S0VB7SBS4&report=1
+http://cwc-isi.org/annotate?taskId=kK5BfrDBDytWHkvcb&hitId=3S8A4GJRD3PDLR2Q62C6J599FAS6VC&workerId=A3SIW6V6Y7CYJG&report=1

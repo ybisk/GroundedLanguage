@@ -1,0 +1,8 @@
+HIT: 3S829FDFT2N4APM0G4L2DWGMC3ODX7
+State: woAoFwmL6pDRJSg8s  Name: Bottom.insect.G
+Example:
+http://cwc-isi.org/annotate?taskId=5RrFmcWuCYLCDLwYW&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=5RrFmcWuCYLCDLwYW&hitId=3S829FDFT2N4APM0G4L2DWGMC3ODX7&workerId=A2P8D05NW0B873&report=1
+http://cwc-isi.org/annotate?taskId=5RrFmcWuCYLCDLwYW&hitId=3S829FDFT2N4APM0G4L2DWGMC3ODX7&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=5RrFmcWuCYLCDLwYW&hitId=3S829FDFT2N4APM0G4L2DWGMC3ODX7&workerId=AR22D9E55HQBF&report=1

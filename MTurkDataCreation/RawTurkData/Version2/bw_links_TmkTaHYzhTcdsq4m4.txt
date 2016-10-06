@@ -1,0 +1,9 @@
+HIT: 3RTFSSG7T8S8J152JGN4UQAKCAKLW2
+State: Ei7XLMs6LQ8WSiG25  Name: Bottom.bag.E
+Example:
+http://cwc-isi.org/annotate?taskId=TmkTaHYzhTcdsq4m4&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=TmkTaHYzhTcdsq4m4&hitId=3RTFSSG7T8S8J152JGN4UQAKCAKLW2&workerId=A16SAB417Y96G4&report=1
+http://cwc-isi.org/annotate?taskId=TmkTaHYzhTcdsq4m4&hitId=3RTFSSG7T8S8J152JGN4UQAKCAKLW2&workerId=AT3S0S6E0M19G&report=1
+http://cwc-isi.org/annotate?taskId=TmkTaHYzhTcdsq4m4&hitId=3RTFSSG7T8S8J152JGN4UQAKCAKLW2&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=TmkTaHYzhTcdsq4m4&hitId=3RTFSSG7T8S8J152JGN4UQAKCAKLW2&workerId=ARYEH1BMQCKXQ&report=1

@@ -1,0 +1,8 @@
+HIT: 35A1YQPVFE2CGHIC2C3ICA5FBYT5IC
+State: ia6XJdAjpCHorRaoy  Name: Ang.deepv.w
+Example:
+http://cwc-isi.org/annotate?taskId=bWpCFK5aXp2f4zBF3&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=bWpCFK5aXp2f4zBF3&hitId=35A1YQPVFE2CGHIC2C3ICA5FBYT5IC&workerId=A11THU6UGG3THR&report=1
+http://cwc-isi.org/annotate?taskId=bWpCFK5aXp2f4zBF3&hitId=35A1YQPVFE2CGHIC2C3ICA5FBYT5IC&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=bWpCFK5aXp2f4zBF3&hitId=35A1YQPVFE2CGHIC2C3ICA5FBYT5IC&workerId=A1WXPOLDS1Y9R4&report=1

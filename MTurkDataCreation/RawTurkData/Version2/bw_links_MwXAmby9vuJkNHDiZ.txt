@@ -1,0 +1,8 @@
+HIT: 3VDI8GSXAFFH78VJAMAI3I2QYB28GP
+State: q8u4yGDqxSs6ovdqa  Name: Ang.liftedPyramid.w
+Example:
+http://cwc-isi.org/annotate?taskId=MwXAmby9vuJkNHDiZ&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=MwXAmby9vuJkNHDiZ&hitId=3VDI8GSXAFFH78VJAMAI3I2QYB28GP&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=MwXAmby9vuJkNHDiZ&hitId=3VDI8GSXAFFH78VJAMAI3I2QYB28GP&workerId=A2AMC558YZRXHQ&report=1
+http://cwc-isi.org/annotate?taskId=MwXAmby9vuJkNHDiZ&hitId=3VDI8GSXAFFH78VJAMAI3I2QYB28GP&workerId=A14UV8XLRVGXAY&report=1

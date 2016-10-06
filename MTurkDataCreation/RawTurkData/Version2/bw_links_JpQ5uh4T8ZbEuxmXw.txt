@@ -1,0 +1,8 @@
+HIT: 3N5YJ55YXGP10O5KUO7RPTHIPBOAN3
+State: ccETtL8TDHoNEJGgJ  Name: Ang.tallchair.w
+Example:
+http://cwc-isi.org/annotate?taskId=JpQ5uh4T8ZbEuxmXw&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=JpQ5uh4T8ZbEuxmXw&hitId=3N5YJ55YXGP10O5KUO7RPTHIPBOAN3&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=JpQ5uh4T8ZbEuxmXw&hitId=3N5YJ55YXGP10O5KUO7RPTHIPBOAN3&workerId=A2P8D05NW0B873&report=1
+http://cwc-isi.org/annotate?taskId=JpQ5uh4T8ZbEuxmXw&hitId=3N5YJ55YXGP10O5KUO7RPTHIPBOAN3&workerId=A2AMC558YZRXHQ&report=1

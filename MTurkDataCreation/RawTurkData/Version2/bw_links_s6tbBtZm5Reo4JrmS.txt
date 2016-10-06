@@ -1,0 +1,9 @@
+HIT: 37NXA7GVSTSV4C5XT6I88OR651ILVS
+State: 9PDq8Gknp4RP9CXor  Name: Bottom.Sad.E
+Example:
+http://cwc-isi.org/annotate?taskId=s6tbBtZm5Reo4JrmS&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=s6tbBtZm5Reo4JrmS&hitId=37NXA7GVSTSV4C5XT6I88OR651ILVS&workerId=A16SAB417Y96G4&report=1
+http://cwc-isi.org/annotate?taskId=s6tbBtZm5Reo4JrmS&hitId=37NXA7GVSTSV4C5XT6I88OR651ILVS&workerId=A1IBFB20JW6O6A&report=1
+http://cwc-isi.org/annotate?taskId=s6tbBtZm5Reo4JrmS&hitId=37NXA7GVSTSV4C5XT6I88OR651ILVS&workerId=A1NP2XGDX58PSH&report=1
+http://cwc-isi.org/annotate?taskId=s6tbBtZm5Reo4JrmS&hitId=37NXA7GVSTSV4C5XT6I88OR651ILVS&workerId=A1IGC3XWCGNRPR&report=1

@@ -1,0 +1,8 @@
+HIT: 3GKAWYFRAPFZ1GK9UDBLJJUJATNPDH
+State: HGgzB4khmrsaQtwMY  Name: bot.elephant
+Example:
+http://cwc-isi.org/annotate?taskId=uGPHprKHhnyRH9pqF&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=uGPHprKHhnyRH9pqF&hitId=3GKAWYFRAPFZ1GK9UDBLJJUJATNPDH&workerId=A1ZVTAK0GLO959&report=1
+http://cwc-isi.org/annotate?taskId=uGPHprKHhnyRH9pqF&hitId=3GKAWYFRAPFZ1GK9UDBLJJUJATNPDH&workerId=AYOLVUJBAIR0M&report=1
+http://cwc-isi.org/annotate?taskId=uGPHprKHhnyRH9pqF&hitId=3GKAWYFRAPFZ1GK9UDBLJJUJATNPDH&workerId=A1ZB2NY0F9QNP0&report=1

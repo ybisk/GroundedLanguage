@@ -1,0 +1,8 @@
+HIT: 3DTJ4WT8BD1Y7Q0FDHK7GZEIK4VZE5
+State: 5PyNqeKxbRXsGBzZY  Name: bot.musicnote
+Example:
+http://cwc-isi.org/annotate?taskId=mKxkPei576RDiBkL2&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=mKxkPei576RDiBkL2&hitId=3DTJ4WT8BD1Y7Q0FDHK7GZEIK4VZE5&workerId=A1DCKRRPA4AWVD&report=1
+http://cwc-isi.org/annotate?taskId=mKxkPei576RDiBkL2&hitId=3DTJ4WT8BD1Y7Q0FDHK7GZEIK4VZE5&workerId=A2ADHMNRK6NJS5&report=1
+http://cwc-isi.org/annotate?taskId=mKxkPei576RDiBkL2&hitId=3DTJ4WT8BD1Y7Q0FDHK7GZEIK4VZE5&workerId=A17QPJZ96LJ5XF&report=1

@@ -1,0 +1,10 @@
+HIT: 3I01FDIL6MU399J3SF09N6MQZJUD2H
+State: 6y5X4MKstxvRHm2gr  Name: Ang.giraffe.w
+Example:
+http://cwc-isi.org/annotate?taskId=vDoDzjFsSJ5yLFpjf&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=vDoDzjFsSJ5yLFpjf&hitId=3I01FDIL6MU399J3SF09N6MQZJUD2H&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=vDoDzjFsSJ5yLFpjf&hitId=3I01FDIL6MU399J3SF09N6MQZJUD2H&workerId=A1WXPOLDS1Y9R4&report=1
+http://cwc-isi.org/annotate?taskId=vDoDzjFsSJ5yLFpjf&hitId=3I01FDIL6MU399J3SF09N6MQZJUD2H&workerId=A1AQVMNQQB21N3&report=1
+http://cwc-isi.org/annotate?taskId=vDoDzjFsSJ5yLFpjf&hitId=3I01FDIL6MU399J3SF09N6MQZJUD2H&workerId=A1IGC3XWCGNRPR&report=1
+http://cwc-isi.org/annotate?taskId=vDoDzjFsSJ5yLFpjf&hitId=3I01FDIL6MU399J3SF09N6MQZJUD2H&workerId=AR22D9E55HQBF&report=1

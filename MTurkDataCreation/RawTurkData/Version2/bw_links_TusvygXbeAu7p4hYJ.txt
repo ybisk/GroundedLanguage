@@ -1,0 +1,8 @@
+HIT: 3WGZLY9VCH8EVOLS8W9AXXZTLJM8DF
+State: oybWvSLDZrCEFYgga  Name: Ang.person.w
+Example:
+http://cwc-isi.org/annotate?taskId=TusvygXbeAu7p4hYJ&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=TusvygXbeAu7p4hYJ&hitId=3WGZLY9VCH8EVOLS8W9AXXZTLJM8DF&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=TusvygXbeAu7p4hYJ&hitId=3WGZLY9VCH8EVOLS8W9AXXZTLJM8DF&workerId=A1SAE2COMX5P8M&report=1
+http://cwc-isi.org/annotate?taskId=TusvygXbeAu7p4hYJ&hitId=3WGZLY9VCH8EVOLS8W9AXXZTLJM8DF&workerId=A11QDNT3W7DT7K&report=1

@@ -1,0 +1,8 @@
+HIT: 3K2CEDRACBN0X2JTONJ87JIA8AZMT0
+State: ccETtL8TDHoNEJGgJ  Name: Ang.tallchair.w
+Example:
+http://cwc-isi.org/annotate?taskId=GxZZMZbLBCidbSeZf&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=GxZZMZbLBCidbSeZf&hitId=3K2CEDRACBN0X2JTONJ87JIA8AZMT0&workerId=ANI98EM130CXL&report=1
+http://cwc-isi.org/annotate?taskId=GxZZMZbLBCidbSeZf&hitId=3K2CEDRACBN0X2JTONJ87JIA8AZMT0&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=GxZZMZbLBCidbSeZf&hitId=3K2CEDRACBN0X2JTONJ87JIA8AZMT0&workerId=A11QDNT3W7DT7K&report=1

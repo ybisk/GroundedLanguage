@@ -1,0 +1,8 @@
+HIT: 337F8MIIMZZJD3XWKHV21EZ5OC9046
+State: cdEnCbmAFaWuEJ5cb  Name: clean.ID030_2
+Example:
+http://cwc-isi.org/annotate?taskId=fdm6EJ8C8atGzfs7D&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=fdm6EJ8C8atGzfs7D&hitId=337F8MIIMZZJD3XWKHV21EZ5OC9046&workerId=A3FJE9AUW0O41D&report=1
+http://cwc-isi.org/annotate?taskId=fdm6EJ8C8atGzfs7D&hitId=337F8MIIMZZJD3XWKHV21EZ5OC9046&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=fdm6EJ8C8atGzfs7D&hitId=337F8MIIMZZJD3XWKHV21EZ5OC9046&workerId=ANI98EM130CXL&report=1

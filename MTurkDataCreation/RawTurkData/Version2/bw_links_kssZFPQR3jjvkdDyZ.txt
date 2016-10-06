@@ -1,0 +1,9 @@
+HIT: 3G9UA71JVVGNYWG18N3FMVYBFU6J7W
+State: qRKN8JJMs88yL6db7  Name: Bottom.spider.G
+Example:
+http://cwc-isi.org/annotate?taskId=kssZFPQR3jjvkdDyZ&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=kssZFPQR3jjvkdDyZ&hitId=3G9UA71JVVGNYWG18N3FMVYBFU6J7W&workerId=A16SAB417Y96G4&report=1
+http://cwc-isi.org/annotate?taskId=kssZFPQR3jjvkdDyZ&hitId=3G9UA71JVVGNYWG18N3FMVYBFU6J7W&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=kssZFPQR3jjvkdDyZ&hitId=3G9UA71JVVGNYWG18N3FMVYBFU6J7W&workerId=A210MMYEBGCYRC&report=1
+http://cwc-isi.org/annotate?taskId=kssZFPQR3jjvkdDyZ&hitId=3G9UA71JVVGNYWG18N3FMVYBFU6J7W&workerId=A1IGC3XWCGNRPR&report=1

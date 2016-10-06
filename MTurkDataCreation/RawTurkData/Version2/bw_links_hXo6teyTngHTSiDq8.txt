@@ -1,0 +1,8 @@
+HIT: 356ZPKYPUH32ZRF0Q9YZW44KSHSPYO
+State: FdHGdYafX7nkbzdw4  Name: Bottom.ThreeDiagonalPyramidSpokes-Y
+Example:
+http://cwc-isi.org/annotate?taskId=hXo6teyTngHTSiDq8&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=hXo6teyTngHTSiDq8&hitId=356ZPKYPUH32ZRF0Q9YZW44KSHSPYO&workerId=A3BOY7SUI425MK&report=1
+http://cwc-isi.org/annotate?taskId=hXo6teyTngHTSiDq8&hitId=356ZPKYPUH32ZRF0Q9YZW44KSHSPYO&workerId=A2P8D05NW0B873&report=1
+http://cwc-isi.org/annotate?taskId=hXo6teyTngHTSiDq8&hitId=356ZPKYPUH32ZRF0Q9YZW44KSHSPYO&workerId=A11QDNT3W7DT7K&report=1

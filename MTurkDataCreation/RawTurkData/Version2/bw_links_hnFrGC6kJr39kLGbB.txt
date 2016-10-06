@@ -1,0 +1,9 @@
+HIT: 3PUV2Q8SV4QXXMJZB8TKOZPUT00BDW
+State: nmARwpuNEceizdCya  Name: Bottom.person.G
+Example:
+http://cwc-isi.org/annotate?taskId=hnFrGC6kJr39kLGbB&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=hnFrGC6kJr39kLGbB&hitId=3PUV2Q8SV4QXXMJZB8TKOZPUT00BDW&workerId=ANI98EM130CXL&report=1
+http://cwc-isi.org/annotate?taskId=hnFrGC6kJr39kLGbB&hitId=3PUV2Q8SV4QXXMJZB8TKOZPUT00BDW&workerId=A16SAB417Y96G4&report=1
+http://cwc-isi.org/annotate?taskId=hnFrGC6kJr39kLGbB&hitId=3PUV2Q8SV4QXXMJZB8TKOZPUT00BDW&workerId=A1IB8KMD74GSUT&report=1
+http://cwc-isi.org/annotate?taskId=hnFrGC6kJr39kLGbB&hitId=3PUV2Q8SV4QXXMJZB8TKOZPUT00BDW&workerId=A1YFLIT0E5OJG4&report=1

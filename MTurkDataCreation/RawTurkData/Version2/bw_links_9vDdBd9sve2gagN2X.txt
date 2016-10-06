@@ -1,0 +1,8 @@
+HIT: 30UZJB2POHYXQE0TH9WV843QSJ453Q
+State: bDYZmzk2J7tzcSkSY  Name: bot.livelong
+Example:
+http://cwc-isi.org/annotate?taskId=9vDdBd9sve2gagN2X&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=9vDdBd9sve2gagN2X&hitId=30UZJB2POHYXQE0TH9WV843QSJ453Q&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=9vDdBd9sve2gagN2X&hitId=30UZJB2POHYXQE0TH9WV843QSJ453Q&workerId=A16SAB417Y96G4&report=1
+http://cwc-isi.org/annotate?taskId=9vDdBd9sve2gagN2X&hitId=30UZJB2POHYXQE0TH9WV843QSJ453Q&workerId=AU2C0Q45DVGJO&report=1

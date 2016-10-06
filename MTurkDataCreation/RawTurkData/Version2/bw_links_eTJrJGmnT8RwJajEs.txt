@@ -1,0 +1,8 @@
+HIT: 3MG8450X2OWLIIVVG81ATJY7WTHPUQ
+State: sQBBekrWTCFAEibNH  Name: Botttom.AlternatingGrowingTowers2
+Example:
+http://cwc-isi.org/annotate?taskId=eTJrJGmnT8RwJajEs&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=eTJrJGmnT8RwJajEs&hitId=3MG8450X2OWLIIVVG81ATJY7WTHPUQ&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=eTJrJGmnT8RwJajEs&hitId=3MG8450X2OWLIIVVG81ATJY7WTHPUQ&workerId=A2P8D05NW0B873&report=1
+http://cwc-isi.org/annotate?taskId=eTJrJGmnT8RwJajEs&hitId=3MG8450X2OWLIIVVG81ATJY7WTHPUQ&workerId=A11QDNT3W7DT7K&report=1

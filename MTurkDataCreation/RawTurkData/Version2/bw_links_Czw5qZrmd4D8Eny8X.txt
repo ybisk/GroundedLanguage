@@ -1,0 +1,8 @@
+HIT: 36818Z1KV3ZUWKCAC5NCGFJCKUX3AG
+State: Emw4hA3DvMTeBh7aA  Name: Ang.sidewaysB.w
+Example:
+http://cwc-isi.org/annotate?taskId=Czw5qZrmd4D8Eny8X&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=Czw5qZrmd4D8Eny8X&hitId=36818Z1KV3ZUWKCAC5NCGFJCKUX3AG&workerId=A2T321GO5NUCQY&report=1
+http://cwc-isi.org/annotate?taskId=Czw5qZrmd4D8Eny8X&hitId=36818Z1KV3ZUWKCAC5NCGFJCKUX3AG&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=Czw5qZrmd4D8Eny8X&hitId=36818Z1KV3ZUWKCAC5NCGFJCKUX3AG&workerId=AU2C0Q45DVGJO&report=1

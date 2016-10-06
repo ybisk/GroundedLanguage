@@ -1,0 +1,8 @@
+HIT: 3IV1AEQ4DRZRYALKISVL0VU6Q3J8JT
+State: 43HLZXzdFmWrQ4Mec  Name: Ang.sword.w
+Example:
+http://cwc-isi.org/annotate?taskId=3ChmhgWEWxoWKdPn5&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=3ChmhgWEWxoWKdPn5&hitId=3IV1AEQ4DRZRYALKISVL0VU6Q3J8JT&workerId=AR22D9E55HQBF&report=1
+http://cwc-isi.org/annotate?taskId=3ChmhgWEWxoWKdPn5&hitId=3IV1AEQ4DRZRYALKISVL0VU6Q3J8JT&workerId=A3SDFAOJW87FGP&report=1
+http://cwc-isi.org/annotate?taskId=3ChmhgWEWxoWKdPn5&hitId=3IV1AEQ4DRZRYALKISVL0VU6Q3J8JT&workerId=A11QDNT3W7DT7K&report=1

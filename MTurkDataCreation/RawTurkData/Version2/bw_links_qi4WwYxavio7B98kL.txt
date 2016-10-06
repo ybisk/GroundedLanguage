@@ -1,0 +1,8 @@
+HIT: 3WGZLY9VCH8EVOLS8W9AXXZTLJMD8K
+State: Gup42X6KkpgwrATMi  Name: Ang.table.w
+Example:
+http://cwc-isi.org/annotate?taskId=qi4WwYxavio7B98kL&assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE&workerId=EXAMPLE
+Results:
+http://cwc-isi.org/annotate?taskId=qi4WwYxavio7B98kL&hitId=3WGZLY9VCH8EVOLS8W9AXXZTLJMD8K&workerId=A11QDNT3W7DT7K&report=1
+http://cwc-isi.org/annotate?taskId=qi4WwYxavio7B98kL&hitId=3WGZLY9VCH8EVOLS8W9AXXZTLJMD8K&workerId=A14UV8XLRVGXAY&report=1
+http://cwc-isi.org/annotate?taskId=qi4WwYxavio7B98kL&hitId=3WGZLY9VCH8EVOLS8W9AXXZTLJMD8K&workerId=AR22D9E55HQBF&report=1
