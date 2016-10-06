@@ -7,7 +7,7 @@ public class Evaluation {
 
 
   public static strictfp void main(String[] args) throws Exception {
-    Configuration.setConfiguration(args.length > 0 ? args[0] : "JSONReader/config.properties");
+    Configuration.setConfiguration(args.length > 0 ? args[0] : "config.properties");
 
     ArrayList<Integer> pS = new ArrayList<>(), pR = new ArrayList<>(), pD = new ArrayList<>();
     ArrayList<double[]> pTxyz = new ArrayList<>();
@@ -20,7 +20,7 @@ public class Evaluation {
     ArrayList<double[][]> final_worlds = new ArrayList<>();
     ArrayList<double[][]> start_worlds = new ArrayList<>();
 
-    ArrayList<Task> data = LoadJSON.readJSON(Configuration.development);
+    ArrayList<Task> data = LoadJSON.readJSON(Configuration.testing);
     Double[][] Gold = Utils.readMatrix(TextFile.Read(Configuration.GoldData));
     readValues(Gold, gS, gR, gD, gTxyz, gSxyz, false);
 
@@ -72,19 +72,19 @@ public class Evaluation {
       switch (information) {
         case Source:
           for (int i = 0; i < Data.length; ++i) {
-            S.add(Data[i][index].intValue() - (predicted ? 1 : 0));
+            S.add(Data[i][index].intValue() - (!predicted ? 1 : 0));
           }
           index += 1;
           break;
         case Reference:
           for (int i = 0; i < Data.length; ++i) {
-            R.add(Data[i][index].intValue() - (predicted ? 1 : 0));
+            R.add(Data[i][index].intValue() - (!predicted ? 1 : 0));
           }
           index += 1;
           break;
         case Direction:
           for (int i = 0; i < Data.length; ++i) {
-            D.add(Data[i][index].intValue() - (predicted ? 1 : 0));
+            D.add(Data[i][index].intValue() - (!predicted ? 1 : 0));
           }
           index += 1;
           break;
@@ -160,7 +160,7 @@ public class Evaluation {
             pTxyz.add(new double[]{reference[0], reference[1], reference[2] - offset});
             break;
           case 4: // if dx = 0 and dz = 0 TOP
-            pTxyz.add(new double[]{reference[0], reference[1], reference[2]});
+            pTxyz.add(new double[]{reference[0], reference[1] + offset, reference[2]});
             break;
           case 1: // if dx = 0 and dz > 0 N
             pTxyz.add(new double[]{reference[0], reference[1], reference[2] + offset});
@@ -182,6 +182,8 @@ public class Evaluation {
   public static void computeGoldXYZ(ArrayList<double[][]> final_worlds, ArrayList<Integer> gS, ArrayList<double[]> gxyz) {
     if (gxyz.isEmpty()) {
       for (int i = 0; i < final_worlds.size(); ++i) {
+        System.out.println(i + "\t" + gS.get(i));
+        System.out.println(final_worlds.get(i).length);
         gxyz.add(final_worlds.get(i)[gS.get(i)]);
       }
     }
@@ -251,7 +253,7 @@ public class Evaluation {
       else
         System.out.println(String.format("%8.5f %s %5b %5b %5b %-14s %-14s %-2s %s", err,
             images.get(idx), gS.get(idx) == pS.get(idx), gR.get(idx) == pR.get(idx),
-            gD.get(idx) == pD.get(idx), CreateTrainingData.brands[gS.get(idx)], CreateTrainingData.brands[gR.get(idx)],
+            gD.get(idx) == pD.get(idx), CreateTrainingData.brands.get(gS.get(idx)), CreateTrainingData.brands.get(gR.get(idx)),
             CreateTrainingData.cardinal[gD.get(idx)],  utterances.get(idx)));
     }
   }

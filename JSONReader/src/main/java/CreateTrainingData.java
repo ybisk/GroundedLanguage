@@ -11,15 +11,16 @@ import java.util.stream.Collectors;
 public class CreateTrainingData {
   static MaxentTagger tagger = new MaxentTagger(MaxentTagger.DEFAULT_JAR_PATH);
   private static final HashMap<String,Integer> Vocab = new HashMap<>();
+  private static final HashMap<String,Integer> counts = new HashMap<>();
 
   // Set of brands for labeling blocks
-  static String[] brands = {"adidas", "bmw", "burger king", "coca cola", "esso", "heineken", "hp", "mcdonalds",
-      "mercedes benz", "nvidia", "pepsi", "shell", "sri", "starbucks", "stella artois",
-      "target", "texaco", "toyota", "twitter", "ups"};
+  static List<String> brands = Arrays.asList("adidas", "bmw", "burger king", "coca cola", "esso", "heineken", "hp",
+      "mcdonalds", "mercedes benz", "nvidia", "pepsi", "shell", "sri", "starbucks", "stella artois",
+      "target", "texaco", "toyota", "twitter", "ups");
 
   // Set of digits for labeling blocks
-  static String[] digits = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-      "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
+  static List<String> digits = Arrays.asList("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+      "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty");
 
   // cardinal directions
   static String[] cardinal = {"NW", "N", "NE", "W", "TOP", "E", "SW", "S", "SE"};
@@ -27,12 +28,67 @@ public class CreateTrainingData {
   // Generation types
   static String[] generationTypes = {"Solo", "SRD", "Line", "Axes"};
 
+  static List<String> boring = Arrays.asList("block");
+
+  // Stop words:  NLTK
+  static Set<String> stopwords = new HashSet<> (Arrays.asList(
+      "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "yo", "your", "yours",
+      "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself",
+      "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those",
+      "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did",
+      "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for",
+      "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to",
+      "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here",
+      "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some",
+      "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just",
+      "don", "should", "now", "d", "ll", "m", "o", "re", "ve", "y", "ain", "aren", "couldn", "didn", "doesn", "hadn",
+      "hasn", "haven", "isn", "ma", "mightn", "mustn", "needn", "shan", "shouldn", "wasn", "weren", "won", "wouldn",
+      "block", ".", ",", "Place", "Put", "Position","blocks", "number", "Place", "Position", "place"));
+
+  /**
+   * Return best fit or -1
+   */
+  private static int isaName(String decoration, String word) {
+    if (decoration.equals("logo")) {
+      ArrayList<String> brandparts = new ArrayList<>();
+      String brand;
+      // Try and find brands
+      for (int brandid = 0 ; brandid < brands.size(); ++brandid) {
+        brand = brands.get(brandid);
+        brandparts.clear();
+        brandparts.addAll(Arrays.asList(Utils.whitespace_pattern.split(brand)));
+        brandparts.add(brand.replace(" ", "-"));
+        if (brand.equals("coca cola"))
+          brandparts.add("coke");
+
+        for (String part : brandparts) {
+          if (part.equals(word) || (word.length() > 2  && StringUtils.editDistance(part, word) < 2))
+            return brandid;
+        }
+      }
+    } else if (decoration.equals("digit")) {
+      // Are we using written digits (one, two, ...)
+      String digit;
+      for (int digitid = 0; digitid < digits.size(); ++digitid) {
+        digit = digits.get(digitid);
+        if (StringUtils.editDistance(digit, word) < 2)
+          return digitid;
+      }
+
+      // Or numbers (1, 2, ...)
+      for (int numeral = 1; numeral < 21; ++numeral) {
+        if (word.contains(String.valueOf(numeral)) || word.contains(String.format("%dth", numeral)))
+          return numeral - 1;
+      }
+    }
+    return -1;
+  }
+
   /**
    * Map every word which occurs at least twice to an integer
    */
-  public static void computeVocabulary(ArrayList<Task> tasks) {
+  public static void computeVocabulary(ArrayList<Task> tasks)  throws IOException {
     // Compute the counts
-    HashMap<String, Integer> counts = new HashMap<>();
     for (Task task : tasks) {
       for (Note note : task.notes) {
         if (note.type.equals("A0")) {
@@ -47,20 +103,24 @@ public class CreateTrainingData {
       }
     }
 
-    Vocab.put("<unk>",1);
+    Vocab.put("<s>",1);
+    Vocab.put("</s>",2);
+    Vocab.put("<unk>",3);
     counts.keySet().stream().filter(w -> counts.get(w) > 1).forEachOrdered(w -> Vocab.put(w, Vocab.size() + 1));
     System.out.println(String.format("Created Vocabulary: %d of %d", Vocab.size(), counts.size()));
+    
+    BufferedWriter BW = TextFile.Writer("Vocabulary.txt");
+    for (String word : Vocab.keySet())
+      BW.write(String.format("%s %d\n", word, Vocab.get(word)));
+    BW.close();
   }
 
   /**
    * Extract the block-id that moved
-   * @param world_t
-   * @param world_tp1
-   * @param orientation_tp
-   *@param orientation_tp1 @return
    */
-  public static int getSource(double[][] world_t, double[][] world_tp1,
-                              double[][] orientation_tp, double[][] orientation_tp1) {
+  public static int getSource(int start, int finish, Task task) {
+    double[][] world_t = task.states[start];
+    double[][] world_tp1 = task.states[finish];
     int id = -1;
     double dist;
     double max_dist = 0;
@@ -73,10 +133,12 @@ public class CreateTrainingData {
       }
     }
 
-    if (id != -1)
+    if (id != -1 || task.orientations == null)
       return id;
 
     // Who rotated the most?!?
+    double[][] orientation_tp = task.orientations[start];
+    double[][] orientation_tp1 = task.orientations[finish];
     max_dist = 0;
     for (int i = 0; i < orientation_tp.length; ++i) {
       dist = Utils.distance(orientation_tp[i], orientation_tp1[i]);
@@ -107,47 +169,11 @@ public class CreateTrainingData {
     words.addAll(Arrays.asList(tokenized));
     words.removeAll(Arrays.asList(cleanup));
 
-    HashSet<Integer> blocks = new HashSet<>();
-    if (decoration.equals("logo")) {
-      ArrayList<String> brandparts = new ArrayList<>();
-      String brand;
-      // Try and find brands
-      for (int brandid = 0 ; brandid < brands.length; ++brandid) {
-        brand = brands[brandid];
-        brandparts.clear();
-        brandparts.addAll(Arrays.asList(Utils.whitespace_pattern.split(brand)));
-        brandparts.add(brand.replace(" ", "-"));
-        if (brand.equals("coca cola"))
-          brandparts.add("coke");
-
-        for (String part : brandparts) {
-          for (String word : words) {
-            if (part.equals(word) || (word.length() > 2  && StringUtils.editDistance(part, word) < 2))
-              blocks.add(brandid);
-          }
-        }
-      }
-    } else if (decoration.equals("digit")) {
-      // Are we using written digits (one, two, ...)
-      HashSet<Integer> dblocks = new HashSet<>();
-      String digit;
-      for (int digitid = 0; digitid < digits.length; ++digitid) {
-        digit = digits[digitid];
-        for (String word : words) {
-          if (StringUtils.editDistance(digit, word) < 2)
-            dblocks.add(digitid);
-        }
-      }
-
-      // Or numbers (1, 2, ...)
-      HashSet<Integer> nblocks = new HashSet<>();
-      for (int numeral = 1; numeral < 21; ++numeral) {
-        if (words.contains(String.valueOf(numeral)) || words.contains(String.format("%dth", numeral)))
-          nblocks.add(numeral - 1);
-      }
-      blocks = dblocks.size() > nblocks.size() ?  dblocks : nblocks;
+    HashSet<Integer> blocks;
+    if (decoration.equals("logo") || decoration.equals("digit")) {
+      blocks = words.stream().map(w -> isaName(decoration, w)).filter(i -> i != -1).collect(Collectors.toCollection(HashSet::new));
     } else {
-      return blocks;
+      return new HashSet<>();
     }
 
     if (blocks.contains(source))
@@ -240,14 +266,34 @@ public class CreateTrainingData {
     return toRet;
   }
 
+  private static HashSet<String> tagsToSkip = new HashSet<>(Arrays.asList("CC", "DT", "MD", "POS", "PRP", "PRP$",
+      "VB", "VBG", "VBN", "VBP", "VBZ", "WDT", "WP", "WP$", "WRB"));
+  public static String[] tokenize(String utterance) { return tokenize(utterance, true); }
   /**
    * Returns a tokenized string[]
    */
-  public static String[] tokenize(String utterance) {
+  public static String[] tokenize(String utterance, boolean keepEverything) {
     String[] tagged = Utils.whitespace_pattern.split(tagger.tagString(utterance.replace(",", " , ")));
-    for (int i = 0; i < tagged.length; ++i)
-      tagged[i] = Utils.dash_pattern.split(tagged[i])[0].toLowerCase();
-    return tagged;
+    ArrayList<String> pruned = new ArrayList<>();
+    String[] split;
+    for (int i = 0; i < tagged.length; ++i) {
+      split = Utils.dash_pattern.split(tagged[i]);
+      if (keepEverything || !tagsToSkip.contains(split[1]))
+        pruned.add(split[0]);
+    }
+    return pruned.toArray(new String[pruned.size()]);
+  }
+
+  /**
+   * Remove stopwords and proper nouns from the utterance
+   */
+  public static String[] FreqWords(String decoration, String[] utterance) {
+    ArrayList<String> words = Arrays.stream(utterance)
+        .filter(w -> !stopwords.contains(w.toLowerCase()))    // Remove stop words
+        .filter(w -> isaName(decoration, w) == -1)            // Remove proper nouns
+        .collect(Collectors.toCollection(ArrayList::new));
+    words.sort(Comparator.naturalOrder());                    // Sort for consistency
+    return words.toArray(new String[words.size()]);
   }
 
   /**
@@ -279,14 +325,14 @@ public class CreateTrainingData {
    * Convert utterance to a sparse vector.  Words are UNKed according to Vocab dictionary
    */
   public static String unkUtterance(String[] tokenized) {
-    String toRet = "";
+    String toRet = "1 ";
     for (String word : tokenized) {
       if (!Vocab.containsKey(word))
-        toRet += "1  ";
+        toRet += "3  ";
       else
         toRet += String.format("%-2d ", Vocab.get(word));
     }
-    return toRet;
+    return toRet + " 2 ";
   }
 
   public static void appendInformation(Information info, Task task, Note note, String utterance, BufferedWriter BW,
@@ -294,28 +340,28 @@ public class CreateTrainingData {
     // Several pieces require knowledge of the source and reference
     int source = -1;
     if (info == Information.Source || info == Information.Reference || info == Information.Direction ||
-        info == Information.tXYZ   || info == Information.sXYZ || info == Information.GenerationType) {
+        info == Information.tXYZ   || info == Information.sXYZ || info == Information.GenerationType ||
+        info == Information.KeyWords) {
       if (note.finish == task.states.length)
         System.err.println("Well well well..." + note.finish + " \t" + task.states.length);
-      source = getSource(task.states[note.start], task.states[note.finish],
-          task.orientations[note.start], task.orientations[note.finish]);
+      source = getSource(note.start, note.finish, task);
     }
     int reference = -1;
-    if (info == Information.Reference || info == Information.Direction)
+    if (info == Information.Reference || info == Information.Direction || info == Information.KeyWords)
       reference = getReference(source, tokenize(utterance), task.states[note.finish], task.decoration);
 
+    int Dir;
     switch (info) {
       case Source:
         BW.write(String.format(" %d ", source));
-        Human.write(String.format(" %-12s ", task.decoration.equals("logo") ? brands[source] : digits[source]));
+        Human.write(String.format(" %-12s ", task.decoration.equals("logo") ? brands.get(source) : digits.get(source)));
         break;
       case Reference:
         int t_reference = reference > -1 ? reference : source;
         BW.write(String.format(" %d ", t_reference));
-        Human.write(String.format(" %-15s ", t_reference > -1 ? task.decoration.equals("logo") ? brands[t_reference] : digits[t_reference] : "NULL"));
+        Human.write(String.format(" %-15s ", t_reference > -1 ? task.decoration.equals("logo") ? brands.get(t_reference) : digits.get(t_reference) : "NULL"));
         break;
       case Direction:
-        int Dir;
         if (reference != -1)
           Dir = getDir(task.states[note.finish][source], task.states[note.finish][reference]);
         else
@@ -342,6 +388,15 @@ public class CreateTrainingData {
       case NextWorld:
         BW.write(getWorld(task.states[note.finish]));
         Human.write(String.format(" %s ", task.images[note.finish]));
+        break;
+      case KeyWords:
+        if (reference != -1)
+          Dir = getDir(task.states[note.finish][source], task.states[note.finish][reference]);
+        else
+          Dir = getDir(task.states[note.finish][source], task.states[note.start][source]);
+        utterance += " " + cardinal[Dir];
+        BW.write(unkUtterance(FreqWords(task.decoration, tokenize(utterance))));
+        Human.write("    " + Arrays.asList(FreqWords(task.decoration, tokenize(utterance, false))).stream().collect(Collectors.joining(" ")));
         break;
       case Utterance:
         BW.write(unkUtterance(tokenize(utterance)));
@@ -405,7 +460,7 @@ public class CreateTrainingData {
             }
             for (int i = 0; i < note.notes.length; ++i) {
               utterance = tokens[i];
-              int source = getSource(task.states[note.start], task.states[note.finish], task.orientations[note.start], task.orientations[note.finish]);
+              int source = getSource(note.start, note.finish, task);
               int reference = getReference(source, utterance, task.states[note.finish], task.decoration);
               int Dir;
               if (reference != -1)
@@ -433,7 +488,7 @@ public class CreateTrainingData {
 
 
   public static strictfp void main(String[] args) throws Exception {
-    Configuration.setConfiguration(args.length > 0 ? args[0] : "JSONReader/config.properties");
+    Configuration.setConfiguration(args.length > 0 ? args[0] : "config.properties");
 
     ArrayList<Task> Train = LoadJSON.readJSON(Configuration.training);
     ArrayList<Task> Test = LoadJSON.readJSON(Configuration.testing);
