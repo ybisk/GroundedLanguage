@@ -97,18 +97,18 @@ multicells = 1
 
 # RNN
 lstm = {}
-lstm[0] = tf.nn.rnn_cell.LSTMCell(hiddendim, state_is_tuple=True,
+lstm[0] = tf.contrib.rnn.LSTMCell(hiddendim, state_is_tuple=True,
                                initializer=tf.contrib.layers.xavier_initializer(seed=20160501))
-lstm[1] = tf.nn.rnn_cell.LSTMCell(hiddendim, state_is_tuple=True,
+lstm[1] = tf.contrib.rnn.LSTMCell(hiddendim, state_is_tuple=True,
                                initializer=tf.contrib.layers.xavier_initializer(seed=20160501))
-lstm[2] = tf.nn.rnn_cell.LSTMCell(hiddendim, state_is_tuple=True,
+lstm[2] = tf.contrib.rnn.LSTMCell(hiddendim, state_is_tuple=True,
                                initializer=tf.contrib.layers.xavier_initializer(seed=20160501))
-lstm[0] = tf.nn.rnn_cell.DropoutWrapper(lstm[0], output_keep_prob=dropout)
-lstm[1] = tf.nn.rnn_cell.DropoutWrapper(lstm[1], output_keep_prob=dropout)
-lstm[2] = tf.nn.rnn_cell.DropoutWrapper(lstm[2], output_keep_prob=dropout)
-lstm[0] = tf.nn.rnn_cell.MultiRNNCell(cells=[lstm[0]] * multicells, state_is_tuple=True)
-lstm[1] = tf.nn.rnn_cell.MultiRNNCell(cells=[lstm[1]] * multicells, state_is_tuple=True)
-lstm[2] = tf.nn.rnn_cell.MultiRNNCell(cells=[lstm[2]] * multicells, state_is_tuple=True)
+lstm[0] = tf.contrib.rnn.DropoutWrapper(lstm[0], output_keep_prob=dropout)
+lstm[1] = tf.contrib.rnn.DropoutWrapper(lstm[1], output_keep_prob=dropout)
+lstm[2] = tf.contrib.rnn.DropoutWrapper(lstm[2], output_keep_prob=dropout)
+lstm[0] = tf.contrib.rnn.MultiRNNCell(cells=[lstm[0]] * multicells, state_is_tuple=True)
+lstm[1] = tf.contrib.rnn.MultiRNNCell(cells=[lstm[1]] * multicells, state_is_tuple=True)
+lstm[2] = tf.contrib.rnn.MultiRNNCell(cells=[lstm[2]] * multicells, state_is_tuple=True)
 
 
 # Prediction
@@ -137,16 +137,16 @@ with tf.variable_scope("lstm2"):
                                       dtype=tf.float32)
 logits = {}
 # prediction, layer, c/m
-logits[0] = tf.matmul(tf.concat(1, [f[0] for f in fstate[0]]), output_layer[0]) + output_bias[0]
-logits[1] = tf.matmul(tf.concat(1, [f[0] for f in fstate[1]]), output_layer[1]) + output_bias[1]
-logits[2] = tf.matmul(tf.concat(1, [f[0] for f in fstate[2]]), output_layer[2]) + output_bias[2]
+logits[0] = tf.matmul(tf.concat([f.h for f in fstate[0]], 1), output_layer[0]) + output_bias[0]
+logits[1] = tf.matmul(tf.concat([f.h for f in fstate[1]], 1), output_layer[1]) + output_bias[1]
+logits[2] = tf.matmul(tf.concat([f.h for f in fstate[2]], 1), output_layer[2]) + output_bias[2]
 #logits[0] = tf.matmul(fstate[0][0], output_layer[0]) + output_bias[0]
 #logits[1] = tf.matmul(fstate[1][0], output_layer[1]) + output_bias[1]
 #logits[2] = tf.matmul(fstate[2][0], output_layer[2]) + output_bias[2]
 loss = {}
-loss[0] = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits[0], labels[0]))
-loss[1] = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits[1], labels[1]))
-loss[2] = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits[2], labels[2]))
+loss[0] = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits[0], labels=labels[0]))
+loss[1] = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits[1], labels=labels[1]))
+loss[2] = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits[2], labels=labels[2]))
 
 ## Learning ##
 optimizer = {}
@@ -163,7 +163,7 @@ correct_prediction[0] = tf.equal(tf.argmax(logits[0],1), tf.argmax(labels[0],1))
 correct_prediction[1] = tf.equal(tf.argmax(logits[1],1), tf.argmax(labels[1],1))
 correct_prediction[2] = tf.equal(tf.argmax(logits[2],1), tf.argmax(labels[2],1))
 
-DoTrain = True
+DoTrain = False
 
 def offset(loc, direction):
   off = 0.1666
@@ -240,7 +240,7 @@ saver = tf.train.Saver()
 # Add this to session to see cpu/gpu placement: 
 # config=tf.ConfigProto(log_device_placement=True)
 sess = tf.Session()
-sess.run(tf.initialize_all_variables())
+sess.run(tf.global_variables_initializer())
 
 if DoTrain:
   print "Train Source"
@@ -264,14 +264,14 @@ if DoTrain:
                 testing_labels[2], generate_batch, training_lens[2],
                 testing_lens[2])
   
-  #saver.save(sess, 'model.DARPA-SRD.ckpt')
+  saver.save(sess, 'model.DARPA-SRD.ckpt')
   print "Saved"
 else:
-  saver.restore(sess, 'model.DARPA-SRD.ckpt')
+  saver.restore(sess, './model.DARPA-SRD.ckpt')
   print "Loaded Models"
   if __name__ == "__main__" and not DoTrain:
       app.run()
   Vocabulary = {}
-  for line in open("JSONReader/data/2016-DARPA/SRD/Vocabulary.txt",'r'):
+  for line in open("JSONReader/data/2016-Version2/SRD/Vocabulary.txt",'r'):
     line = line.strip().split()
     Vocabulary[line[0]] = int(line[1])
