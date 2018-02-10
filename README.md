@@ -5,9 +5,9 @@ Image data can be downloaded from http://nlg.isi.edu/language-grounding/ but is 
 
 Code is for the following papers:
 
-*Interpretable Spatial Models*
+*Interpretable Spatial Models + Data V2*
 
-    Yonatan Bisk, Kevin Shih, Yejin Choi, and Daniel Marcu "	Learning Interpretable 
+    Yonatan Bisk, Kevin Shih, Yejin Choi, and Daniel Marcu "Learning Interpretable 
     Spatial Operations in a Rich 3D Blocks World," Proceedings of the Thirty-Second 
     Conference on Artificial Intelligence (AAAI-18).
 
