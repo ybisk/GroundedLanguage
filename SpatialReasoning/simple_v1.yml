@@ -1,0 +1,25 @@
+random_seed: 20161026
+model: 'Language_Pipeline'
+
+batch_size: 32
+max_length: 40
+hidden_dim: 32
+txt_dim:    128
+pixel_dim:  32
+epochs:     [100]
+modes:      ['language']
+dropout: 0.7
+batch_norm: True
+regularizer: 'l1' # l1, l2
+non_linearity: 'relu'
+oov: 1
+
+attention_size: 20
+rep_dim:    64
+rotate: True
+
+num_ops: 32
+
+training:   'data/trainset.json.gz'
+evaluation:   'data/devset.json.gz'
+predict_source: False
