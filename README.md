@@ -11,7 +11,7 @@ Code is for the following papers:
     Spatial Operations in a Rich 3D Blocks World," Proceedings of the Thirty-Second 
     Conference on Artificial Intelligence (AAAI-18).
 
-#Model code:# `SpatialReasoning`
+**Model code:** `SpatialReasoning`
 
 *Models and corpus statistics:*
 
@@ -19,7 +19,7 @@ Code is for the following papers:
     Proceedings of the 15th Annual Conference of the North American Chapter of the 
     Association for Computational Linguistics 2016.
 
-#Model code:# `ActionUnderstanding`
+**Model code:** `ActionUnderstanding`
 
 *Original Data collection:*
 
@@ -27,4 +27,4 @@ Code is for the following papers:
     “Towards a Dataset for Human Computer Communication via Grounded Language Acquisition,”
     In the Proceedings of the AAAI 2016 Workshop on Symbiotic Cognitive Systems
 
-#Model code:# `MTurkDataCollection`
+**Model code:** `MTurkDataCollection`
