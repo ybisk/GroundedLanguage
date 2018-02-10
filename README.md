@@ -1,7 +1,7 @@
 ## GroundedLanguage
 ISI Language Grounding and Generation Data
 
-Image data can be downloaded from http://nlg.isi.edu/language-grounding/ but is not required for the experiments/models presented here.
+Image data can be downloaded from https://groundedlanguage.github.io/ but is not required for the experiments/models presented here.
 
 Code is for the following papers:
 
