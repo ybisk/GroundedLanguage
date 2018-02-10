@@ -5,7 +5,7 @@ Image data can be downloaded from http://nlg.isi.edu/language-grounding/ but is 
 
 Code is for the following papers:
 
-*Interpretable Spatial Models + Data V2*
+### Interpretable Spatial Models + Data V2
 
     Yonatan Bisk, Kevin Shih, Yejin Choi, and Daniel Marcu "Learning Interpretable 
     Spatial Operations in a Rich 3D Blocks World," Proceedings of the Thirty-Second 
@@ -13,7 +13,7 @@ Code is for the following papers:
 
 **Model code:** `SpatialReasoning`
 
-*Models and corpus statistics:*
+### Original Models and corpus statistics
 
     Yonatan Bisk, Deniz Yuret, and Daniel Marcu, “Natural Language Communication with Robots,”
     Proceedings of the 15th Annual Conference of the North American Chapter of the 
@@ -21,7 +21,7 @@ Code is for the following papers:
 
 **Model code:** `ActionUnderstanding`
 
-*Original Data collection:*
+### Original Data collection
 
     Yonatan Bisk, Daniel Marcu, and William Wong, 
     “Towards a Dataset for Human Computer Communication via Grounded Language Acquisition,”
