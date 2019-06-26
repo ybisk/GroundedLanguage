@@ -97,7 +97,7 @@ def rnn(config, inputs, lengths, embeddings, condition=None, scope=''):
       _, (encoder_fw_state, encoder_bw_state) \
         = tf.nn.bidirectional_dynamic_rnn(cell_fw=fcell, cell_bw=bcell,
                                           inputs=embeddings.lookup(inputs),
-                                          sequence_length=lengths,
+                                          #sequence_length=lengths,
                                           dtype=tf.float32)
       fstate = tf.concat([encoder_fw_state[0], encoder_bw_state[0]], 1,
                          name='bidirectional_state')

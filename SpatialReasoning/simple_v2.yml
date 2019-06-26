@@ -24,6 +24,6 @@ kernel_size_y: 4
 
 num_ops: 32
 
-training:   'data/trainset_v2.json.gz'
-evaluation:   'data/devset_v2.json.gz'
+training:   '../Data/trainset_v2.json.gz'
+evaluation:   '../Data/devset_v2.json.gz'
 predict_source: False
